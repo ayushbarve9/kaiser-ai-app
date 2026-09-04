@@ -4,7 +4,7 @@ import { Building2, PhoneCall, CheckCircle2, MapPin } from "lucide-react";
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-slate-950 border-t-4 border-orange-500 text-slate-300 text-xs">
+    <footer className="bg-[#111C30] border-t-4 border-[#B45309] text-slate-300 text-xs">
       {/* Official Indian Flag Tricolor Header Hairline */}
       <div className="h-1.5 w-full bg-gradient-to-r from-orange-500 via-white to-emerald-600"></div>
 
@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
           {/* Col 1: Portal Brand & Government Identification */}
           <div className="space-y-3 md:col-span-1">
             <div className="flex items-center gap-2.5">
-              <div className="w-10 h-10 rounded bg-slate-900 border border-amber-500 flex items-center justify-center text-white font-bold shrink-0">
+              <div className="w-10 h-10 rounded bg-[#152238] border border-amber-500 flex items-center justify-center text-white font-bold shrink-0">
                 <Building2 className="w-5 h-5 text-amber-400" />
               </div>
               <div>

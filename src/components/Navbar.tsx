@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
       <div className="h-1.5 w-full bg-gradient-to-r from-orange-500 via-white to-emerald-600"></div>
 
       {/* Official Government Utility & Accessibility Bar */}
-      <div className="bg-slate-900 text-slate-300 px-4 py-1.5 text-xs border-b border-slate-800">
+      <div className="bg-[#152238] text-slate-300 px-4 py-1.5 text-xs border-b border-slate-700">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           {/* Government Identification */}
           <div className="flex items-center gap-2 font-medium">
@@ -29,7 +29,7 @@ export const Navbar: React.FC = () => {
             <span className="text-slate-600">|</span>
             <span className="text-slate-200">Brihanmumbai Municipal Corporation (BMC)</span>
             <span className="hidden md:inline-block text-slate-600">|</span>
-            <span className="hidden md:inline-block text-amber-400 font-semibold text-[11px]">
+            <span className="hidden md:inline-block text-amber-300 font-semibold text-[11px]">
               MyGov Civic Redressal & Dispatch System
             </span>
           </div>
@@ -54,7 +54,7 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between gap-4">
           {/* Official Emblem & Portal Title */}
           <Link to="/" className="flex items-center gap-3.5 group">
-            <div className="w-12 h-12 rounded-lg bg-slate-900 border-2 border-amber-500 flex flex-col items-center justify-center text-white shrink-0 shadow-xs group-hover:border-amber-400 transition-colors">
+            <div className="w-12 h-12 rounded-lg bg-[#152238] border-2 border-amber-500 flex flex-col items-center justify-center text-white shrink-0 shadow-xs group-hover:border-amber-400 transition-colors">
               <Building2 className="w-6 h-6 text-amber-400" />
               <span className="text-[8px] font-black tracking-widest text-amber-300 uppercase -mt-0.5">BMC</span>
             </div>
@@ -76,7 +76,7 @@ export const Navbar: React.FC = () => {
             {/* Primary Action: File Grievance */}
             <button
               onClick={() => navigate("/report")}
-              className="inline-flex items-center gap-2 bg-orange-600 hover:bg-orange-700 text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors shadow-2xs shrink-0"
+              className="inline-flex items-center gap-2 bg-[#B45309] hover:bg-[#92400E] text-white text-xs font-bold px-4 py-2.5 rounded-lg transition-colors shadow-2xs shrink-0"
             >
               <PlusCircle className="w-4 h-4" />
               <span>File a Grievance</span>
@@ -92,7 +92,7 @@ export const Navbar: React.FC = () => {
                   </div>
                   <div className="text-[10px] font-semibold flex items-center justify-end gap-1">
                     {isOfficer ? (
-                      <span className="text-amber-700 bg-amber-100 px-1.5 py-0.2 rounded font-bold">
+                      <span className="text-amber-800 bg-amber-100 px-1.5 py-0.2 rounded font-bold">
                         Ward {user.ward} Official
                       </span>
                     ) : (
@@ -116,7 +116,7 @@ export const Navbar: React.FC = () => {
                     }}
                     title="Switch to Citizen View"
                     className={`px-2 py-1 rounded transition-colors ${
-                      isCitizen ? "bg-white text-orange-700 shadow-2xs" : "text-slate-600 hover:text-slate-900"
+                      isCitizen ? "bg-white text-[#B45309] shadow-2xs" : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
                     Citizen
@@ -131,7 +131,7 @@ export const Navbar: React.FC = () => {
                     }}
                     title="Switch to Ward Officer View"
                     className={`px-2 py-1 rounded transition-colors ${
-                      isOfficer ? "bg-slate-900 text-amber-400 shadow-2xs" : "text-slate-600 hover:text-slate-900"
+                      isOfficer ? "bg-[#152238] text-amber-400 shadow-2xs" : "text-slate-600 hover:text-slate-900"
                     }`}
                   >
                     Officer
@@ -150,7 +150,7 @@ export const Navbar: React.FC = () => {
               <div className="flex items-center gap-2 pl-3 border-l border-slate-300">
                 <Link
                   to="/login/citizen"
-                  className="text-xs font-bold text-slate-800 hover:text-orange-600 px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1"
+                  className="text-xs font-bold text-slate-800 hover:text-[#B45309] px-3 py-2 border border-slate-300 rounded-lg hover:bg-slate-50 transition-colors flex items-center gap-1"
                 >
                   <LogIn className="w-3.5 h-3.5 text-slate-500" />
                   <span>Citizen Login</span>
@@ -158,9 +158,9 @@ export const Navbar: React.FC = () => {
 
                 <Link
                   to="/login/officer"
-                  className="text-xs font-bold text-amber-900 bg-amber-400 hover:bg-amber-500 px-3 py-2 rounded-lg transition-colors flex items-center gap-1 shadow-2xs"
+                  className="text-xs font-bold text-slate-950 bg-[#D97706] hover:bg-amber-500 px-3 py-2 rounded-lg transition-colors flex items-center gap-1 shadow-2xs"
                 >
-                  <ShieldCheck className="w-3.5 h-3.5 text-amber-950" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-slate-950" />
                   <span>Officer Portal</span>
                 </Link>
               </div>
@@ -170,15 +170,15 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Main Official Government Navigation Bar */}
-      <div className="bg-slate-900 text-white">
+      <div className="bg-[#152238] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-1 text-xs font-bold overflow-x-auto no-scrollbar">
             <Link
               to="/"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap ${
                 isActive("/")
-                  ? "bg-slate-800 text-amber-400 border-amber-400"
-                  : "text-slate-200 hover:bg-slate-800 hover:text-white border-transparent"
+                  ? "bg-[#1E2D4A] text-amber-300 border-amber-400"
+                  : "text-slate-200 hover:bg-[#1E2D4A] hover:text-white border-transparent"
               }`}
             >
               Home
@@ -188,8 +188,8 @@ export const Navbar: React.FC = () => {
               to="/dashboard"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 isActive("/dashboard")
-                  ? "bg-slate-800 text-amber-400 border-amber-400"
-                  : "text-slate-200 hover:bg-slate-800 hover:text-white border-transparent"
+                  ? "bg-[#1E2D4A] text-amber-300 border-amber-400"
+                  : "text-slate-200 hover:bg-[#1E2D4A] hover:text-white border-transparent"
               }`}
             >
               <LayoutDashboard className="w-3.5 h-3.5" />
