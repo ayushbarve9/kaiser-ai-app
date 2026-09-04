@@ -338,8 +338,8 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
           {/* AI Content Verification Results Box */}
           {isVerifying ? (
-            <div className="p-3.5 bg-slate-900 text-teal-300 rounded-2xl text-xs font-bold flex items-center gap-2.5 border border-slate-800 shadow-sm animate-pulse">
-              <Loader2 className="w-4 h-4 animate-spin text-teal-400 shrink-0" />
+            <div className="p-3.5 bg-blue-50 text-blue-900 rounded-2xl text-xs font-bold flex items-center gap-2.5 border border-blue-200 shadow-xs animate-pulse">
+              <Loader2 className="w-4 h-4 animate-spin text-[#1E3A8A] shrink-0" />
               <span>🤖 YOLOv11 + Gemini AI Vision: Running real-time object bounding & anti-fraud inspection...</span>
             </div>
           ) : verificationResult ? (
@@ -388,20 +388,20 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
               {/* YOLOv11 Real-Time Detection Telemetry Panel */}
               {verificationResult.yoloDetection && (
-                <div className="p-3 bg-slate-900 text-slate-100 rounded-2xl text-xs space-y-2 border border-slate-800 shadow-sm">
-                  <div className="flex items-center justify-between text-[11px] border-b border-slate-800 pb-2">
-                    <div className="flex items-center gap-1.5 font-black text-teal-400">
-                      <Sparkles className="w-3.5 h-3.5 text-teal-300" />
+                <div className="p-3.5 bg-slate-50 text-slate-800 rounded-2xl text-xs space-y-2 border border-slate-200 shadow-xs">
+                  <div className="flex items-center justify-between text-[11px] border-b border-slate-200 pb-2">
+                    <div className="flex items-center gap-1.5 font-black text-[#1E3A8A]">
+                      <Sparkles className="w-3.5 h-3.5 text-[#B45309]" />
                       <span>{verificationResult.yoloDetection.model}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 bg-slate-800 text-slate-300 font-mono text-[10px] rounded-md border border-slate-700">
+                      <span className="px-2 py-0.5 bg-white text-slate-700 font-mono text-[10px] rounded-md border border-slate-200 shadow-2xs">
                         ⚡ {verificationResult.yoloDetection.inferenceTimeMs}ms
                       </span>
                       <span className={`px-2 py-0.5 font-bold text-[10px] rounded-md ${
                         verificationResult.yoloDetection.cameraMetadata?.isOriginalSensor
-                          ? "bg-emerald-950 text-emerald-300 border border-emerald-800"
-                          : "bg-red-950 text-red-300 border border-red-800"
+                          ? "bg-emerald-100 text-emerald-800 border border-emerald-300"
+                          : "bg-red-100 text-red-800 border border-red-300"
                       }`}>
                         {verificationResult.yoloDetection.cameraMetadata?.isOriginalSensor
                           ? "📷 Real Camera Sensor Verified"
@@ -412,7 +412,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
 
                   {/* Detected YOLO Bounding Boxes List */}
                   <div className="space-y-1">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider block">
                       YOLOv11 Detected Objects & Confidence:
                     </span>
                     <div className="flex flex-wrap gap-1.5">
@@ -421,11 +421,11 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                           key={bIdx}
                           className={`px-2.5 py-1 rounded-lg text-[11px] font-extrabold flex items-center gap-1.5 border ${
                             box.isFraud || box.color === "red"
-                              ? "bg-red-950/80 text-red-200 border-red-800/80"
-                              : "bg-emerald-950/80 text-emerald-200 border-emerald-800/80"
+                              ? "bg-red-50 text-red-800 border-red-200"
+                              : "bg-emerald-50 text-emerald-800 border-emerald-200"
                           }`}
                         >
-                          <span className={`w-2 h-2 rounded-full ${box.isFraud || box.color === "red" ? "bg-red-500 animate-pulse" : "bg-emerald-400"}`} />
+                          <span className={`w-2 h-2 rounded-full ${box.isFraud || box.color === "red" ? "bg-red-500 animate-pulse" : "bg-emerald-500"}`} />
                           <span>{box.label}</span>
                           <span className="opacity-75 font-mono text-[10px]">({box.confidence}%)</span>
                         </div>
@@ -438,21 +438,21 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           ) : null}
 
           {detectedWardInfo && (
-            <div className="p-2.5 bg-teal-50 border border-teal-200 rounded-xl text-teal-900 text-xs font-semibold flex items-center gap-2">
-              <Sparkles className="w-4 h-4 text-[#0D7377] shrink-0" />
+            <div className="p-2.5 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs font-semibold flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#B45309] shrink-0" />
               <span>Location Auto-Detected: {detectedWardInfo}</span>
             </div>
           )}
         </div>
       ) : (
-        <div className="border-2 border-dashed border-gray-300 hover:border-[#0D7377] rounded-2xl p-6 text-center bg-gray-50/50 hover:bg-teal-50/30 transition-all space-y-4">
-          <div className="w-12 h-12 bg-teal-100 text-[#0D7377] rounded-2xl flex items-center justify-center mx-auto">
+        <div className="border-2 border-dashed border-amber-300 hover:border-[#B45309] rounded-2xl p-6 text-center bg-gradient-to-br from-amber-50/40 to-orange-50/20 hover:bg-amber-50/60 transition-all space-y-4">
+          <div className="w-12 h-12 bg-amber-100 text-[#B45309] rounded-2xl flex items-center justify-center mx-auto shadow-2xs">
             <ImageIcon className="w-6 h-6" />
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-gray-900">Attach Incident Photo Evidence</h4>
-            <p className="text-xs text-gray-500 mt-1">
+            <h4 className="text-sm font-extrabold text-[#0F172A]">Attach Incident Photo Evidence</h4>
+            <p className="text-xs text-slate-600 mt-1">
               Use live camera to capture on-site hazard evidence with GPS & timestamp telemetry, or upload from device.
             </p>
           </div>
@@ -461,16 +461,16 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             <button
               type="button"
               onClick={() => setShowLiveCameraModal(true)}
-              className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
+              className="px-5 py-2.5 bg-[#1E3A8A] hover:bg-[#1e40af] text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95 cursor-pointer border border-blue-300/40"
             >
-              <Camera className="w-4 h-4" /> Open Live HD Camera
+              <Camera className="w-4 h-4 text-amber-300" /> Open Live HD Camera
             </button>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="px-4 py-2.5 bg-white border border-gray-300 hover:border-gray-400 text-gray-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 hover:bg-gray-50 active:scale-95 cursor-pointer"
+              className="px-4 py-2.5 bg-[#B45309] hover:bg-[#92400E] text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
             >
-              <Upload className="w-4 h-4 text-gray-600" /> Choose File / Photos
+              <Upload className="w-4 h-4 text-white" /> Choose File / Photos
             </button>
           </div>
 

@@ -21,7 +21,7 @@ export const Navbar: React.FC = () => {
       <div className="h-1.5 w-full bg-gradient-to-r from-orange-500 via-white to-emerald-600"></div>
 
       {/* Official Government Utility & Accessibility Bar */}
-      <div className="bg-[#152238] text-slate-300 px-4 py-1.5 text-xs border-b border-slate-700">
+      <div className="bg-[#0F172A] text-slate-300 px-4 py-1.5 text-xs border-b border-slate-800">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2">
           {/* Government Identification */}
           <div className="flex items-center gap-2 font-medium">
@@ -54,9 +54,9 @@ export const Navbar: React.FC = () => {
         <div className="flex items-center justify-between gap-4">
           {/* Official Emblem & Portal Title */}
           <Link to="/" className="flex items-center gap-3.5 group">
-            <div className="w-12 h-12 rounded-lg bg-[#152238] border-2 border-amber-500 flex flex-col items-center justify-center text-white shrink-0 shadow-xs group-hover:border-amber-400 transition-colors">
-              <Building2 className="w-6 h-6 text-amber-400" />
-              <span className="text-[8px] font-black tracking-widest text-amber-300 uppercase -mt-0.5">BMC</span>
+            <div className="w-12 h-12 rounded-xl bg-white border-2 border-[#B45309] flex flex-col items-center justify-center text-[#B45309] shrink-0 shadow-xs group-hover:border-[#92400E] transition-colors">
+              <Building2 className="w-6 h-6 text-[#B45309]" />
+              <span className="text-[8px] font-black tracking-widest text-[#B45309] uppercase -mt-0.5">BMC</span>
             </div>
 
             <div>
@@ -170,15 +170,15 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Main Official Government Navigation Bar */}
-      <div className="bg-[#152238] text-white">
+      <div className="bg-[#1E3A8A] text-white shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <nav className="flex items-center gap-1 text-xs font-bold overflow-x-auto no-scrollbar">
             <Link
               to="/"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap ${
                 isActive("/")
-                  ? "bg-[#1E2D4A] text-amber-300 border-amber-400"
-                  : "text-slate-200 hover:bg-[#1E2D4A] hover:text-white border-transparent"
+                  ? "bg-[#172554] text-amber-300 border-amber-400"
+                  : "text-blue-100 hover:bg-[#1e40af] hover:text-white border-transparent"
               }`}
             >
               Home
@@ -188,8 +188,8 @@ export const Navbar: React.FC = () => {
               to="/dashboard"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 isActive("/dashboard")
-                  ? "bg-[#1E2D4A] text-amber-300 border-amber-400"
-                  : "text-slate-200 hover:bg-[#1E2D4A] hover:text-white border-transparent"
+                  ? "bg-[#172554] text-amber-300 border-amber-400"
+                  : "text-blue-100 hover:bg-[#1e40af] hover:text-white border-transparent"
               }`}
             >
               <LayoutDashboard className="w-3.5 h-3.5" />
@@ -200,8 +200,8 @@ export const Navbar: React.FC = () => {
               to="/map"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 isActive("/map")
-                  ? "bg-slate-800 text-amber-400 border-amber-400"
-                  : "text-slate-200 hover:bg-slate-800 hover:text-white border-transparent"
+                  ? "bg-[#172554] text-amber-300 border-amber-400"
+                  : "text-blue-100 hover:bg-[#1e40af] hover:text-white border-transparent"
               }`}
             >
               <Map className="w-3.5 h-3.5" />
@@ -212,11 +212,11 @@ export const Navbar: React.FC = () => {
               to="/top10"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 isActive("/top10")
-                  ? "bg-slate-800 text-amber-400 border-amber-400"
-                  : "text-slate-200 hover:bg-slate-800 hover:text-white border-transparent"
+                  ? "bg-[#172554] text-amber-300 border-amber-400"
+                  : "text-blue-100 hover:bg-[#1e40af] hover:text-white border-transparent"
               }`}
             >
-              <Flame className="w-3.5 h-3.5 text-orange-400" />
+              <Flame className="w-3.5 h-3.5 text-amber-300" />
               <span>Priority List</span>
             </Link>
 
@@ -224,8 +224,8 @@ export const Navbar: React.FC = () => {
               to="/officers"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 isActive("/officers")
-                  ? "bg-slate-800 text-amber-400 border-amber-400"
-                  : "text-slate-200 hover:bg-slate-800 hover:text-white border-transparent"
+                  ? "bg-[#172554] text-amber-300 border-amber-400"
+                  : "text-blue-100 hover:bg-[#1e40af] hover:text-white border-transparent"
               }`}
             >
               <Award className="w-3.5 h-3.5" />
@@ -237,22 +237,20 @@ export const Navbar: React.FC = () => {
               to="/admin"
               className={`px-4 py-3 transition-colors border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 isActive("/admin")
-                  ? "bg-slate-800 text-amber-400 border-amber-400"
+                  ? "bg-[#172554] text-amber-300 border-amber-400"
                   : isOfficer
-                  ? "text-amber-400 hover:bg-slate-800 hover:text-amber-300 border-transparent"
-                  : "text-slate-400 hover:bg-slate-800 hover:text-slate-200 border-transparent"
+                  ? "text-amber-300 hover:bg-[#1e40af] hover:text-white border-transparent"
+                  : "text-blue-200 hover:bg-[#1e40af] hover:text-white border-transparent"
               }`}
             >
               {isOfficer ? (
-                <ShieldAlert className="w-3.5 h-3.5 text-amber-400" />
+                <ShieldAlert className="w-3.5 h-3.5 text-amber-300" />
               ) : (
-                <Lock className="w-3.5 h-3.5 text-slate-500" />
+                <Lock className="w-3.5 h-3.5 text-blue-300" />
               )}
               <span>Officer Control Room</span>
               {isOfficer && (
-                <span className="px-1.5 py-0.2 bg-amber-500/20 border border-amber-500/40 text-[9px] font-extrabold rounded text-amber-300">
-                  DISPATCH
-                </span>
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-ping ml-0.5" />
               )}
             </Link>
           </nav>

@@ -107,22 +107,22 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
   };
 
   return (
-    <div className="bg-gradient-to-br from-slate-900 via-[#0B1C24] to-slate-900 text-white rounded-3xl p-6 border border-slate-800 shadow-xl space-y-6">
+    <div className="bg-white text-slate-900 rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-800">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100">
         <div>
           <div className="flex items-center gap-2">
-            <span className="px-2.5 py-0.5 rounded bg-[#0D7377] text-white text-[10px] font-black uppercase tracking-wider">
+            <span className="px-2.5 py-0.5 rounded bg-[#B45309] text-white text-[10px] font-black uppercase tracking-wider">
               AI & EXIF Powered
             </span>
-            <span className="text-teal-400 text-xs font-bold flex items-center gap-1">
-              <Sparkles className="w-3.5 h-3.5" /> Automatic Ward & Officer Identification
+            <span className="text-[#1E3A8A] text-xs font-bold flex items-center gap-1">
+              <Sparkles className="w-3.5 h-3.5 text-[#B45309]" /> Automatic Ward & Officer Identification
             </span>
           </div>
-          <h3 className="text-lg font-black text-white mt-1">
+          <h3 className="text-xl font-black text-[#0F172A] mt-1.5">
             Photo Location & BMC Ward Locator
           </h3>
-          <p className="text-xs text-slate-300 mt-0.5">
+          <p className="text-xs text-slate-600 mt-0.5">
             Upload any photo from your camera or gallery to automatically extract GPS EXIF metadata, map the administrative ward, primary railway stations, and assigned Ward Officer.
           </p>
         </div>
@@ -130,7 +130,7 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
         {photoPreview && (
           <button
             onClick={resetFetcher}
-            className="self-start sm:self-auto px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5"
+            className="self-start sm:self-auto px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-xl transition-colors flex items-center gap-1.5 border border-slate-200"
           >
             <RefreshCw className="w-3.5 h-3.5" /> Reset Scanner
           </button>
@@ -147,14 +147,14 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
 
       {!photoPreview ? (
         /* Upload Trigger Zone */
-        <div className="border-2 border-dashed border-teal-500/40 hover:border-teal-400 bg-slate-800/40 hover:bg-slate-800/80 rounded-2xl p-8 text-center transition-all space-y-4">
-          <div className="w-14 h-14 rounded-2xl bg-[#0D7377]/30 border border-[#0D7377] flex items-center justify-center mx-auto text-teal-300 shadow-inner">
+        <div className="border-2 border-dashed border-amber-300 hover:border-[#B45309] bg-gradient-to-br from-amber-50/50 to-orange-50/30 hover:bg-amber-50/80 rounded-2xl p-8 text-center transition-all space-y-4">
+          <div className="w-14 h-14 rounded-2xl bg-amber-100 border border-amber-300 flex items-center justify-center mx-auto text-[#B45309] shadow-xs">
             <Camera className="w-7 h-7" />
           </div>
 
           <div>
-            <h4 className="text-base font-extrabold text-white">Upload or Snap Photo to Scan Location</h4>
-            <p className="text-xs text-slate-400 mt-1 max-w-md mx-auto">
+            <h4 className="text-base font-extrabold text-[#0F172A]">Upload or Snap Photo to Scan Location</h4>
+            <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto">
               Reads EXIF geotags or predicts location coordinates to instantly fetch Ward Officers, Railway Hubs, and Local AQI.
             </p>
           </div>
@@ -163,16 +163,16 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="px-5 py-2.5 bg-[#0D7377] hover:bg-[#14919B] text-white text-xs font-extrabold rounded-xl shadow-lg transition-all flex items-center gap-2 active:scale-95"
+              className="px-5 py-2.5 bg-[#B45309] hover:bg-[#92400E] text-white text-xs font-extrabold rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95"
             >
               <Upload className="w-4 h-4" /> Upload Photo File
             </button>
             <button
               type="button"
               onClick={() => setShowLiveCamera(true)}
-              className="px-5 py-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-black rounded-xl shadow-lg transition-all flex items-center gap-2 active:scale-95 border border-teal-400/40"
+              className="px-5 py-2.5 bg-[#1E3A8A] hover:bg-[#1e40af] text-white text-xs font-black rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95 border border-blue-300/40"
             >
-              <Camera className="w-4 h-4 text-emerald-200" /> Open Live HD Camera
+              <Camera className="w-4 h-4 text-amber-300" /> Open Live HD Camera
             </button>
           </div>
 
@@ -191,17 +191,17 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
           {/* Photo Thumbnail & Verification State */}
           <div className="lg:col-span-4 space-y-3">
-            <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-black/40">
+            <div className="relative rounded-2xl overflow-hidden border border-slate-200 bg-slate-100 shadow-xs">
               <img
                 src={photoPreview}
                 alt="Uploaded Location Scan"
                 className="w-full h-52 object-cover"
               />
-              <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1 bg-slate-900/90 backdrop-blur-md rounded-lg text-[10px] font-bold text-teal-300 flex items-center justify-between border border-slate-700">
+              <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1 bg-white/95 backdrop-blur-md rounded-lg text-[10px] font-bold text-slate-800 flex items-center justify-between border border-slate-200 shadow-xs">
                 <span>
                   {detectionResult?.hasExifGps ? "📸 EXIF Geotag Found" : "🗺️ Location Fallback"}
                 </span>
-                <span>
+                <span className="text-[#B45309]">
                   {detectionResult?.lat}, {detectionResult?.lng}
                 </span>
               </div>
@@ -210,31 +210,31 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
             {/* AI Image Content Screening Alert */}
             {verificationResult && (
               verificationResult.isValidCivicIssue === false ? (
-                <div className="p-3 bg-red-500/15 border border-red-500/40 rounded-xl text-red-200 text-xs space-y-1">
-                  <div className="flex items-center gap-1.5 font-bold text-red-400">
+                <div className="p-3 bg-red-50 border border-red-200 rounded-xl text-red-900 text-xs space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-red-700">
                     <ShieldAlert className="w-4 h-4 shrink-0" />
                     <span>Non-Civic Image Detected</span>
                   </div>
-                  <p className="text-[11px] text-red-300">
-                    AI identified: <strong className="text-white">{verificationResult.detectedObject}</strong>. Digital screenshots do not possess hardware camera GPS geotags.
+                  <p className="text-[11px] text-red-700">
+                    AI identified: <strong className="text-red-950">{verificationResult.detectedObject}</strong>. Digital screenshots do not possess hardware camera GPS geotags.
                   </p>
                 </div>
               ) : (
-                <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs font-semibold flex items-center gap-2">
-                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                <div className="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
                   <span>Verified Civic Subject: {verificationResult.detectedObject}</span>
                 </div>
               )
             )}
 
             {detectionResult?.hasExifGps ? (
-              <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs font-semibold flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+              <div className="p-3 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 text-xs font-semibold flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
                 <span>Exact GPS Coordinates extracted from Camera EXIF header!</span>
               </div>
             ) : (
-              <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-300 text-xs font-semibold flex items-center gap-2">
-                <Sparkles className="w-4 h-4 shrink-0 text-amber-400" />
+              <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl text-amber-900 text-xs font-semibold flex items-center gap-2">
+                <Sparkles className="w-4 h-4 shrink-0 text-amber-600" />
                 <span>No EXIF Geotag found in file (typical for screenshots). Defaulted to Ward HQ.</span>
               </div>
             )}
@@ -242,28 +242,28 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
 
           {/* Fetched Ward & Officer Info */}
           {detectionResult && (
-            <div className="lg:col-span-8 bg-slate-800/80 rounded-2xl border border-slate-700/80 p-5 space-y-5">
+            <div className="lg:col-span-8 bg-slate-50 rounded-2xl border border-slate-200 p-5 space-y-5">
               {/* Ward Title & Railway Hub */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-700">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 border-b border-slate-200">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 bg-[#0D7377] text-white text-xs font-black rounded-md">
+                    <span className="px-2.5 py-0.5 bg-[#B45309] text-white text-xs font-black rounded-md">
                       Ward {detectionResult.ward.code}
                     </span>
-                    <span className="px-2 py-0.5 bg-amber-500/20 text-amber-300 text-[11px] font-extrabold rounded-md border border-amber-500/30">
+                    <span className="px-2 py-0.5 bg-amber-100 text-amber-900 text-[11px] font-extrabold rounded-md border border-amber-200">
                       🚂 {detectionResult.ward.railwayCorridor}
                     </span>
                   </div>
-                  <h4 className="text-xl font-black text-white mt-1">
+                  <h4 className="text-xl font-black text-[#0F172A] mt-1">
                     {detectionResult.ward.name}
                   </h4>
                 </div>
 
                 <div className="text-right sm:text-right">
-                  <span className="text-[10px] text-slate-400 uppercase font-bold block">
+                  <span className="text-[10px] text-slate-500 uppercase font-bold block">
                     Distance to Ward HQ
                   </span>
-                  <span className="text-sm font-black text-teal-400">
+                  <span className="text-sm font-black text-[#1E3A8A]">
                     {detectionResult.distanceKm} km
                   </span>
                 </div>
@@ -271,76 +271,76 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
 
               {/* Railway Hub & Key Localities */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-                <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60 space-y-1">
-                  <span className="text-[10px] font-bold text-teal-400 uppercase tracking-wider flex items-center gap-1">
+                <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1 shadow-xs">
+                  <span className="text-[10px] font-bold text-[#1E3A8A] uppercase tracking-wider flex items-center gap-1">
                     <Train className="w-3.5 h-3.5" /> Primary Railway Station(s)
                   </span>
-                  <p className="font-extrabold text-white text-sm">
+                  <p className="font-extrabold text-slate-900 text-sm">
                     {detectionResult.ward.primaryRailwayStations}
                   </p>
                 </div>
 
-                <div className="p-3 bg-slate-900/60 rounded-xl border border-slate-700/60 space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                <div className="p-3 bg-white rounded-xl border border-slate-200 space-y-1 shadow-xs">
+                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1">
                     <MapPin className="w-3.5 h-3.5" /> Localities Covered
                   </span>
-                  <p className="font-bold text-slate-200 text-xs line-clamp-2">
+                  <p className="font-bold text-slate-700 text-xs line-clamp-2">
                     {detectionResult.ward.areaDescription}
                   </p>
                 </div>
               </div>
 
               {/* Ward Officer Details */}
-              <div className="p-4 bg-gradient-to-r from-teal-950/60 to-slate-900/80 rounded-2xl border border-teal-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+              <div className="p-4 bg-gradient-to-r from-blue-50/90 to-slate-50 rounded-2xl border border-blue-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-3">
                   <img
                     src={detectionResult.ward.officer.avatar}
                     alt={detectionResult.ward.officer.name}
-                    className="w-12 h-12 rounded-xl object-cover border-2 border-teal-500 shrink-0"
+                    className="w-12 h-12 rounded-xl object-cover border-2 border-blue-300 shrink-0"
                   />
                   <div>
-                    <div className="flex items-center gap-1 text-[10px] font-bold text-teal-400 uppercase">
-                      <ShieldCheck className="w-3 h-3" /> Designated Ward Officer
+                    <div className="flex items-center gap-1 text-[10px] font-bold text-[#1E3A8A] uppercase">
+                      <ShieldCheck className="w-3 h-3 text-[#B45309]" /> Designated Ward Officer
                     </div>
-                    <div className="text-sm font-black text-white">
+                    <div className="text-sm font-black text-[#0F172A]">
                       {detectionResult.ward.officer.name}
                     </div>
-                    <div className="text-[11px] text-slate-300">
+                    <div className="text-[11px] text-slate-600">
                       {detectionResult.ward.officer.designation}
                     </div>
                   </div>
                 </div>
 
-                <div className="space-y-1 text-xs w-full sm:w-auto text-left sm:text-right pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-800">
-                  <div className="flex items-center sm:justify-end gap-1.5 text-slate-300 font-semibold">
-                    <Phone className="w-3.5 h-3.5 text-teal-400" />
+                <div className="space-y-1 text-xs w-full sm:w-auto text-left sm:text-right pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-200">
+                  <div className="flex items-center sm:justify-end gap-1.5 text-slate-700 font-semibold">
+                    <Phone className="w-3.5 h-3.5 text-[#B45309]" />
                     <span>{detectionResult.ward.officer.contact}</span>
                   </div>
-                  <div className="flex items-center sm:justify-end gap-1.5 text-slate-300 font-semibold">
-                    <Mail className="w-3.5 h-3.5 text-teal-400" />
+                  <div className="flex items-center sm:justify-end gap-1.5 text-slate-700 font-semibold">
+                    <Mail className="w-3.5 h-3.5 text-[#1E3A8A]" />
                     <span className="text-[11px]">{detectionResult.ward.officer.email}</span>
                   </div>
                 </div>
               </div>
 
               {/* Ward Weather & AQI */}
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs pt-1 text-slate-300 border-t border-slate-700/60">
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs pt-1 text-slate-600 border-t border-slate-200">
                 <span className="flex items-center gap-1.5">
-                  <Wind className="w-3.5 h-3.5 text-teal-400" />
-                  <span>Ward Air Quality Index (AQI): <strong className="text-white">{detectionResult.ward.weatherAndAqi.aqi} ({detectionResult.ward.weatherAndAqi.aqiCategory})</strong></span>
+                  <Wind className="w-3.5 h-3.5 text-[#1E3A8A]" />
+                  <span>Ward Air Quality Index (AQI): <strong className="text-slate-900">{detectionResult.ward.weatherAndAqi.aqi} ({detectionResult.ward.weatherAndAqi.aqiCategory})</strong></span>
                 </span>
                 
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => onSelectWard?.(detectionResult.ward)}
-                    className="px-3.5 py-2 bg-[#0D7377] hover:bg-[#14919B] text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5"
+                    className="px-3.5 py-2 bg-[#1E3A8A] hover:bg-[#1e40af] text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center gap-1.5"
                   >
                     <Search className="w-3.5 h-3.5" /> View Ward {detectionResult.ward.code} Grievances
                   </button>
                   <a
                     href={`/report?ward=${detectionResult.ward.id}`}
-                    className="px-3.5 py-2 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5"
+                    className="px-3.5 py-2 bg-[#B45309] hover:bg-[#92400E] text-white font-bold text-xs rounded-xl transition-all shadow-xs flex items-center gap-1.5"
                   >
                     <Camera className="w-3.5 h-3.5" /> File Report in Ward {detectionResult.ward.code}
                   </a>
