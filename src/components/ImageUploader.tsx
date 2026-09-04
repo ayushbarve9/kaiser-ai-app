@@ -351,7 +351,7 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
                     </span>
                   </div>
                   <p className="text-[11px] text-emerald-700 font-semibold pl-5">
-                    Detected Subject: <strong className="text-emerald-900">{verificationResult.detectedObject}</strong>. Verified as valid photo evidence for municipal action.
+                    Detected Subject: <strong className="text-emerald-900">{verificationResult.detectedObject}</strong> {verificationResult.suggestedCategory ? `• Category: ${verificationResult.suggestedCategory}` : ""}. Verified as valid photo evidence for municipal action.
                   </p>
                 </div>
               ) : (

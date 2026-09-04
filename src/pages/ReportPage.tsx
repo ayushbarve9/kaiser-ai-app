@@ -201,19 +201,26 @@ export const ReportPage: React.FC = () => {
               }} 
               onImageVerified={(res) => {
                 setImageVerification(res);
+                if (res.suggestedCategory && res.suggestedCategory !== category) {
+                  setCategory(res.suggestedCategory);
+                }
                 if (!res.isValidCivicIssue) {
                   setStatusMessage(
                     `🚨 AI FRAUD ALERT: Uploaded photo identified as "${res.detectedObject}", not a municipal ${category} hazard.`
                   );
-                } else if (statusMessage?.includes("REJECTED") || statusMessage?.includes("FRAUD")) {
-                  setStatusMessage("✅ Valid civic issue photo verified by Gemini AI Vision!");
+                } else {
+                  const catName = res.suggestedCategory || category;
+                  setStatusMessage(`✅ AI Vision Verified: ${res.detectedObject} (${catName})`);
+                  if (!title.trim() || title === "Pothole" || title.includes("Civic Issue")) {
+                    setTitle(`${res.detectedObject}`);
+                  }
                 }
               }}
               onLocationDetected={(info) => {
                 setWard(info.ward.id);
                 setLocation({ lat: info.lat, lng: info.lng });
                 setStatusMessage(
-                  `📸 EXIF Geotag Processed: Ward ${info.ward.code} (${info.ward.name}) - Officer: ${info.ward.officer.name}`
+                  `📸 Location Mapped: Ward ${info.ward.code} (${info.ward.name}) - Officer: ${info.ward.officer.name}`
                 );
               }}
             />

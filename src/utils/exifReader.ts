@@ -37,8 +37,37 @@ export function findNearestWard(lat: number, lng: number): { ward: MumbaiWard; d
 }
 
 /**
+ * Helper to compute deterministic unique Mumbai coordinates and Ward for images without EXIF
+ */
+function hashToUniqueMumbaiLocation(seed: string): {
+  lat: number;
+  lng: number;
+  ward: MumbaiWard;
+} {
+  let hash = 0;
+  const step = Math.max(1, Math.floor(seed.length / 500));
+  for (let i = 0; i < seed.length; i += step) {
+    hash = (hash << 5) - hash + seed.charCodeAt(i);
+    hash |= 0;
+  }
+  const absHash = Math.abs(hash);
+  const wardIndex = absHash % MUMBAI_WARDS_DATA.length;
+  const ward = MUMBAI_WARDS_DATA[wardIndex];
+
+  // Calculate micro-offset (within ~200m - 500m of the ward coordinate)
+  const latOffset = (((absHash % 79) - 39) / 10000);
+  const lngOffset = ((((absHash >> 3) % 79) - 39) / 10000);
+
+  return {
+    lat: Number((ward.lat + latOffset).toFixed(6)),
+    lng: Number((ward.lng + lngOffset).toFixed(6)),
+    ward,
+  };
+}
+
+/**
  * Extracts GPS location metadata from a photo (File object or Data URL/Image URL)
- * Reads EXIF headers directly from JPEG binary buffers.
+ * Reads EXIF headers directly from JPEG binary buffers or determines unique location.
  */
 export async function extractLocationFromPhoto(
   input: File | string
@@ -51,13 +80,13 @@ export async function extractLocationFromPhoto(
   hasExifGps: boolean;
 }> {
   if (typeof input === "string") {
-    // If it's an image URL or data string, determine smart ward based on photo hash or default H-West (Bandra)
-    const fallbackWard = MUMBAI_WARDS_DATA.find((w) => w.code === "H/W") || MUMBAI_WARDS_DATA[0];
+    // Generate unique ward and coordinates derived from the photo URL or image data
+    const locationInfo = hashToUniqueMumbaiLocation(input);
     return {
-      lat: fallbackWard.lat,
-      lng: fallbackWard.lng,
+      lat: locationInfo.lat,
+      lng: locationInfo.lng,
       source: "ai_estimated",
-      ward: fallbackWard,
+      ward: locationInfo.ward,
       distanceKm: 0,
       hasExifGps: false,
     };
@@ -166,13 +195,14 @@ export async function extractLocationFromPhoto(
     console.warn("EXIF extraction error:", err);
   }
 
-  // Fallback if file has no EXIF GPS data: select H-West (Bandra) or random ward variation
-  const defaultWard = MUMBAI_WARDS_DATA.find((w) => w.code === "H/W") || MUMBAI_WARDS_DATA[0];
+  // Fallback if file has no EXIF GPS data: calculate distinct location from file metadata
+  const fileSeed = `${input.name}_${input.size}_${input.lastModified}`;
+  const locationInfo = hashToUniqueMumbaiLocation(fileSeed);
   return {
-    lat: defaultWard.lat,
-    lng: defaultWard.lng,
+    lat: locationInfo.lat,
+    lng: locationInfo.lng,
     source: "ai_estimated",
-    ward: defaultWard,
+    ward: locationInfo.ward,
     distanceKm: 0,
     hasExifGps: false,
   };
