@@ -485,7 +485,7 @@ const initialComplaints: Complaint[] = [
     ward: 17,
     wardName: "N-Ward (Ghatkopar)",
     locationAddress: "Station Road East, Near Ghatkopar Metro Concourse",
-    imageUrl: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=800&q=80",
+    imageUrl: "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=800&q=80",
     reporterId: "usr-citizen-14",
     reporterName: "Pooja Jadhav",
     upvotes: ["usr-citizen-14", "usr-citizen-5", "usr-citizen-9"],

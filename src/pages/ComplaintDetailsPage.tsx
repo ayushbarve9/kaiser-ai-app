@@ -295,10 +295,15 @@ export const ComplaintDetailsPage: React.FC = () => {
           {/* Photo Preview & Map Pin */}
           <div className="space-y-4">
             {complaint.imageUrl && (
-              <div className="rounded-2xl overflow-hidden border border-gray-200 h-52 bg-gray-100">
+              <div className="rounded-2xl overflow-hidden border border-gray-200 h-52 bg-gray-100 relative">
                 <img
                   src={complaint.imageUrl}
                   alt={complaint.title}
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    target.src = "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80";
+                  }}
                   className="w-full h-full object-cover"
                 />
               </div>
