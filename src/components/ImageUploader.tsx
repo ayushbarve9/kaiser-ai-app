@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Camera, Upload, Trash2, CheckCircle2, Image as ImageIcon, RefreshCw, Sparkles, MapPin, AlertTriangle, ShieldAlert, Loader2 } from "lucide-react";
+import { Camera, Upload, Trash2, CheckCircle2, Image as ImageIcon, RefreshCw, Sparkles, MapPin, AlertTriangle, ShieldAlert, Loader2, Video } from "lucide-react";
 import { extractLocationFromPhoto } from "../utils/exifReader";
 import { MumbaiWard, AIVerifyImageResult } from "../types";
 import { complaintService } from "../services/api";
+import { LiveCameraModal } from "./LiveCameraModal";
 
 interface ImageUploaderProps {
   value?: string;
   category?: string;
+  wardName?: string;
   onChange: (imageUrl: string) => void;
   onLocationDetected?: (result: {
     lat: number;
@@ -49,21 +51,20 @@ const SAMPLE_CIVIC_IMAGES = [
 export const ImageUploader: React.FC<ImageUploaderProps> = ({
   value,
   category = "Pothole",
+  wardName,
   onChange,
   onLocationDetected,
   onImageVerified,
 }) => {
-  const [isCameraActive, setIsCameraActive] = useState(false);
-  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [showLiveCameraModal, setShowLiveCameraModal] = useState(false);
   const [detectedWardInfo, setDetectedWardInfo] = useState<string | null>(null);
   
   // AI Image Verification state
   const [isVerifying, setIsVerifying] = useState(false);
   const [verificationResult, setVerificationResult] = useState<AIVerifyImageResult | null>(null);
 
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const streamRef = useRef<MediaStream | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
 
   // Trigger AI image verification whenever image or category changes
   useEffect(() => {
@@ -443,31 +444,6 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
             </div>
           )}
         </div>
-      ) : isCameraActive ? (
-        <div className="relative rounded-2xl overflow-hidden border-2 border-[#0D7377] bg-black">
-          <video
-            ref={videoRef}
-            autoPlay
-            playsInline
-            className="w-full h-64 object-cover"
-          />
-          <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-4">
-            <button
-              type="button"
-              onClick={capturePhoto}
-              className="px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-lg flex items-center gap-2 active:scale-95 transition-all"
-            >
-              <Camera className="w-4 h-4" /> Snap Photo Now
-            </button>
-            <button
-              type="button"
-              onClick={stopCamera}
-              className="px-4 py-2.5 bg-gray-800/90 text-white font-medium text-xs rounded-xl hover:bg-gray-700 transition-all"
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
       ) : (
         <div className="border-2 border-dashed border-gray-300 hover:border-[#0D7377] rounded-2xl p-6 text-center bg-gray-50/50 hover:bg-teal-50/30 transition-all space-y-4">
           <div className="w-12 h-12 bg-teal-100 text-[#0D7377] rounded-2xl flex items-center justify-center mx-auto">
@@ -475,30 +451,24 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           </div>
 
           <div>
-            <h4 className="text-sm font-bold text-gray-900">Attach Photo Evidence</h4>
+            <h4 className="text-sm font-bold text-gray-900">Attach Incident Photo Evidence</h4>
             <p className="text-xs text-gray-500 mt-1">
-              AI Vision automatically screens images to reject unrelated objects (phones, gadgets, pets)
+              Use live camera to capture on-site hazard evidence with GPS & timestamp telemetry, or upload from device.
             </p>
           </div>
-
-          {cameraError && (
-            <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1.5 rounded-lg">
-              {cameraError}
-            </p>
-          )}
 
           <div className="flex flex-wrap items-center justify-center gap-3 pt-1">
             <button
               type="button"
-              onClick={startCamera}
-              className="px-4 py-2 bg-[#0D7377] hover:bg-[#14919B] text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 active:scale-95"
+              onClick={() => setShowLiveCameraModal(true)}
+              className="px-5 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
             >
-              <Camera className="w-4 h-4" /> Open Camera
+              <Camera className="w-4 h-4" /> Open Live HD Camera
             </button>
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="px-4 py-2 bg-white border border-gray-300 hover:border-gray-400 text-gray-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 hover:bg-gray-50 active:scale-95"
+              className="px-4 py-2.5 bg-white border border-gray-300 hover:border-gray-400 text-gray-800 font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 hover:bg-gray-50 active:scale-95 cursor-pointer"
             >
               <Upload className="w-4 h-4 text-gray-600" /> Choose File / Photos
             </button>
@@ -535,6 +505,23 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
           </div>
         </div>
       )}
+
+      {/* Live Camera Modal */}
+      <LiveCameraModal
+        isOpen={showLiveCameraModal}
+        onClose={() => setShowLiveCameraModal(false)}
+        category={category}
+        wardName={wardName}
+        onCapture={async (imageDataUrl) => {
+          onChange(imageDataUrl);
+          if (onLocationDetected) {
+            const result = await extractLocationFromPhoto(imageDataUrl);
+            setDetectedWardInfo(`Ward ${result.ward.code} (${result.ward.name}) • ${result.ward.primaryRailwayStations}`);
+            onLocationDetected(result);
+          }
+        }}
+      />
+
     </div>
   );
 };

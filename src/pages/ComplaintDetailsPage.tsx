@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { SeverityMeter } from "../components/SeverityMeter";
 import { MumbaiMap } from "../components/MumbaiMap";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
+import { LiveCameraModal } from "../components/LiveCameraModal";
 import { 
   ThumbsUp, MessageSquare, MapPin, Clock, Sparkles, ShieldCheck, 
   Send, ArrowLeft, CheckCircle2, AlertCircle, Building2, User, Phone, Mail, Lock,
@@ -32,11 +33,13 @@ export const ComplaintDetailsPage: React.FC = () => {
 
   // Work Completed & Email Resolution modal / state
   const [showResolveModal, setShowResolveModal] = useState(false);
+  const [showOfficerCameraModal, setShowOfficerCameraModal] = useState(false);
   const [afterImageUrl, setAfterImageUrl] = useState("");
   const [resolutionNotes, setResolutionNotes] = useState("");
   const [isResolvingWithEmail, setIsResolvingWithEmail] = useState(false);
   const [showEmailDetailsModal, setShowEmailDetailsModal] = useState(false);
   const [resolutionSuccessToast, setResolutionSuccessToast] = useState<string | null>(null);
+
 
   useEffect(() => {
     if (id) {
@@ -702,23 +705,44 @@ export const ComplaintDetailsPage: React.FC = () => {
                 <label className="block text-xs font-bold text-gray-900 uppercase">
                   1. Work Completed Photo Evidence (After Photo)
                 </label>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <input
                     type="url"
                     value={afterImageUrl}
                     onChange={(e) => setAfterImageUrl(e.target.value)}
                     placeholder="Enter After Photo Image URL (e.g. https://...)"
-                    className="flex-1 px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
+                    className="flex-1 min-w-[200px] px-3.5 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-900 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                     required
                   />
+                  <button
+                    type="button"
+                    onClick={() => setShowOfficerCameraModal(true)}
+                    className="px-3.5 py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold shrink-0 flex items-center gap-1.5 shadow-sm transition-all active:scale-95"
+                  >
+                    <Camera className="w-4 h-4 text-emerald-400" />
+                    <span>Live Field Camera</span>
+                  </button>
                   <button
                     type="button"
                     onClick={() => setAfterImageUrl(getDefaultAfterImage(complaint.category))}
                     className="px-3 py-2 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 border border-emerald-200 rounded-xl text-xs font-bold shrink-0"
                   >
-                    Use Verified Preset
+                    Use Preset
                   </button>
                 </div>
+
+                {/* Live Camera Modal for Officer */}
+                <LiveCameraModal
+                  isOpen={showOfficerCameraModal}
+                  onClose={() => setShowOfficerCameraModal(false)}
+                  onCapture={(dataUrl) => {
+                    setAfterImageUrl(dataUrl);
+                    setShowOfficerCameraModal(false);
+                  }}
+                  title="Ward Officer Live Repair Evidence Camera"
+                  wardName={complaint.wardName}
+                  category={complaint.category}
+                />
 
                 {/* Live Photo Comparison Preview in Modal */}
                 <div className="grid grid-cols-2 gap-3 pt-2">

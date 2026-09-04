@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { extractLocationFromPhoto } from "../utils/exifReader";
 import { MumbaiWard, AIVerifyImageResult } from "../types";
 import { complaintService } from "../services/api";
+import { LiveCameraModal } from "./LiveCameraModal";
 import { 
   Camera, 
   Upload, 
@@ -31,6 +32,7 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [showLiveCamera, setShowLiveCamera] = useState(false);
   const [verificationResult, setVerificationResult] = useState<AIVerifyImageResult | null>(null);
   const [detectionResult, setDetectionResult] = useState<{
     lat: number;
@@ -157,22 +159,32 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
             </p>
           </div>
 
-          <div className="flex items-center justify-center gap-3 pt-2">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               className="px-5 py-2.5 bg-[#0D7377] hover:bg-[#14919B] text-white text-xs font-extrabold rounded-xl shadow-lg transition-all flex items-center gap-2 active:scale-95"
             >
-              <Upload className="w-4 h-4" /> Select Photo File
+              <Upload className="w-4 h-4" /> Upload Photo File
             </button>
             <button
               type="button"
-              onClick={() => fileInputRef.current?.click()}
-              className="px-5 py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold rounded-xl transition-all flex items-center gap-2 active:scale-95"
+              onClick={() => setShowLiveCamera(true)}
+              className="px-5 py-2.5 bg-gradient-to-r from-teal-600 to-emerald-600 hover:from-teal-500 hover:to-emerald-500 text-white text-xs font-black rounded-xl shadow-lg transition-all flex items-center gap-2 active:scale-95 border border-teal-400/40"
             >
-              <Camera className="w-4 h-4 text-teal-400" /> Use Camera
+              <Camera className="w-4 h-4 text-emerald-200" /> Open Live HD Camera
             </button>
           </div>
+
+          <LiveCameraModal
+            isOpen={showLiveCamera}
+            onClose={() => setShowLiveCamera(false)}
+            onCapture={(dataUrl) => {
+              setShowLiveCamera(false);
+              processSamplePhoto(dataUrl);
+            }}
+            title="Ward Locator & Hazard Detection Camera"
+          />
         </div>
       ) : (
         /* Scanned Result Card */
