@@ -71,8 +71,16 @@ export const AdminHub: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="px-3 py-1.5 bg-slate-800 rounded-lg border border-slate-700 text-right text-xs">
+        <div className="flex flex-wrap items-center gap-2 w-full sm:w-auto">
+          <Link
+            to="/admin/users"
+            className="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+          >
+            <UserCheck className="w-3.5 h-3.5" />
+            <span>Member Directory</span>
+          </Link>
+
+          <div className="px-3 py-1.5 bg-slate-800 rounded-xl border border-slate-700 text-right text-xs">
             <div className="text-[10px] text-slate-400 uppercase font-bold">Jurisdiction Issues</div>
             <div className="text-sm font-extrabold text-amber-400">{myWardCount} Active Cases</div>
           </div>

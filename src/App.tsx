@@ -13,6 +13,7 @@ import { OfficersPage } from "./pages/OfficersPage";
 import { ReportPage } from "./pages/ReportPage";
 import { ComplaintDetailsPage } from "./pages/ComplaintDetailsPage";
 import { AdminHub } from "./pages/AdminHub";
+import { AdminUserManagement } from "./pages/AdminUserManagement";
 import { Login } from "./pages/Login";
 import { CitizenLogin } from "./pages/CitizenLogin";
 import { OfficerLogin } from "./pages/OfficerLogin";
@@ -41,6 +42,16 @@ export default function App() {
                 element={
                   <ProtectedRoute requiredRole="Officer">
                     <AdminHub />
+                  </ProtectedRoute>
+                } 
+              />
+
+              {/* Protected Administrator Member Directory */}
+              <Route 
+                path="/admin/users" 
+                element={
+                  <ProtectedRoute requiredRole="Officer">
+                    <AdminUserManagement />
                   </ProtectedRoute>
                 } 
               />

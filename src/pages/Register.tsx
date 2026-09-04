@@ -63,7 +63,8 @@ export const Register: React.FC = () => {
       }
     } catch (err: any) {
       console.error(err);
-      setError("Registration failed. Please try again with valid information.");
+      const msg = err.response?.data?.message || err.message || "Registration failed. Please try again with valid information.";
+      setError(msg);
     } finally {
       setLoading(false);
     }

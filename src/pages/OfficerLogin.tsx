@@ -4,7 +4,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { 
   Building2, ShieldCheck, Lock, Mail, BadgeCheck, 
-  ArrowRight, ShieldAlert, Key, CheckCircle, AlertTriangle, PhoneCall
+  ArrowRight, ShieldAlert, Key, CheckCircle, AlertTriangle, PhoneCall, UserPlus
 } from "lucide-react";
 
 export const OfficerLogin: React.FC = () => {
@@ -24,15 +24,16 @@ export const OfficerLogin: React.FC = () => {
     setError(null);
     try {
       await login(
-        email || "officer.hwest@civic.com", 
+        email.trim(), 
         password, 
         "Officer", 
-        { serviceId: serviceId || `BMC-OFF-${ward < 10 ? '0' + ward : ward}01`, ward }
+        { serviceId: serviceId.trim() || `BMC-OFF-${ward < 10 ? '0' + ward : ward}01`, ward }
       );
       navigate("/admin");
     } catch (err: any) {
       console.error(err);
-      setError("Official authentication failed. Please verify your Service ID and password.");
+      const msg = err.response?.data?.message || err.message || "Official authentication failed. Please verify your credentials.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -46,11 +47,12 @@ export const OfficerLogin: React.FC = () => {
     setLoading(true);
     setError(null);
     try {
-      await login(officerEmail, "officerpass123", "Officer", { serviceId: badgeId, ward: officerWard });
+      await login(officerEmail, "officer123", "Officer", { serviceId: badgeId, ward: officerWard });
       navigate("/admin");
     } catch (err: any) {
       console.error(err);
-      setError("Officer demo authentication failed.");
+      const msg = err.response?.data?.message || err.message || "Officer demo authentication failed.";
+      setError(msg);
     } finally {
       setLoading(false);
     }
@@ -82,10 +84,10 @@ export const OfficerLogin: React.FC = () => {
           <div className="bg-slate-800/90 border border-slate-700 p-4 rounded-2xl space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-[11px] font-black text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-                <BadgeCheck className="w-4 h-4 text-amber-400" /> Verified Officer 1-Click Access
+                <BadgeCheck className="w-4 h-4 text-amber-400" /> Verified Pre-Seeded Officer Accounts
               </span>
               <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded font-bold">
-                Executive Clearance
+                1-Click Sign In
               </span>
             </div>
 
@@ -123,9 +125,17 @@ export const OfficerLogin: React.FC = () => {
           </div>
 
           {error && (
-            <div className="p-3 bg-rose-950/80 border border-rose-700 rounded-xl text-xs text-rose-300 font-medium flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
-              <span>{error}</span>
+            <div className="p-3.5 bg-rose-950/90 border-2 border-rose-600 rounded-xl text-xs text-rose-200 font-semibold space-y-2">
+              <div className="flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 shrink-0 text-rose-400" />
+                <span>{error}</span>
+              </div>
+              <div className="pt-1 border-t border-rose-800/80 flex items-center justify-between text-[11px]">
+                <span>Need official onboarding?</span>
+                <Link to="/register?role=Officer" className="font-bold underline text-amber-300 hover:text-amber-200">
+                  Register Officer Account &rarr;
+                </Link>
+              </div>
             </div>
           )}
 
@@ -208,10 +218,27 @@ export const OfficerLogin: React.FC = () => {
               disabled={loading}
               className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-slate-950 font-extrabold text-xs rounded-xl shadow-lg transition-all active:scale-98 flex items-center justify-center gap-2 tracking-wide uppercase"
             >
-              <span>{loading ? "Authenticating Clearance..." : "Access Officer Control Room"}</span>
+              <span>{loading ? "Verifying Official Credentials..." : "Access Officer Control Room"}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
           </form>
+
+          {/* New Officer Onboarding Banner */}
+          <div className="p-4 bg-slate-800/80 border border-slate-700 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <div>
+              <div className="text-xs font-extrabold text-white flex items-center justify-center sm:justify-start gap-1.5">
+                <UserPlus className="w-4 h-4 text-amber-400" />
+                <span>New Ward Executive or AMC?</span>
+              </div>
+              <div className="text-[11px] text-slate-400">Register new municipal staff credentials.</div>
+            </div>
+            <Link
+              to="/register?role=Officer"
+              className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl transition-all shrink-0 shadow-2xs"
+            >
+              Staff Onboarding
+            </Link>
+          </div>
 
           {/* Legal Security Disclaimer */}
           <div className="p-3 bg-slate-950 border border-slate-800 rounded-xl text-[10px] text-slate-400 flex items-start gap-2">
@@ -220,13 +247,6 @@ export const OfficerLogin: React.FC = () => {
               <strong>Notice:</strong> This console is designated for official Municipal Corporation administration only. 
               Unauthorized access attempts are monitored and recorded.
             </p>
-          </div>
-
-          <div className="text-center text-xs text-slate-400 border-t border-slate-800 pt-3">
-            <span>Register as new Municipal Staff? </span>
-            <Link to="/register?role=Officer" className="text-amber-400 font-bold hover:underline">
-              Officer Onboarding Form
-            </Link>
           </div>
         </div>
 
