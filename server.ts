@@ -667,19 +667,19 @@ let complaints: Complaint[] = [...initialComplaints];
 
 import { dbService, isSupabaseConnected } from "./src/services/dbStore";
 
-// COMPLAINT ROUTES
+// AUTHENTICATION & MULTI-WARD OFFICER ENDPOINTS
 app.post("/api/auth/login", (req, res) => {
-  const { email, password, role, serviceId } = req.body;
+  const { email, password, role, serviceId, ward } = req.body;
   
   if (!email || !password) {
     return res.status(400).json({ message: "Please provide both email/identifier and password." });
   }
 
-  // Strict credential verification against database
-  const verification = dbService.verifyUserCredentials(email, password, role);
+  // Strict credential verification against database with identifier matching
+  const verification = dbService.verifyUserCredentials(email, password, role, ward ? Number(ward) : undefined);
   if (verification.error || !verification.user) {
     return res.status(401).json({ 
-      message: verification.error || "Invalid credentials. Please register an account first." 
+      message: verification.error || "Invalid credentials. Please verify your email/password or register first." 
     });
   }
 
@@ -704,7 +704,7 @@ app.post("/api/auth/register", async (req, res) => {
     const { name, email, password, role, ward, department, phone, serviceId } = req.body;
 
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "Full name, email address, and password are required." });
+      return res.status(400).json({ message: "Full name, official email address, and password are required." });
     }
 
     if (password.length < 6) {
@@ -738,6 +738,29 @@ app.post("/api/auth/register", async (req, res) => {
   } catch (err: any) {
     res.status(400).json({ message: err.message || "Registration failed. Please check your details." });
   }
+});
+
+app.post("/api/auth/change-password", (req, res) => {
+  const { email, oldPassword, newPassword } = req.body;
+  if (!email || !oldPassword || !newPassword) {
+    return res.status(400).json({ message: "Please provide email, old password, and new password." });
+  }
+
+  if (newPassword.length < 6) {
+    return res.status(400).json({ message: "New password must be at least 6 characters long." });
+  }
+
+  const verification = dbService.verifyUserCredentials(email, oldPassword);
+  if (verification.error || !verification.user) {
+    return res.status(401).json({ message: "Current password verification failed." });
+  }
+
+  const updated = dbService.updateUserPassword(verification.user.id, newPassword);
+  if (!updated) {
+    return res.status(500).json({ message: "Failed to update password in database." });
+  }
+
+  res.json({ message: "Password updated successfully in database!" });
 });
 
 app.get("/api/auth/verify", (req, res) => {
