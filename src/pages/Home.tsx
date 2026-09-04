@@ -55,12 +55,12 @@ export const Home: React.FC = () => {
   };
 
   const civicDepartments = [
-    { name: "Roads & Potholes", icon: Construction, category: "Potholes" },
+    { name: "Roads & Potholes", icon: Construction, category: "Pothole" },
     { name: "Water Supply & Leaks", icon: Droplets, category: "Water Leakage" },
     { name: "Solid Waste Management", icon: Trash2, category: "Garbage" },
     { name: "Stormwater Drainage", icon: Waves, category: "Drainage" },
     { name: "Street Lighting", icon: Lightbulb, category: "Streetlight" },
-    { name: "Pest Control & Health", icon: Bug, category: "Sanitation" },
+    { name: "Pest Control & Health", icon: Bug, category: "Other" },
   ];
 
   return (

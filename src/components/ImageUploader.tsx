@@ -169,22 +169,57 @@ export const ImageUploader: React.FC<ImageUploaderProps> = ({
     stopCamera();
   };
 
-  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const compressImageFile = (file: File, maxDim = 1600, quality = 0.85): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (readerEvent) => {
+        const image = new Image();
+        image.onload = () => {
+          let width = image.width;
+          let height = image.height;
+
+          if (width > maxDim || height > maxDim) {
+            if (width > height) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+          }
+
+          const canvas = document.createElement("canvas");
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          if (ctx) {
+            ctx.drawImage(image, 0, 0, width, height);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          } else {
+            resolve(readerEvent.target?.result as string);
+          }
+        };
+        image.onerror = () => resolve(readerEvent.target?.result as string);
+        image.src = readerEvent.target?.result as string;
+      };
+      reader.onerror = () => resolve("");
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        if (typeof reader.result === "string") {
-          onChange(reader.result);
+      const compressedDataUrl = await compressImageFile(file);
+      if (compressedDataUrl) {
+        onChange(compressedDataUrl);
 
-          if (onLocationDetected) {
-            const result = await extractLocationFromPhoto(file);
-            setDetectedWardInfo(`Ward ${result.ward.code} (${result.ward.name}) • ${result.ward.primaryRailwayStations}`);
-            onLocationDetected(result);
-          }
+        if (onLocationDetected) {
+          const result = await extractLocationFromPhoto(file);
+          setDetectedWardInfo(`Ward ${result.ward.code} (${result.ward.name}) • ${result.ward.primaryRailwayStations}`);
+          onLocationDetected(result);
         }
-      };
-      reader.readAsDataURL(file);
+      }
     }
     if (e.target) {
       e.target.value = "";

@@ -1095,6 +1095,15 @@ app.post("/api/complaints", (req, res) => {
   };
 
   const newId = `COMP-${1000 + complaints.length + 1}`;
+  
+  // Extract user ID from auth token if available
+  const authHeader = req.headers.authorization;
+  let activeReporterId = "usr-citizen-current";
+  if (authHeader && authHeader.startsWith("Bearer ")) {
+    const token = authHeader.replace("Bearer ", "");
+    activeReporterId = token.replace("token-", "") || "usr-citizen-current";
+  }
+
   const newComplaint: Complaint = {
     id: newId,
     title: title || "Reported Civic Issue",
@@ -1109,9 +1118,9 @@ app.post("/api/complaints", (req, res) => {
     wardName: wardNames[wardNum] || `Ward ${wardNum}`,
     locationAddress: `Ward ${wardNum}, Mumbai (${Number(latitude).toFixed(4)}, ${Number(longitude).toFixed(4)})`,
     imageUrl: req.body.imageUrl || "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
-    reporterId: "usr-citizen-current",
+    reporterId: activeReporterId,
     reporterName: reporterName || "Local Resident",
-    upvotes: ["usr-citizen-current"],
+    upvotes: [activeReporterId],
     upvote_count: 1,
     comment_count: 0,
     comments: [],
@@ -1161,7 +1170,13 @@ app.post("/api/complaints/:id/upvote", (req, res) => {
     return res.status(404).json({ message: "Complaint not found" });
   }
 
-  const userId = req.body.userId || "usr-citizen-current";
+  const authHeader = req.headers.authorization;
+  let userId = req.body.userId;
+  if (!userId && authHeader && authHeader.startsWith("Bearer ")) {
+    userId = authHeader.replace("Bearer token-", "").replace("Bearer ", "");
+  }
+  if (!userId) userId = "usr-citizen-current";
+
   if (!item.upvotes.includes(userId)) {
     item.upvotes.push(userId);
     item.upvote_count = item.upvotes.length;
@@ -1176,7 +1191,13 @@ app.delete("/api/complaints/:id/upvote", (req, res) => {
     return res.status(404).json({ message: "Complaint not found" });
   }
 
-  const userId = req.body.userId || "usr-citizen-current";
+  const authHeader = req.headers.authorization;
+  let userId = req.body.userId;
+  if (!userId && authHeader && authHeader.startsWith("Bearer ")) {
+    userId = authHeader.replace("Bearer token-", "").replace("Bearer ", "");
+  }
+  if (!userId) userId = "usr-citizen-current";
+
   item.upvotes = item.upvotes.filter((id) => id !== userId);
   item.upvote_count = item.upvotes.length;
 
