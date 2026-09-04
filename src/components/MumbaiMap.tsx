@@ -177,62 +177,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
     );
   }
 
-  // If no valid Google Maps API Key, render setup instructions splash screen or OpenStreetMap fallback
-  if (!useFallbackMap) {
-    return (
-      <div 
-        className="w-full rounded-2xl border border-slate-300 bg-slate-900 text-white p-6 sm:p-8 flex flex-col items-center justify-center text-center shadow-md relative"
-        style={{ minHeight: height }}
-      >
-        <div className="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 border border-blue-500/30 flex items-center justify-center mb-4">
-          <Key className="w-6 h-6" />
-        </div>
-
-        <h3 className="text-lg font-extrabold text-white mb-2">
-          Google Maps API Key Required
-        </h3>
-
-        <p className="text-xs text-slate-300 max-w-md mb-6 leading-relaxed">
-          To enable live Google Maps vector tiles, satellite imagery, and high-precision spatial markers, configure your Google Maps API Key.
-        </p>
-
-        <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-left text-xs max-w-lg w-full space-y-2 mb-6">
-          <div className="font-bold text-amber-400 flex items-center gap-1.5">
-            <Key className="w-3.5 h-3.5" /> API Key Setup Steps:
-          </div>
-          <ol className="list-decimal list-inside space-y-1.5 text-slate-300 text-[11px] leading-relaxed">
-            <li>
-              Get an API Key from{" "}
-              <a 
-                href="https://console.cloud.google.com/google/maps-apis/start?utm_campaign=gmp-code-assist-ais" 
-                target="_blank" 
-                rel="noreferrer"
-                className="text-blue-400 underline inline-flex items-center gap-0.5 font-bold"
-              >
-                Google Cloud Console <ExternalLink className="w-3 h-3" />
-              </a>
-            </li>
-            <li>
-              When the <strong>"Enter your environment variable to continue"</strong> prompt appears, paste your key.
-            </li>
-            <li>
-              Or manually: Click <strong>Settings</strong> (⚙️ gear icon, top-right) → <strong>Secrets</strong> → name <code>GOOGLE_MAPS_PLATFORM_KEY</code> → paste key → press <strong>Enter</strong>.
-            </li>
-          </ol>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            onClick={() => setUseFallbackMap(true)}
-            className="px-4 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 text-xs font-bold rounded-lg transition-colors flex items-center gap-1.5"
-          >
-            <Layers className="w-3.5 h-3.5 text-slate-400" />
-            <span>Preview with OpenStreetMap Fallback</span>
-          </button>
-        </div>
-      </div>
-    );
-  }
+  // Splash screen completely removed by user request.
 
   // Leaflet Fallback Map Render
   const getMarkerColor = (complaint: Complaint) => {
