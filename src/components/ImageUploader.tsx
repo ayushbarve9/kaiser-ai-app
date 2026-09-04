@@ -21,24 +21,28 @@ interface ImageUploaderProps {
 
 const SAMPLE_CIVIC_IMAGES = [
   {
-    label: "Pothole Hazard",
-    url: "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
+    label: "🕳️ 1. Pothole Crater",
+    url: "/sample-civic-evidence/pothole-crater.png",
   },
   {
-    label: "Garbage Overflow",
-    url: "https://images.unsplash.com/photo-1530587191325-3db32d826c18?auto=format&fit=crop&w=800&q=80",
+    label: "🌧️ 2. Stormwater Overflow",
+    url: "/sample-civic-evidence/drainage-overflow.png",
   },
   {
-    label: "💻 Code Screenshot (Invalid)",
-    url: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80&code_screenshot=true",
+    label: "⚡ 3. Cable / Wire Hazard",
+    url: "/sample-civic-evidence/cable-hazard.png",
   },
   {
-    label: "🤖 AI Fake Repair (Invalid)",
+    label: "🗑️ 4. Garbage Dump",
+    url: "/sample-civic-evidence/garbage-dump.png",
+  },
+  {
+    label: "🚰 5. Pipe Leakage",
+    url: "/sample-civic-evidence/pipe-leakage.png",
+  },
+  {
+    label: "🤖 Random / AI Fake",
     url: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80&ai_generated_synthetic=true",
-  },
-  {
-    label: "📱 iPhone 17 (Invalid)",
-    url: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=80&iphone_gadget=true",
   },
 ];
 
