@@ -235,17 +235,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
 
   return (
     <div className="relative w-full rounded-2xl overflow-hidden border border-slate-300 shadow-sm z-0">
-      <div className="absolute top-3 left-3 z-10 bg-slate-900/90 backdrop-blur-md text-white text-[11px] px-3 py-1.5 rounded-lg border border-slate-800 flex items-center justify-between gap-3 shadow-md">
-        <span className="font-bold flex items-center gap-1.5">
-          <Layers className="w-3.5 h-3.5 text-blue-400" /> OpenStreetMap Layer
-        </span>
-        <button
-          onClick={() => setUseFallbackMap(false)}
-          className="text-blue-400 underline text-[10px] hover:text-blue-300 font-bold"
-        >
-          Enable Google Maps
-        </button>
-      </div>
+
 
       <MapContainer
         center={center}
