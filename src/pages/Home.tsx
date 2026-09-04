@@ -7,6 +7,7 @@ import { MumbaiMap } from "../components/MumbaiMap";
 import { PhotoWardFetcher } from "../components/PhotoWardFetcher";
 import { ScrollExpand } from "../components/ScrollExpand";
 import { OptionWheel } from "../components/OptionWheel";
+import { Hero12 } from "../components/Hero12";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
@@ -109,75 +110,19 @@ export const Home: React.FC = () => {
         </div>
       )}
 
-      {/* Main Official Header / Portal Banner */}
-      <section className="bg-slate-900 text-white py-10 px-4 sm:px-6 lg:px-8 border-b-4 border-orange-500">
-        <div className="max-w-7xl mx-auto space-y-8">
-          <div className="max-w-3xl space-y-3">
-            <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded bg-slate-800 text-slate-200 border border-slate-700 text-xs font-semibold">
-              <Building2 className="w-4 h-4 text-amber-400" />
-              <span>Brihanmumbai Municipal Corporation • Official Grievance Redressal Portal</span>
-            </div>
-
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight leading-tight">
-              Public Grievance Registration & Ward Management System
-            </h1>
-
-            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-normal">
-              Citizens can register civic grievances regarding potholes, water leakage, garbage accumulation, or street lighting directly to Ward Officers for tracked resolution under the Maharashtra Right to Public Services Act.
-            </p>
-
-            {/* Official Search Form */}
-            <form onSubmit={handleSearchSubmit} className="pt-2 flex flex-col sm:flex-row items-center gap-2.5">
-              <div className="relative w-full sm:max-w-xl">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  aria-label="Search grievance by registration number or keyword"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Enter Grievance Ref No. (#BMC-2026-...) or keyword (e.g. Potholes, Ward G-North)..."
-                  className="w-full pl-10 pr-4 py-3 rounded-lg bg-white text-slate-900 placeholder-slate-500 font-medium text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 border border-slate-300 shadow-sm"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full sm:w-auto px-6 py-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs sm:text-sm rounded-lg transition-colors shrink-0 flex items-center justify-center gap-2 uppercase tracking-wide shadow-2xs"
-              >
-                <Search className="w-4 h-4" />
-                <span>Search Portal</span>
-              </button>
-            </form>
-          </div>
-
-          {/* Official Statistics Metrics Board */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
-            <div className="bg-slate-800/90 p-4 rounded-lg border border-slate-700">
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Total Grievances Registered</div>
-              <div className="text-2xl font-black text-white mt-1">{stats?.total || 5}</div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Across All 24 Wards</div>
-            </div>
-
-            <div className="bg-slate-800/90 p-4 rounded-lg border border-slate-700">
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Resolved & Closed</div>
-              <div className="text-2xl font-black text-emerald-400 mt-1">{stats?.resolved || 1}</div>
-              <div className="text-[11px] text-emerald-300 mt-0.5">Ward Verified</div>
-            </div>
-
-            <div className="bg-slate-800/90 p-4 rounded-lg border border-slate-700">
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Under Process / Field Action</div>
-              <div className="text-2xl font-black text-amber-400 mt-1">{stats?.inProgress || 2}</div>
-              <div className="text-[11px] text-amber-300 mt-0.5">Field Units Dispatched</div>
-            </div>
-
-            <div className="bg-slate-800/90 p-4 rounded-lg border border-slate-700">
-              <div className="text-[11px] font-bold text-slate-400 uppercase tracking-wide">Avg. SLA Resolution Time</div>
-              <div className="text-2xl font-black text-blue-400 mt-1">24.8 Hrs</div>
-              <div className="text-[11px] text-blue-300 mt-0.5">Right to Service Standard</div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* React Bits Pro Hero 12: Background image with curved shape text overlays */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <Hero12
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          handleSearchSubmit={handleSearchSubmit}
+          stats={stats}
+          backgroundImage="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=2000&q=85"
+          badgeText="Brihanmumbai Municipal Corporation • Official Grievance Redressal Portal"
+          title="Public Grievance Registration & Ward Management System"
+          description="Citizens can register civic grievances regarding potholes, water leakage, garbage accumulation, or street lighting directly to Ward Officers for tracked resolution under the Maharashtra Right to Public Services Act."
+        />
+      </div>
 
       {/* Main Portal Body */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
