@@ -421,68 +421,68 @@ export const Home: React.FC = () => {
         </section>
 
         {/* Dual Authentication Gateway Section */}
-        <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
+        <section className="bg-[#FFFDFB] rounded-3xl p-8 sm:p-12 border border-[#F5EBE6] space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-[11px] font-black text-[#B45309] uppercase tracking-wider">
+            <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FFF0EB] text-[#E0533C] text-[11px] font-extrabold uppercase tracking-wider">
               MUMBAI CIVIC ACCESS PORTALS
             </span>
-            <h2 className="text-xl sm:text-2xl font-black text-[#152238]">
+            <h2 className="text-2xl sm:text-4xl font-black text-slate-900 tracking-tight">
               Access Citizen Redressal or Municipal Officer Dispatch
             </h2>
-            <p className="text-xs text-slate-500">
+            <p className="text-xs sm:text-sm text-slate-500 font-medium">
               Dedicated high-security login portals designed separately for Mumbai residents and BMC ward administrators.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-6 bg-gradient-to-br from-amber-50/70 to-orange-50/40 rounded-2xl border-2 border-amber-200/80 hover:border-amber-400 transition-all flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <div className="w-10 h-10 bg-[#B45309] text-white rounded-xl flex items-center justify-center font-bold shadow-xs">
-                  <Megaphone className="w-5 h-5" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="p-8 bg-[#FFF6F2] rounded-3xl border border-[#FFE5D8] flex flex-col justify-between space-y-6 hover:shadow-md transition-all">
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-[#E0533C] text-white rounded-2xl flex items-center justify-center font-bold shadow-xs">
+                  <Megaphone className="w-6 h-6" />
                 </div>
-                <h3 className="text-base font-extrabold text-[#152238]">Resident Citizen Portal</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <h3 className="text-lg font-black text-slate-900">Resident Citizen Portal</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   Log in to track your submitted grievances, monitor neighborhood civic resolutions, upvote priority road repairs, and receive instant status updates.
                 </p>
               </div>
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
                   to="/login/citizen"
-                  className="px-4 py-2.5 bg-[#B45309] hover:bg-[#92400E] text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-6 py-3 bg-[#E0533C] hover:bg-[#c93d26] text-white font-black text-xs rounded-full shadow-sm transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
                 >
                   <span>Citizen Sign In</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/register?role=Citizen"
-                  className="text-xs text-[#B45309] font-bold hover:underline"
+                  className="text-xs text-slate-700 font-bold hover:underline"
                 >
                   Create Account
                 </Link>
               </div>
             </div>
 
-            <div className="p-6 bg-gradient-to-br from-blue-50/70 to-slate-50/40 rounded-2xl border-2 border-blue-200/80 hover:border-blue-400 transition-all flex flex-col justify-between space-y-4">
-              <div className="space-y-2">
-                <div className="w-10 h-10 bg-[#1E3A8A] text-white rounded-xl flex items-center justify-center font-bold shadow-xs">
-                  <ShieldCheck className="w-5 h-5" />
+            <div className="p-8 bg-[#F4F7FB] rounded-3xl border border-[#E1EAF5] flex flex-col justify-between space-y-6 hover:shadow-md transition-all">
+              <div className="space-y-3">
+                <div className="w-12 h-12 bg-slate-900 text-white rounded-2xl flex items-center justify-center font-bold shadow-xs">
+                  <ShieldCheck className="w-6 h-6 text-[#D4F72C]" />
                 </div>
-                <h3 className="text-base font-extrabold text-[#0F172A]">Ward Officer Control Room</h3>
-                <p className="text-xs text-slate-600 leading-relaxed">
+                <h3 className="text-lg font-black text-slate-900">Ward Officer Control Room</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   Confidential console for Assistant Municipal Commissioners and ward engineers. Manage AI severity triage, dispatch contractor squads, and fulfill SLA metrics.
                 </p>
               </div>
-              <div className="flex items-center gap-3 pt-2">
+              <div className="flex flex-wrap items-center gap-4 pt-2">
                 <Link
                   to="/login/officer"
-                  className="px-4 py-2.5 bg-[#1E3A8A] hover:bg-[#1e40af] text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-6 py-3 bg-slate-900 hover:bg-black text-white font-black text-xs rounded-full shadow-sm transition-all flex items-center gap-2 active:scale-95 cursor-pointer"
                 >
                   <span>Officer Portal</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/register?role=Officer"
-                  className="text-xs text-[#1E3A8A] font-bold hover:underline"
+                  className="text-xs text-slate-700 font-bold hover:underline"
                 >
                   Staff Onboarding
                 </Link>
@@ -492,22 +492,22 @@ export const Home: React.FC = () => {
         </section>
 
         {/* SLA & Service Standards */}
-        <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
-          <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+        <section className="bg-white rounded-3xl p-8 sm:p-12 border border-slate-100 shadow-xs space-y-6">
+          <div className="border-b border-slate-100 pb-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
             <div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#B45309]">Public Service Guarantee</span>
-              <h2 className="text-lg font-extrabold text-[#0F172A]">Redressal Process & SLA Mandates</h2>
-              <p className="text-xs text-slate-500">Standard operating procedure under the Maharashtra Right to Public Services Act</p>
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#E0533C]">Public Service Guarantee</span>
+              <h2 className="text-xl sm:text-2xl font-black text-slate-900">Redressal Process & SLA Mandates</h2>
+              <p className="text-xs sm:text-sm text-slate-500">Standard operating procedure under the Maharashtra Right to Public Services Act</p>
             </div>
-            <span className="self-start sm:self-auto px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-[11px] font-bold">
+            <span className="self-start sm:self-auto px-4 py-1.5 bg-[#D4F72C] text-slate-950 rounded-full text-xs font-black shadow-xs">
               Mandated 48h Resolution
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-1.5 hover:bg-amber-50/30 hover:border-amber-200 transition-all">
-              <div className="font-bold text-[#B45309] text-[13px] flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-full bg-amber-100 text-[#B45309] flex items-center justify-center text-[10px] font-black">1</span>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-xs">
+            <div className="bg-[#FFF8F5] p-6 rounded-2xl border border-[#FFE8DC] space-y-2 hover:shadow-xs transition-all">
+              <div className="font-black text-[#E0533C] text-sm flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-[#E0533C] text-white flex items-center justify-center text-[11px] font-black">1</span>
                 <span>Citizen Filing & Verification</span>
               </div>
               <p className="text-slate-600 leading-relaxed text-xs">
@@ -515,9 +515,9 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-1.5 hover:bg-blue-50/30 hover:border-blue-200 transition-all">
-              <div className="font-bold text-[#1E3A8A] text-[13px] flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-full bg-blue-100 text-[#1E3A8A] flex items-center justify-center text-[10px] font-black">2</span>
+            <div className="bg-[#F6F8FB] p-6 rounded-2xl border border-[#E4EBF5] space-y-2 hover:shadow-xs transition-all">
+              <div className="font-black text-slate-900 text-sm flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-[11px] font-black">2</span>
                 <span>Ward Executive Assignment</span>
               </div>
               <p className="text-slate-600 leading-relaxed text-xs">
@@ -525,9 +525,9 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-1.5 hover:bg-emerald-50/30 hover:border-emerald-200 transition-all">
-              <div className="font-bold text-emerald-700 text-[13px] flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-black">3</span>
+            <div className="bg-[#F4FBF7] p-6 rounded-2xl border border-[#DDF3E7] space-y-2 hover:shadow-xs transition-all">
+              <div className="font-black text-emerald-800 text-sm flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-emerald-700 text-white flex items-center justify-center text-[11px] font-black">3</span>
                 <span>Resolution & Closure</span>
               </div>
               <p className="text-slate-600 leading-relaxed text-xs">

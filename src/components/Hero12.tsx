@@ -4,7 +4,7 @@ import { Stats } from "../types";
 import { 
   Search, Building2, PlusCircle, MapPin, Sparkles, 
   ArrowRight, ShieldCheck, CheckCircle2, Clock, 
-  PhoneCall, Construction, Droplets, Trash2, Waves, Lightbulb
+  PhoneCall, Construction, Droplets, Trash2, Waves, Lightbulb, Camera
 } from "lucide-react";
 import "./Hero12.css";
 
@@ -24,10 +24,9 @@ export const Hero12: React.FC<Hero12Props> = ({
   setSearchQuery,
   handleSearchSubmit,
   stats,
-  backgroundImage = "https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=2000&q=85",
-  badgeText = "Brihanmumbai Municipal Corporation • Official Grievance Redressal Portal",
-  title = "Public Grievance Registration & Ward Management System",
-  description = "Empowering 21 million citizens to register, track, and verify civic resolutions across all 24 municipal wards with AI hazard screening and real-time photographic proof."
+  badgeText = "Live: All 24 Mumbai Wards Active",
+  title = "Real complaints, loud impact, nothing else.",
+  description = "Geotagged photographic reporting for 21 million citizens. Direct ward engineer dispatch in 2 hours. No red tape."
 }) => {
   const navigate = useNavigate();
 
@@ -40,184 +39,212 @@ export const Hero12: React.FC<Hero12Props> = ({
   ];
 
   return (
-    <div className="hero-12 relative my-4 text-slate-900">
-      {/* Background Media with Subtle Watermark Tone */}
-      <img
-        src={backgroundImage}
-        alt="Mumbai Urban Infrastructure"
-        className="hero-12__bg"
-      />
-      <div className="hero-12__gradient-overlay" />
-
-      {/* Main Curved Overlay Container */}
-      <div className="relative z-10 p-6 sm:p-10 lg:p-12 max-w-7xl mx-auto space-y-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+    <div className="hero-12 relative my-4 text-slate-900 bg-white">
+      {/* Top Hero Section */}
+      <div className="p-6 sm:p-12 lg:p-16 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           
-          {/* Left / Center Content Column */}
-          <div className="lg:col-span-8 space-y-5">
+          {/* Left Hero Column: Minimalist Typography & Actions */}
+          <div className="lg:col-span-7 space-y-6">
             
-            {/* Curved Header Badge */}
-            <div className="hero-12__curved-badge">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 animate-pulse" />
-              <Building2 className="w-4 h-4 text-[#B45309]" />
-              <span className="text-[11px] sm:text-xs font-bold text-slate-700 tracking-wide">
-                {badgeText}
-              </span>
+            {/* Pill Capsule Badge */}
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF0EB] border border-[#FFE0D4] text-[#E0533C] text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-[#E0533C] animate-pulse" />
+              <span>{badgeText}</span>
             </div>
 
-            {/* Headline with High Contrast Oxford Navy */}
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight leading-[1.15] text-[#0F172A]">
+            {/* Huge Bold Headline */}
+            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-slate-900 leading-[1.06]">
               {title}
             </h1>
 
-            {/* Explanatory Subtitle */}
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-medium max-w-2xl">
+            {/* Subtitle */}
+            <p className="text-base sm:text-lg text-slate-500 font-medium max-w-xl leading-relaxed">
               {description}
             </p>
 
-            {/* Clean White Search Bar */}
-            <form
-              onSubmit={handleSearchSubmit}
-              className="p-1.5 bg-white border-2 border-slate-300 focus-within:border-[#B45309] rounded-2xl shadow-md flex flex-col sm:flex-row items-center gap-2 max-w-2xl transition-all"
-            >
-              <div className="relative flex-1 w-full">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                <input
-                  type="text"
-                  aria-label="Search grievance by registration number or keyword"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Enter Grievance Ref No. (#BMC-2026-...) or keyword (e.g. Potholes, Ward G-North)..."
-                  className="w-full pl-10 pr-4 py-3 bg-transparent text-slate-900 placeholder-slate-400 font-medium text-xs sm:text-sm focus:outline-none"
-                />
-              </div>
+            {/* CTA Buttons */}
+            <div className="flex flex-wrap items-center gap-5 pt-2">
+              <button
+                type="button"
+                onClick={() => navigate("/report")}
+                className="px-8 py-4 bg-[#D4F72C] hover:bg-[#c2eb1c] text-slate-950 font-black text-sm rounded-full shadow-md hover:shadow-lg transition-all flex items-center gap-2.5 active:scale-95 group cursor-pointer"
+              >
+                <span>File a grievance</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              </button>
 
               <button
-                type="submit"
-                className="w-full sm:w-auto px-6 py-3 bg-[#B45309] hover:bg-[#92400E] text-white font-extrabold text-xs sm:text-sm rounded-xl transition-all shrink-0 flex items-center justify-center gap-2 shadow-sm active:scale-95 uppercase tracking-wider"
+                type="button"
+                onClick={() => navigate("/dashboard")}
+                className="text-slate-800 hover:text-slate-950 font-bold text-sm underline underline-offset-4 decoration-2 decoration-slate-300 hover:decoration-slate-800 transition-all cursor-pointer"
               >
-                <Search className="w-4 h-4" />
-                <span>Search Portal</span>
+                See active resolutions
               </button>
-            </form>
-
-            {/* Quick Filter Department Tags */}
-            <div className="flex flex-wrap items-center gap-2 pt-1">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide mr-1">
-                Quick Category:
-              </span>
-              {quickCategories.map((cat) => {
-                const Icon = cat.icon;
-                return (
-                  <button
-                    key={cat.name}
-                    type="button"
-                    onClick={() => navigate(`/dashboard?category=${encodeURIComponent(cat.category)}`)}
-                    className="px-3 py-1.5 rounded-xl bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-400 text-slate-700 hover:text-amber-900 text-[11px] font-semibold transition-all flex items-center gap-1.5 shadow-2xs hover:scale-105 active:scale-95"
-                  >
-                    <Icon className="w-3.5 h-3.5 text-[#B45309]" />
-                    <span>{cat.name}</span>
-                  </button>
-                );
-              })}
             </div>
           </div>
 
-          {/* Right Crisp Card: Quick Direct Actions */}
-          <div className="lg:col-span-4 hero-12__curved-card p-6 sm:p-7 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-200 pb-3">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-[#B45309]" />
-                <span className="text-xs font-black uppercase tracking-wider text-[#0F172A]">
-                  Civic Emergency & SLA
-                </span>
+          {/* Right Hero Column: Organic Circular Visual with 3 Feature Pillars */}
+          <div className="lg:col-span-5 flex justify-center">
+            <div className="relative w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-[#FFEAE0] flex items-center justify-center shadow-inner">
+              
+              {/* 3 Floating 3D-styled Pillar Canisters */}
+              <div className="flex items-end justify-center gap-3 sm:gap-4 z-10">
+                
+                {/* Pillar 1: Lime - Citizen App */}
+                <div 
+                  onClick={() => navigate("/report")}
+                  className="w-20 sm:w-24 h-48 sm:h-60 rounded-full bg-gradient-to-b from-[#E2FD52] to-[#BEEB12] shadow-xl p-3 flex flex-col justify-between items-center text-slate-950 hover:-translate-y-2 transition-transform cursor-pointer border-2 border-white"
+                >
+                  <div className="w-8 h-8 rounded-full bg-white/80 flex items-center justify-center shadow-xs mt-2">
+                    <Camera className="w-4 h-4 text-slate-900" />
+                  </div>
+                  <div className="bg-white/90 backdrop-blur-xs rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-wider text-slate-900">
+                    Snap
+                  </div>
+                  <div className="text-[10px] font-black tracking-widest uppercase mb-3">
+                    CITIZEN
+                  </div>
+                </div>
+
+                {/* Pillar 2: Coral - Ward Dispatch */}
+                <div 
+                  onClick={() => navigate("/officers")}
+                  className="w-22 sm:w-28 h-56 sm:h-72 rounded-full bg-gradient-to-b from-[#FF5C38] to-[#E03A14] shadow-2xl p-3 flex flex-col justify-between items-center text-white hover:-translate-y-2 transition-transform cursor-pointer border-2 border-white relative -mt-4"
+                >
+                  <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-xs flex items-center justify-center shadow-xs mt-2">
+                    <Building2 className="w-5 h-5 text-white" />
+                  </div>
+                  <div className="bg-white text-slate-900 rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider shadow-sm">
+                    24 Wards
+                  </div>
+                  <div className="text-[11px] font-black tracking-widest uppercase mb-3 text-white">
+                    DISPATCH
+                  </div>
+                </div>
+
+                {/* Pillar 3: Charcoal - Resolution */}
+                <div 
+                  onClick={() => navigate("/dashboard")}
+                  className="w-20 sm:w-24 h-48 sm:h-60 rounded-full bg-gradient-to-b from-[#2D3748] to-[#1A202C] shadow-xl p-3 flex flex-col justify-between items-center text-white hover:-translate-y-2 transition-transform cursor-pointer border-2 border-white"
+                >
+                  <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shadow-xs mt-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                  </div>
+                  <div className="bg-white/20 backdrop-blur-xs rounded-full px-2 py-1 text-[9px] font-black uppercase tracking-wider text-emerald-300">
+                    Proof
+                  </div>
+                  <div className="text-[10px] font-black tracking-widest uppercase mb-3 text-slate-200">
+                    RESOLVED
+                  </div>
+                </div>
               </div>
-              <span className="px-2 py-0.5 bg-amber-100 border border-amber-300 text-amber-800 text-[10px] font-black rounded-md uppercase">
-                24x7 Active
-              </span>
-            </div>
 
-            <div className="space-y-2.5">
-              <Link
-                to="/report"
-                className="w-full p-3.5 bg-[#B45309] hover:bg-[#92400E] text-white rounded-xl font-black text-xs shadow-md transition-all flex items-center justify-between group active:scale-95"
-              >
-                <div className="flex items-center gap-2.5">
-                  <PlusCircle className="w-4 h-4" />
-                  <span>Report Civic Grievance</span>
-                </div>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-
-              <Link
-                to="/map"
-                className="w-full p-3.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-800 rounded-xl font-bold text-xs transition-all flex items-center justify-between group active:scale-95"
-              >
-                <div className="flex items-center gap-2.5">
-                  <MapPin className="w-4 h-4 text-[#B45309]" />
-                  <span>Explore Mumbai Ward Map</span>
-                </div>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-
-              <div className="p-3 bg-slate-50 rounded-xl border border-slate-200 flex items-center justify-between text-xs text-slate-700 font-mono">
-                <div className="flex items-center gap-2">
-                  <PhoneCall className="w-3.5 h-3.5 text-emerald-600" />
-                  <span className="font-sans font-semibold">Emergency Helpline:</span>
-                </div>
-                <span className="font-extrabold text-[#0F172A] bg-white border border-slate-200 px-2 py-0.5 rounded text-[11px] shadow-2xs">
-                  1916 (Toll-Free)
-                </span>
+              {/* Floating SLA Badge */}
+              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 bg-white/95 backdrop-blur-md border border-slate-100 rounded-2xl p-3.5 shadow-xl text-center z-20 hover:scale-105 transition-transform">
+                <div className="text-2xl font-black text-slate-900 leading-none">48h</div>
+                <div className="text-[10px] text-slate-500 font-bold tracking-tight mt-1">SLA guarantee</div>
               </div>
-            </div>
-
-            <div className="text-[10px] text-slate-500 text-center pt-1 border-t border-slate-100 font-sans">
-              Right to Public Services Act SLA Mandate: <strong className="text-slate-800">24h - 48h Resolution</strong>
             </div>
           </div>
         </div>
 
-        {/* Bottom Clean Metrics Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5 pt-2">
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
-            <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider flex items-center justify-between">
-              <span>Total Registered</span>
-              <Building2 className="w-3.5 h-3.5 text-slate-400" />
+        {/* Sub-Hero Section Card: Soft Tinted Clean Card with Search & Telemetry */}
+        <div className="mt-12 bg-[#FFF6F2] rounded-3xl p-6 sm:p-10 space-y-8 border border-[#FFE5D8]">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <span className="text-[11px] font-black uppercase tracking-wider text-[#E0533C]">
+                Search Grievance Database
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight mt-1">
+                The entire redressal pipeline fits on your screen.
+              </h2>
             </div>
-            <div className="text-2xl font-black text-[#0F172A]">{stats?.total || 5}</div>
-            <div className="text-[10px] text-slate-500">Across 24 Wards</div>
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-600">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>Real-Time Officer Dispatch Hub</span>
+            </div>
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
-            <div className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider flex items-center justify-between">
-              <span>Resolved & Closed</span>
-              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+          {/* Minimalist Pill Search Bar */}
+          <form
+            onSubmit={handleSearchSubmit}
+            className="p-2 bg-white rounded-full shadow-sm border border-slate-200 focus-within:border-slate-400 flex flex-col sm:flex-row items-center gap-2 transition-all"
+          >
+            <div className="relative flex-1 w-full">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <input
+                type="text"
+                aria-label="Search grievance by registration number or keyword"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by Ref No. (#BMC-2026-...) or keyword (e.g. Potholes, Dadar, Ward K-West)..."
+                className="w-full pl-11 pr-4 py-3 bg-transparent text-slate-900 placeholder-slate-400 font-medium text-xs sm:text-sm focus:outline-none"
+              />
             </div>
-            <div className="text-2xl font-black text-emerald-700">{stats?.resolved || 1}</div>
-            <div className="text-[10px] text-emerald-600">Field Verified with Proof</div>
+
+            <button
+              type="submit"
+              className="w-full sm:w-auto px-7 py-3 bg-slate-900 hover:bg-black text-white font-bold text-xs sm:text-sm rounded-full transition-all shrink-0 flex items-center justify-center gap-2 shadow-xs active:scale-95 cursor-pointer"
+            >
+              <Search className="w-4 h-4" />
+              <span>Search</span>
+            </button>
+          </form>
+
+          {/* Quick Category Chips */}
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wide mr-1">
+              Popular:
+            </span>
+            {quickCategories.map((cat) => {
+              const Icon = cat.icon;
+              return (
+                <button
+                  key={cat.name}
+                  type="button"
+                  onClick={() => navigate(`/dashboard?category=${encodeURIComponent(cat.category)}`)}
+                  className="px-3.5 py-1.5 rounded-full bg-white hover:bg-slate-900 hover:text-white border border-slate-200 text-slate-800 text-xs font-bold transition-all flex items-center gap-1.5 shadow-2xs hover:scale-105 active:scale-95 cursor-pointer"
+                >
+                  <Icon className="w-3.5 h-3.5 text-[#E0533C]" />
+                  <span>{cat.name}</span>
+                </button>
+              );
+            })}
           </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
-            <div className="text-[10px] font-bold text-amber-700 uppercase tracking-wider flex items-center justify-between">
-              <span>Field Action Dispatched</span>
-              <ShieldCheck className="w-3.5 h-3.5 text-amber-600" />
+          {/* 4 Bottom Telemetry Cards */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-4 border-t border-[#FFE5D8]">
+            <div className="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-slate-400">Total Registered</span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900">
+                {stats?.total || "38"}
+              </div>
             </div>
-            <div className="text-2xl font-black text-amber-700">{stats?.inProgress || 2}</div>
-            <div className="text-[10px] text-amber-600">Active Work Orders</div>
-          </div>
 
-          <div className="bg-white p-4 rounded-xl border border-slate-200 shadow-xs space-y-1">
-            <div className="text-[10px] font-bold text-blue-700 uppercase tracking-wider flex items-center justify-between">
-              <span>Avg. SLA Turnaround</span>
-              <Clock className="w-3.5 h-3.5 text-blue-600" />
+            <div className="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-emerald-600">Resolved & Closed</span>
+              <div className="text-2xl sm:text-3xl font-black text-emerald-700">
+                {stats?.resolved || "24"}
+              </div>
             </div>
-            <div className="text-2xl font-black text-blue-700">24.8 Hrs</div>
-            <div className="text-[10px] text-blue-600">Public Service Guarantee</div>
+
+            <div className="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-amber-600">Field Dispatched</span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900">
+                {stats?.inProgress || "11"}
+              </div>
+            </div>
+
+            <div className="p-4 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-1">
+              <span className="text-[10px] font-black uppercase tracking-wider text-blue-600">Avg. Turnaround</span>
+              <div className="text-2xl sm:text-3xl font-black text-slate-900">
+                24.8 Hrs
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   );
 };
-
-export default Hero12;
