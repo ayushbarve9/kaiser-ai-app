@@ -1,6 +1,7 @@
 import React, { useState, useRef } from "react";
 import { extractLocationFromPhoto } from "../utils/exifReader";
-import { MumbaiWard } from "../types";
+import { MumbaiWard, AIVerifyImageResult } from "../types";
+import { complaintService } from "../services/api";
 import { 
   Camera, 
   Upload, 
@@ -15,7 +16,10 @@ import {
   Award, 
   CheckCircle2, 
   RefreshCw,
-  Search
+  Search,
+  ShieldAlert,
+  AlertTriangle,
+  Loader2
 } from "lucide-react";
 
 interface PhotoWardFetcherProps {
@@ -27,6 +31,7 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [verificationResult, setVerificationResult] = useState<AIVerifyImageResult | null>(null);
   const [detectionResult, setDetectionResult] = useState<{
     lat: number;
     lng: number;
@@ -36,8 +41,27 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
     distanceKm: number;
   } | null>(null);
 
+  const verifyAndProcessImage = async (dataUrlOrFile: string | File) => {
+    try {
+      const urlForVerify = typeof dataUrlOrFile === "string" ? dataUrlOrFile : await new Promise<string>((res) => {
+        const r = new FileReader();
+        r.onloadend = () => res(r.result as string);
+        r.readAsDataURL(dataUrlOrFile);
+      });
+
+      const verifyRes = await complaintService.verifyImage({
+        imageUrl: urlForVerify,
+        category: "Civic",
+      });
+      setVerificationResult(verifyRes.data);
+    } catch (e) {
+      console.warn("AI photo screening failed", e);
+    }
+  };
+
   const processPhotoFile = async (file: File) => {
     setIsProcessing(true);
+    setVerificationResult(null);
     const reader = new FileReader();
     reader.onloadend = async () => {
       const dataUrl = reader.result as string;
@@ -46,6 +70,9 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
       // Extract EXIF GPS and Ward info
       const result = await extractLocationFromPhoto(file);
       setDetectionResult(result);
+      
+      // Also run AI image verification in parallel
+      await verifyAndProcessImage(dataUrl);
       setIsProcessing(false);
     };
     reader.readAsDataURL(file);
@@ -53,10 +80,12 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
 
   const processSamplePhoto = async (sampleUrl: string) => {
     setIsProcessing(true);
+    setVerificationResult(null);
     setPhotoPreview(sampleUrl);
 
     const result = await extractLocationFromPhoto(sampleUrl);
     setDetectionResult(result);
+    await verifyAndProcessImage(sampleUrl);
     setIsProcessing(false);
   };
 
@@ -148,7 +177,7 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
       ) : (
         /* Scanned Result Card */
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          {/* Photo Thumbnail */}
+          {/* Photo Thumbnail & Verification State */}
           <div className="lg:col-span-4 space-y-3">
             <div className="relative rounded-2xl overflow-hidden border border-slate-700 bg-black/40">
               <img
@@ -158,13 +187,33 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
               />
               <div className="absolute bottom-2 left-2 right-2 px-2.5 py-1 bg-slate-900/90 backdrop-blur-md rounded-lg text-[10px] font-bold text-teal-300 flex items-center justify-between border border-slate-700">
                 <span>
-                  {detectionResult?.hasExifGps ? "📸 EXIF Geotag Found" : "🗺️ Location Mapped"}
+                  {detectionResult?.hasExifGps ? "📸 EXIF Geotag Found" : "🗺️ Location Fallback"}
                 </span>
                 <span>
                   {detectionResult?.lat}, {detectionResult?.lng}
                 </span>
               </div>
             </div>
+
+            {/* AI Image Content Screening Alert */}
+            {verificationResult && (
+              verificationResult.isValidCivicIssue === false ? (
+                <div className="p-3 bg-red-500/15 border border-red-500/40 rounded-xl text-red-200 text-xs space-y-1">
+                  <div className="flex items-center gap-1.5 font-bold text-red-400">
+                    <ShieldAlert className="w-4 h-4 shrink-0" />
+                    <span>Non-Civic Image Detected</span>
+                  </div>
+                  <p className="text-[11px] text-red-300">
+                    AI identified: <strong className="text-white">{verificationResult.detectedObject}</strong>. Digital screenshots do not possess hardware camera GPS geotags.
+                  </p>
+                </div>
+              ) : (
+                <div className="p-2.5 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs font-semibold flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-400" />
+                  <span>Verified Civic Subject: {verificationResult.detectedObject}</span>
+                </div>
+              )
+            )}
 
             {detectionResult?.hasExifGps ? (
               <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-xl text-emerald-300 text-xs font-semibold flex items-center gap-2">
@@ -174,7 +223,7 @@ export const PhotoWardFetcher: React.FC<PhotoWardFetcherProps> = ({ onSelectWard
             ) : (
               <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl text-amber-300 text-xs font-semibold flex items-center gap-2">
                 <Sparkles className="w-4 h-4 shrink-0 text-amber-400" />
-                <span>Mapped to nearest Mumbai administrative jurisdiction center.</span>
+                <span>No EXIF Geotag found in file (typical for screenshots). Defaulted to Ward HQ.</span>
               </div>
             )}
           </div>
