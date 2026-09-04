@@ -6,11 +6,14 @@ import { ComplaintCard } from "../components/ComplaintCard";
 import { MumbaiMap } from "../components/MumbaiMap";
 import { PhotoWardFetcher } from "../components/PhotoWardFetcher";
 import { ScrollExpand } from "../components/ScrollExpand";
+import { OptionWheel } from "../components/OptionWheel";
+import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, Flame, ArrowRight, CloudRain, Cpu,
   Construction, Droplets, Trash2, Waves, Lightbulb, Bug,
-  FileText, Megaphone, PhoneCall, Building2, Clock, Sparkles
+  FileText, Megaphone, PhoneCall, Building2, Clock, Sparkles,
+  Award, Mail, Phone, Compass, RotateCw
 } from "lucide-react";
 
 export const Home: React.FC = () => {
@@ -21,6 +24,12 @@ export const Home: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [weatherAlert, setWeatherAlert] = useState<any>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedWardWheelIndex, setSelectedWardWheelIndex] = useState(4); // Default to Ward H-West (Bandra)
+
+  const wardWheelItems = MUMBAI_WARDS_DATA.map(
+    (w) => `Ward ${w.code} • ${w.areas[0] || w.name.split("(")[1]?.replace(")", "") || w.name}`
+  );
+  const activeWheelWard = MUMBAI_WARDS_DATA[selectedWardWheelIndex] || MUMBAI_WARDS_DATA[0];
 
   useEffect(() => {
     loadHomeData();
@@ -229,6 +238,171 @@ export const Home: React.FC = () => {
           </div>
 
           <MumbaiMap complaints={allComplaints} height="400px" />
+        </section>
+
+        {/* ========================================================================= */}
+        {/* REACT BITS OPTION-WHEEL 24-WARD JURISDICTIONAL ROTARY DIAL                */}
+        {/* ========================================================================= */}
+        <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-[#0A1922] text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-black uppercase tracking-wider">
+                  Interactive 3D Rotary Selector
+                </span>
+                <span className="text-orange-400 text-xs font-bold flex items-center gap-1">
+                  <Compass className="w-3.5 h-3.5" /> 24 Wards Direct Telemetry
+                </span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white mt-1.5 tracking-tight">
+                24-Ward Municipal Executive Wheel
+              </h2>
+              <p className="text-xs text-slate-300 mt-0.5 max-w-2xl">
+                Spin the interactive dial or drag options to instantly inspect administrative boundaries, assigned Assistant Municipal Commissioners, 24x7 control room helplines, and live SLA resolution rates.
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2 text-[11px] text-slate-400 font-mono bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-800 shrink-0">
+              <RotateCw className="w-3.5 h-3.5 text-orange-400 animate-spin-slow" />
+              <span>Scroll, Click or Drag Wheel</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+            {/* Left: 3D OptionWheel Rotary Dial */}
+            <div className="lg:col-span-6 bg-slate-900/60 rounded-2xl border border-slate-800/80 p-3 relative h-[360px] overflow-hidden shadow-inner flex items-center">
+              <div className="absolute top-3 left-4 z-10 text-[10px] uppercase font-bold text-slate-400 tracking-wider flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+                <span>Select Administrative Zone:</span>
+              </div>
+
+              {/* Center Active Indicator Line */}
+              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-14 bg-gradient-to-r from-orange-500/15 via-orange-500/25 to-transparent border-y border-orange-500/30 pointer-events-none z-0" />
+
+              <OptionWheel
+                items={wardWheelItems}
+                defaultSelected={selectedWardWheelIndex}
+                onChange={(index) => setSelectedWardWheelIndex(index)}
+                side="left"
+                fontSize={1.4}
+                spacing={1.7}
+                curve={1.1}
+                tilt={7}
+                blur={1.5}
+                fade={0.3}
+                minOpacity={0.15}
+                smoothing={180}
+                inset={36}
+                loop={true}
+                draggable={true}
+                textColor="#94a3b8"
+                activeColor="#ffffff"
+                className="h-full z-10"
+              />
+            </div>
+
+            {/* Right: Dynamic Ward Executive Dossier Card */}
+            <div className="lg:col-span-6 bg-gradient-to-br from-slate-900/90 via-slate-800/70 to-slate-900/90 rounded-2xl border border-slate-700/80 p-6 space-y-5 shadow-xl">
+              <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-4">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span className="px-2.5 py-0.5 bg-orange-600 text-white font-black text-xs rounded-md uppercase">
+                      Ward {activeWheelWard.code}
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">
+                      {activeWheelWard.railwayCorridor} Zone
+                    </span>
+                  </div>
+                  <h3 className="text-lg sm:text-xl font-black text-white mt-1">
+                    {activeWheelWard.name}
+                  </h3>
+                  <p className="text-xs text-slate-300 mt-1 line-clamp-1">
+                    Coverage: {activeWheelWard.areaDescription}
+                  </p>
+                </div>
+
+                <div className="text-right shrink-0">
+                  <div className="text-xs font-bold text-slate-400 uppercase tracking-wider">City Rank</div>
+                  <div className="text-xl font-black text-amber-400">
+                    #{activeWheelWard.officer.rank || 1}
+                  </div>
+                </div>
+              </div>
+
+              {/* Officer Bio Row */}
+              <div className="flex items-center gap-4 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+                <img
+                  src={activeWheelWard.officer.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"}
+                  alt={activeWheelWard.officer.name}
+                  className="w-13 h-13 rounded-full object-cover border-2 border-orange-500 shadow-md shrink-0"
+                />
+                <div className="space-y-0.5 text-xs flex-1">
+                  <span className="text-[10px] font-bold text-orange-400 uppercase tracking-wide block">
+                    Assigned Assistant Municipal Commissioner
+                  </span>
+                  <p className="font-extrabold text-white text-sm">
+                    {activeWheelWard.officer.name}
+                  </p>
+                  <p className="text-slate-400 text-[11px]">
+                    {activeWheelWard.officer.designation}
+                  </p>
+                </div>
+              </div>
+
+              {/* Metrics Grid */}
+              <div className="grid grid-cols-3 gap-2.5 text-center text-xs">
+                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Resolution Rate</span>
+                  <span className="text-sm font-black text-emerald-400 mt-0.5 block">
+                    {activeWheelWard.officer.resolutionRate}%
+                  </span>
+                </div>
+                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Avg. SLA Time</span>
+                  <span className="text-sm font-black text-blue-400 mt-0.5 block">
+                    {activeWheelWard.officer.avgResolutionDays} Days
+                  </span>
+                </div>
+                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800">
+                  <span className="text-[10px] text-slate-400 uppercase font-bold block">Air Quality</span>
+                  <span className="text-sm font-black text-amber-400 mt-0.5 block">
+                    {activeWheelWard.weatherAndAqi?.aqi || 120} AQI
+                  </span>
+                </div>
+              </div>
+
+              {/* Contact & Action CTA */}
+              <div className="space-y-3 pt-1">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-300 gap-2 font-mono text-[11px]">
+                  <div className="flex items-center gap-1.5">
+                    <Phone className="w-3.5 h-3.5 text-orange-400" />
+                    <span>Control Room: {activeWheelWard.officer.contact}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5">
+                    <Building2 className="w-3.5 h-3.5 text-orange-400" />
+                    <span>Hubs: {activeWheelWard.primaryRailwayStations}</span>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                  <button
+                    onClick={() => navigate(`/dashboard?ward=${activeWheelWard.id}`)}
+                    className="w-full py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-black text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    <Search className="w-3.5 h-3.5" />
+                    <span>View Ward {activeWheelWard.code} Tickets</span>
+                  </button>
+                  <button
+                    onClick={() => navigate(`/report?ward=${activeWheelWard.code}`)}
+                    className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 active:scale-95"
+                  >
+                    <PlusCircle className="w-3.5 h-3.5 text-orange-400" />
+                    <span>File Complaint Here</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Priority Grievance Queue */}
