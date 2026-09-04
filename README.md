@@ -107,7 +107,7 @@ KAISER AI is a next-generation municipal grievance redressal and smart city mana
 │       ├── ReportPage.tsx    # Citizen complaint submission page
 │       ├── ComplaintDetailsPage.tsx # Detailed report view & officer actions
 │       └── AdminPage.tsx     # Officer Command Center & analytics
-├── .env.example              # Environment key blueprint
+├── .env.example              # Environment key blueprint for system
 ├── ARCHITECTURE.md           # Deep-dive system architecture
 └── package.json              # Package manifest & build scripts
 ```
