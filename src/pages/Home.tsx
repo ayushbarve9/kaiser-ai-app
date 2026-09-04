@@ -462,27 +462,27 @@ export const Home: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-6 bg-[#152238] text-white rounded-2xl border-2 border-slate-700 hover:border-amber-500 transition-all flex flex-col justify-between space-y-4">
+            <div className="p-6 bg-gradient-to-br from-blue-50/70 to-slate-50/40 rounded-2xl border-2 border-blue-200/80 hover:border-blue-400 transition-all flex flex-col justify-between space-y-4">
               <div className="space-y-2">
-                <div className="w-10 h-10 bg-[#D97706] text-slate-950 rounded-xl flex items-center justify-center font-black shadow-xs">
+                <div className="w-10 h-10 bg-[#1E3A8A] text-white rounded-xl flex items-center justify-center font-bold shadow-xs">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-extrabold text-white">Ward Officer Control Room</h3>
-                <p className="text-xs text-slate-300 leading-relaxed">
+                <h3 className="text-base font-extrabold text-[#0F172A]">Ward Officer Control Room</h3>
+                <p className="text-xs text-slate-600 leading-relaxed">
                   Confidential console for Assistant Municipal Commissioners and ward engineers. Manage AI severity triage, dispatch contractor squads, and fulfill SLA metrics.
                 </p>
               </div>
               <div className="flex items-center gap-3 pt-2">
                 <Link
                   to="/login/officer"
-                  className="px-4 py-2.5 bg-[#D97706] hover:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-[#1E3A8A] hover:bg-[#1e40af] text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <span>Officer Portal</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/register?role=Officer"
-                  className="text-xs text-amber-300 font-bold hover:underline"
+                  className="text-xs text-[#1E3A8A] font-bold hover:underline"
                 >
                   Staff Onboarding
                 </Link>
@@ -492,31 +492,45 @@ export const Home: React.FC = () => {
         </section>
 
         {/* SLA & Service Standards */}
-        <section className="bg-[#152238] text-white rounded-2xl p-6 border border-slate-700 shadow-sm space-y-4">
-          <div className="border-b border-slate-700/80 pb-3">
-            <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">Public Service Guarantee</span>
-            <h2 className="text-lg font-extrabold text-white">Redressal Process & SLA Mandates</h2>
-            <p className="text-xs text-slate-300">Standard operating procedure under the Maharashtra Right to Public Services Act</p>
+        <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-5">
+          <div className="border-b border-slate-100 pb-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-[#B45309]">Public Service Guarantee</span>
+              <h2 className="text-lg font-extrabold text-[#0F172A]">Redressal Process & SLA Mandates</h2>
+              <p className="text-xs text-slate-500">Standard operating procedure under the Maharashtra Right to Public Services Act</p>
+            </div>
+            <span className="self-start sm:self-auto px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-[11px] font-bold">
+              Mandated 48h Resolution
+            </span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="bg-[#111C30] p-4 rounded-xl border border-slate-700 space-y-1">
-              <div className="font-bold text-amber-400">1. Citizen Filing & Verification</div>
-              <p className="text-slate-300 leading-relaxed">
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-1.5 hover:bg-amber-50/30 hover:border-amber-200 transition-all">
+              <div className="font-bold text-[#B45309] text-[13px] flex items-center gap-1.5">
+                <span className="w-5 h-5 rounded-full bg-amber-100 text-[#B45309] flex items-center justify-center text-[10px] font-black">1</span>
+                <span>Citizen Filing & Verification</span>
+              </div>
+              <p className="text-slate-600 leading-relaxed text-xs">
                 Geotagged image submission with automated location ward tagging and AI tamper validation.
               </p>
             </div>
 
-            <div className="bg-[#111C30] p-4 rounded-xl border border-slate-700 space-y-1">
-              <div className="font-bold text-amber-400">2. Ward Executive Assignment</div>
-              <p className="text-slate-300 leading-relaxed">
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-1.5 hover:bg-blue-50/30 hover:border-blue-200 transition-all">
+              <div className="font-bold text-[#1E3A8A] text-[13px] flex items-center gap-1.5">
+                <span className="w-5 h-5 rounded-full bg-blue-100 text-[#1E3A8A] flex items-center justify-center text-[10px] font-black">2</span>
+                <span>Ward Executive Assignment</span>
+              </div>
+              <p className="text-slate-600 leading-relaxed text-xs">
                 Direct dispatch to designated Ward Assistant Commissioner & field repair teams within 2 hours.
               </p>
             </div>
 
-            <div className="bg-[#111C30] p-4 rounded-xl border border-slate-700 space-y-1">
-              <div className="font-bold text-emerald-400">3. Resolution & Closure</div>
-              <p className="text-slate-300 leading-relaxed">
+            <div className="bg-slate-50 p-4 rounded-xl border border-slate-200/80 space-y-1.5 hover:bg-emerald-50/30 hover:border-emerald-200 transition-all">
+              <div className="font-bold text-emerald-700 text-[13px] flex items-center gap-1.5">
+                <span className="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center text-[10px] font-black">3</span>
+                <span>Resolution & Closure</span>
+              </div>
+              <p className="text-slate-600 leading-relaxed text-xs">
                 Field team uploads verified after-completion photo evidence before ticket closure in portal.
               </p>
             </div>
