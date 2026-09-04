@@ -5,11 +5,12 @@ import { Complaint, Stats } from "../types";
 import { ComplaintCard } from "../components/ComplaintCard";
 import { MumbaiMap } from "../components/MumbaiMap";
 import { PhotoWardFetcher } from "../components/PhotoWardFetcher";
+import { ScrollExpand } from "../components/ScrollExpand";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, Flame, ArrowRight, CloudRain, Cpu,
   Construction, Droplets, Trash2, Waves, Lightbulb, Bug,
-  FileText, Megaphone, PhoneCall, Building2, Clock
+  FileText, Megaphone, PhoneCall, Building2, Clock, Sparkles
 } from "lucide-react";
 
 export const Home: React.FC = () => {
@@ -249,6 +250,55 @@ export const Home: React.FC = () => {
               <ComplaintCard key={complaint.id} complaint={complaint} onUpvote={loadHomeData} />
             ))}
           </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* REACT BITS SCROLL-EXPAND CIVIC EXPERIENCE SHOWCASE                        */}
+        {/* ========================================================================= */}
+        <section className="relative w-full rounded-3xl overflow-hidden border border-slate-300 shadow-xl bg-slate-900">
+          <ScrollExpand
+            src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1800&q=85"
+            alt="Mumbai Coastal Road Infrastructure"
+            title="Building a Smarter, Safer Mumbai"
+            scrollHint="Scroll down to expand view"
+            useWindowScroll={true}
+            mediaZoom={1.35}
+            startWidth={48}
+            startHeight={64}
+            startRadius={24}
+            endRadius={0}
+            scrollDistance={0.9}
+            holdDistance={0.25}
+            overlayScrim={0.55}
+          >
+            <div className="max-w-2xl text-white space-y-4 p-6 sm:p-8 bg-black/60 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-orange-600 rounded-full text-[11px] font-black uppercase tracking-wider text-white shadow-md">
+                <Sparkles className="w-3.5 h-3.5" /> 24 Wards Synchronized
+              </div>
+              <h2 className="text-xl sm:text-3xl font-black tracking-tight leading-snug text-white">
+                Every Ward. Every Street. Verified Civic Action.
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
+                From real-time potholes detection to automated resolution notices sent straight to your email, CivicConnect puts municipal transparency into the palm of your hand.
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+                <Link
+                  to="/report"
+                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-black rounded-xl shadow-lg transition-all active:scale-95 flex items-center gap-2"
+                >
+                  <PlusCircle className="w-4 h-4" />
+                  <span>File a Grievance</span>
+                </Link>
+                <Link
+                  to="/map"
+                  className="px-5 py-2.5 bg-white/20 hover:bg-white/30 text-white text-xs font-bold rounded-xl backdrop-blur-md transition-all border border-white/20 flex items-center gap-2"
+                >
+                  <MapPin className="w-4 h-4 text-amber-400" />
+                  <span>Explore Mumbai Map</span>
+                </Link>
+              </div>
+            </div>
+          </ScrollExpand>
         </section>
 
         {/* Dual Authentication Gateway Section */}
