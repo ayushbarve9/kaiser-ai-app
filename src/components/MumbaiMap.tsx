@@ -115,7 +115,7 @@ export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   center = [19.076, 72.877],
 }) => {
   const navigate = useNavigate();
-  const [useFallbackMap, setUseFallbackMap] = useState(false);
+  const [useFallbackMap, setUseFallbackMap] = useState(!hasValidKey);
 
   // If valid key is present and user didn't explicitly request fallback, render Google Maps
   if (hasValidKey && !useFallbackMap) {
