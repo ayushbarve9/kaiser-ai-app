@@ -1,18 +1,19 @@
-/* Hero 12 - Ultra-Clean Minimalist Style */
+/* Hero 12 - React Bits Pro Apple Minimal Style */
 .hero-12 {
   position: relative;
   width: 100%;
-  overflow: hidden;
-  border-radius: 2rem;
+  border-radius: 32px;
   background-color: #ffffff;
-  border: 1px solid #f1f5f9;
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Inter", sans-serif;
+  letter-spacing: -0.015em;
 }
 
 .hero-12__curved-card {
   position: relative;
   background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 24px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
 }
