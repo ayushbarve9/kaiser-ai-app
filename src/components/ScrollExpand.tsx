@@ -146,22 +146,37 @@ export const ScrollExpand: React.FC<ScrollExpandProps> = ({
 
     const measure = () => {
       const c = propsRef.current;
-      stageH = c.useWindowScroll ? window.innerHeight : root.clientHeight;
-      if (stageH <= 0) return;
+      const rect = root.getBoundingClientRect();
+      // If root has defined inline/CSS height (e.g. 480px-560px), respect it, else calculate a balanced stage height
+      if (root.clientHeight > 0 && root.style.height) {
+        stageH = root.clientHeight;
+      } else if (c.useWindowScroll) {
+        stageH = Math.min(window.innerHeight * 0.75, 540);
+      } else {
+        stageH = root.clientHeight > 0 ? root.clientHeight : 500;
+      }
+
+      if (stageH <= 0) stageH = 500;
       stage.style.height = `${stageH}px`;
-      track.style.height = `${stageH * (1 + Math.max(0, c.scrollDistance) + Math.max(0, c.holdDistance))}px`;
+      
+      // Calculate a compact track height without excessive trailing space
+      const sDist = Math.max(0.2, c.scrollDistance);
+      const hDist = Math.max(0, c.holdDistance);
+      track.style.height = `${stageH * (1 + sDist + hDist)}px`;
 
       const w = root.clientWidth || stageH;
-      stage.style.setProperty('--se-title-size', `${clamp(w * 0.075, 20, 84)}px`);
+      stage.style.setProperty('--se-title-size', `${clamp(w * 0.055, 22, 54)}px`);
     };
 
     const readProgress = () => {
       const c = propsRef.current;
       if (!c.enabled) return 1;
-      const span = stageH * Math.max(0.01, c.scrollDistance);
+      const sDist = Math.max(0.2, c.scrollDistance);
+      const span = stageH * sDist;
       if (c.useWindowScroll) {
         const top = track.getBoundingClientRect().top;
-        return clamp(-top / span, 0, 1);
+        const triggerPoint = window.innerHeight * 0.4;
+        return clamp((triggerPoint - top) / span, 0, 1);
       }
       return clamp(root.scrollTop / span, 0, 1);
     };

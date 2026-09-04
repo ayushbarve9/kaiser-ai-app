@@ -434,15 +434,15 @@ export const Home: React.FC = () => {
             src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1800&q=85"
             alt="Mumbai Coastal Road Infrastructure"
             title="Building a Smarter, Safer Mumbai"
-            scrollHint="Scroll down to expand view"
+            scrollHint="Scroll to expand view"
             useWindowScroll={true}
-            mediaZoom={1.35}
-            startWidth={48}
-            startHeight={64}
-            startRadius={24}
+            mediaZoom={1.25}
+            startWidth={52}
+            startHeight={68}
+            startRadius={20}
             endRadius={0}
-            scrollDistance={0.9}
-            holdDistance={0.25}
+            scrollDistance={0.4}
+            holdDistance={0}
             overlayScrim={0.55}
           >
             <div className="max-w-2xl text-white space-y-4 p-6 sm:p-8 bg-black/60 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
