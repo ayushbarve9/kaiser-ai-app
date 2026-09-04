@@ -1,30 +1,35 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { 
   Building2, User, ShieldAlert, ArrowRight, CheckCircle2, 
-  Sparkles, ShieldCheck, Lock, UserPlus, LogIn, Eye
+  Sparkles, ShieldCheck, Lock, UserPlus, LogIn, Eye, X
 } from "lucide-react";
 
 export const AuthGateModal: React.FC = () => {
   const { user, login, exploreAsGuest } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
   const [loadingDemo, setLoadingDemo] = useState<string | null>(null);
 
-  // If already authenticated or entered as guest, do not show gate
-  if (user) return null;
+  // If user is already authenticated or already on an authentication/sign-in page, do not render modal gate
+  const isAuthPage = 
+    location.pathname.startsWith("/login") || 
+    location.pathname.startsWith("/register");
+
+  if (user || isAuthPage) return null;
 
   const handleQuickDemo = async (role: "Citizen" | "Officer") => {
     setLoadingDemo(role);
     try {
       if (role === "Officer") {
-        await login("officer.hwest@civic.com", "officerpass123", "Officer", {
+        await login("officer.hwest@civic.com", "officer123", "Officer", {
           serviceId: "BMC-OFF-0901",
           ward: 9,
         });
         navigate("/admin");
       } else {
-        await login("aarav@example.com", "password", "Citizen", { ward: 9 });
+        await login("aarav@example.com", "citizen123", "Citizen", { ward: 9 });
         navigate("/");
       }
     } catch (e) {
@@ -36,12 +41,21 @@ export const AuthGateModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
-      <div className="bg-white w-full max-w-2xl rounded-3xl border-2 border-slate-300 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in duration-200">
+      <div className="bg-white w-full max-w-2xl rounded-3xl border-2 border-slate-300 shadow-2xl overflow-hidden my-8 animate-in fade-in zoom-in duration-200 relative">
         {/* Top Tricolor Stripe */}
         <div className="h-2 w-full bg-gradient-to-r from-orange-500 via-white to-emerald-600"></div>
 
         {/* Modal Header */}
         <div className="bg-slate-900 text-white p-6 sm:p-8 text-center space-y-3 relative">
+          {/* Close / Dismiss Button */}
+          <button
+            onClick={exploreAsGuest}
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-white rounded-full bg-slate-800/80 hover:bg-slate-800 transition-colors"
+            title="Dismiss & Browse as Guest"
+          >
+            <X className="w-5 h-5" />
+          </button>
+
           <div className="w-14 h-14 rounded-2xl bg-slate-800 border-2 border-amber-400 flex items-center justify-center mx-auto shadow-lg">
             <Building2 className="w-7 h-7 text-amber-400" />
           </div>
@@ -75,21 +89,23 @@ export const AuthGateModal: React.FC = () => {
               </div>
 
               <div className="space-y-2 pt-2">
-                <Link
-                  to="/login/citizen"
-                  className="w-full py-2.5 px-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                <button
+                  type="button"
+                  onClick={() => navigate("/login/citizen")}
+                  className="w-full py-2.5 px-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <LogIn className="w-3.5 h-3.5" />
                   <span>Citizen Sign In</span>
-                </Link>
+                </button>
 
-                <Link
-                  to="/register?role=Citizen"
-                  className="w-full py-2.5 px-3 bg-white hover:bg-orange-100/60 border border-orange-300 text-orange-700 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                <button
+                  type="button"
+                  onClick={() => navigate("/register?role=Citizen")}
+                  className="w-full py-2.5 px-3 bg-white hover:bg-orange-100/60 border border-orange-300 text-orange-700 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <UserPlus className="w-3.5 h-3.5" />
                   <span>Register Account</span>
-                </Link>
+                </button>
               </div>
             </div>
 
@@ -106,21 +122,23 @@ export const AuthGateModal: React.FC = () => {
               </div>
 
               <div className="space-y-2 pt-2">
-                <Link
-                  to="/login/officer"
-                  className="w-full py-2.5 px-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5"
+                <button
+                  type="button"
+                  onClick={() => navigate("/login/officer")}
+                  className="w-full py-2.5 px-3 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-xs transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <ShieldCheck className="w-3.5 h-3.5" />
                   <span>Officer Sign In</span>
-                </Link>
+                </button>
 
-                <Link
-                  to="/register?role=Officer"
-                  className="w-full py-2.5 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5"
+                <button
+                  type="button"
+                  onClick={() => navigate("/register?role=Officer")}
+                  className="w-full py-2.5 px-3 bg-slate-800 hover:bg-slate-700 border border-slate-700 text-amber-300 font-bold text-xs rounded-xl transition-colors flex items-center justify-center gap-1.5 cursor-pointer"
                 >
                   <UserPlus className="w-3.5 h-3.5" />
                   <span>Officer Onboarding</span>
-                </Link>
+                </button>
               </div>
             </div>
           </div>
@@ -166,3 +184,4 @@ export const AuthGateModal: React.FC = () => {
     </div>
   );
 };
+
