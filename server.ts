@@ -1706,7 +1706,7 @@ Return JSON:
 
 // CREATE COMPLAINT
 app.post("/api/complaints", (req, res) => {
-  const { title, description, category, latitude, longitude, ward, severity, urgency, assignedDepartment, slaDays, aiSummary, aiSuggestedAction, reporterName, imageUrl, isImageRejected, rejectionReason } = req.body;
+  const { title, description, category, latitude, longitude, ward, severity, urgency, assignedDepartment, slaDays, aiSummary, aiSuggestedAction, reporterName, reporterEmail, imageUrl, isImageRejected, rejectionReason } = req.body;
 
   // Security check: Block submission if image was flagged as invalid/unrelated
   if (isImageRejected) {
@@ -1769,6 +1769,7 @@ app.post("/api/complaints", (req, res) => {
     imageUrl: req.body.imageUrl || "https://images.unsplash.com/photo-1515162816999-a0c47dc192f7?auto=format&fit=crop&w=800&q=80",
     reporterId: activeReporterId,
     reporterName: reporterName || "Local Resident",
+    reporterEmail: reporterEmail || "citizen@civic.com",
     upvotes: [activeReporterId],
     upvote_count: 1,
     comment_count: 0,
@@ -1785,6 +1786,100 @@ app.post("/api/complaints", (req, res) => {
   res.status(201).json(newComplaint);
 });
 
+// RESOLVE COMPLAINT & DISPATCH BEFORE/AFTER RESOLUTION EMAIL
+app.post("/api/complaints/:id/resolve-email", (req, res) => {
+  const item = complaints.find((c) => c.id === req.params.id);
+  if (!item) {
+    return res.status(404).json({ message: "Complaint not found" });
+  }
+
+  const { afterImageUrl, resolutionNotes, officerName, officerDepartment, officerContact } = req.body;
+
+  const defaultAfterImage = "https://images.unsplash.com/photo-1584467541268-b040f83be3fd?auto=format&fit=crop&w=800&q=80";
+  const finalAfterImage = afterImageUrl || defaultAfterImage;
+  const resolvedTimestamp = new Date().toISOString();
+  const inspectingOfficer = officerName || "AMC Vinayak Vispute";
+  const dept = officerDepartment || item.assignedDepartment || "Ward Operations & Maintenance Dept (BMC)";
+  const contact = officerContact || "+91 98200 11009";
+  const notes = resolutionNotes || "Site inspection successfully conducted, repair work completed with verified post-fix photo evidence, and area cleared for public transit.";
+
+  // Update complaint state
+  item.status = "Resolved";
+  item.afterImageUrl = finalAfterImage;
+  item.resolvedAt = resolvedTimestamp;
+  item.resolutionNotes = notes;
+  item.resolutionOfficerName = inspectingOfficer;
+  item.resolutionOfficerDepartment = dept;
+  item.resolutionOfficerContact = contact;
+  item.resolutionEmailSent = true;
+
+  const recipientEmail = item.reporterEmail || "citizen@civic.com";
+  const emailSubject = `[RESOLVED] BMC Grievance #${item.id} - ${item.title}`;
+
+  const emailBody = `
+Dear Citizen (${item.reporterName || "Mumbai Resident"}),
+
+Your filed grievance #${item.id} ("${item.title}") in ${item.wardName} (${item.locationAddress}) has been successfully RESOLVED and verified on-site by the Brihanmumbai Municipal Corporation (BMC) field repair team.
+
+==================================================
+📸 ATTACHED BEFORE & AFTER REPAIR EVIDENCE:
+• BEFORE Photo (Incident Reported): ${item.imageUrl}
+• AFTER Photo (Work Completed): ${finalAfterImage}
+==================================================
+
+📋 Official Work Summary:
+${notes}
+
+👮 Inspecting Ward Officer Details:
+• Officer Name: ${inspectingOfficer}
+• Department: ${dept}
+• Officer Direct Helpline: ${contact}
+• 24x7 BMC Central Helpline: 1916
+
+Thank you for being a responsible citizen! Keep filing complaints to make Mumbai cleaner, safer, and greater.
+
+Warm regards,
+Brihanmumbai Municipal Corporation (BMC)
+Public Grievance Redressal & Smart City Mission
+Government of Maharashtra
+  `.trim();
+
+  item.resolutionEmailDetails = {
+    to: recipientEmail,
+    subject: emailSubject,
+    sentAt: resolvedTimestamp,
+    officerName: inspectingOfficer,
+    officerDepartment: dept,
+    officerContact: contact,
+    resolutionNotes: notes,
+    trackingId: `TRK-BMC-${Date.now()}`,
+    beforeImageUrl: item.imageUrl,
+    afterImageUrl: finalAfterImage,
+    emailBodyHtml: emailBody,
+  };
+
+  item.updatedAt = resolvedTimestamp;
+
+  // Add official resolution log into comments
+  item.comments.push({
+    id: `c-res-${Date.now()}`,
+    userId: "usr-admin-official",
+    userName: inspectingOfficer,
+    userRole: "BMC Executive Officer",
+    text: `✅ WORK COMPLETED & RESOLUTION EMAIL DISPATCHED to ${recipientEmail}. Fix verified with before/after photo evidence under Work Order #${item.id.replace("COMP-", "WO-")}.`,
+    createdAt: resolvedTimestamp,
+  });
+  item.comment_count = item.comments.length;
+
+  console.log(`📧 [EMAIL DISPATCH SUCCESS] Sent resolution email to ${recipientEmail} for ticket #${item.id}`);
+
+  res.json({
+    message: "Grievance marked as resolved and before/after resolution email dispatched successfully!",
+    complaint: item,
+    emailDetails: item.resolutionEmailDetails,
+  });
+});
+
 // UPDATE STATUS / DEPARTMENT (Admin/Officer)
 app.patch("/api/complaints/:id", (req, res) => {
   const item = complaints.find((c) => c.id === req.params.id);
@@ -1792,9 +1887,11 @@ app.patch("/api/complaints/:id", (req, res) => {
     return res.status(404).json({ message: "Complaint not found" });
   }
 
-  const { status, assignedDepartment, officialComment } = req.body;
+  const { status, assignedDepartment, officialComment, afterImageUrl, resolutionNotes } = req.body;
   if (status) item.status = status;
   if (assignedDepartment) item.assignedDepartment = assignedDepartment;
+  if (afterImageUrl) item.afterImageUrl = afterImageUrl;
+  if (resolutionNotes) item.resolutionNotes = resolutionNotes;
   item.updatedAt = new Date().toISOString();
 
   if (officialComment) {

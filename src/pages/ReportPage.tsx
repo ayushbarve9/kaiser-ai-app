@@ -8,7 +8,7 @@ import { ImageUploader } from "../components/ImageUploader";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { AIAnalysisResult, AIVerifyImageResult } from "../types";
 import { 
-  MapPin, Sparkles, Loader2, CheckCircle2, ArrowLeft, Cpu, ShieldAlert 
+  MapPin, Sparkles, Loader2, CheckCircle2, ArrowLeft, Cpu, ShieldAlert, Mail
 } from "lucide-react";
 
 export const ReportPage: React.FC = () => {
@@ -20,6 +20,7 @@ export const ReportPage: React.FC = () => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [reporterEmail, setReporterEmail] = useState(user?.email || "citizen@civic.com");
   const [category, setCategory] = useState<string>("Pothole");
   const [ward, setWard] = useState<number>(queryWard ? Number(queryWard) : user?.ward || 9);
   const [imageUrl, setImageUrl] = useState<string>("");
@@ -143,6 +144,7 @@ export const ReportPage: React.FC = () => {
         aiSummary: aiResult?.aiSummary || "Citizen issue logged and triaged by KAISER AI.",
         aiSuggestedAction: aiResult?.aiSuggestedAction || "Dispatch ward maintenance crew for inspection.",
         reporterName: user?.name || "Local Resident",
+        reporterEmail: reporterEmail.trim(),
       });
 
       navigate(`/complaint/${newComplaint.data.id}`);
@@ -254,6 +256,27 @@ export const ReportPage: React.FC = () => {
               required
               className="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-900 focus:outline-none focus:border-blue-600"
             />
+          </div>
+
+          {/* Citizen Email for Before & After Resolution Proof */}
+          <div className="p-4 bg-orange-50/70 border border-orange-200 rounded-xl space-y-2">
+            <div className="flex items-center gap-2">
+              <Mail className="w-4 h-4 text-orange-600" />
+              <label className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                4. Email for Before & After Resolution Updates *
+              </label>
+            </div>
+            <input
+              type="email"
+              value={reporterEmail}
+              onChange={(e) => setReporterEmail(e.target.value)}
+              placeholder="citizen@example.com"
+              required
+              className="w-full px-3.5 py-2.5 bg-white border border-orange-300 rounded-lg text-xs font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500"
+            />
+            <p className="text-[11px] text-orange-900 leading-normal">
+              🔔 You will receive an official notification with <strong>Before & After photo proof</strong> as soon as the Ward Officer completes and fixes this grievance.
+            </p>
           </div>
 
           {/* AI Auto-Analyze CTA Box */}

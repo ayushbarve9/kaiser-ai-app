@@ -30,6 +30,18 @@ export const complaintService = {
   update: (id: string, data: { status?: string; assignedDepartment?: string; officialComment?: string }) => 
     api.patch<Complaint>(`/complaints/${id}`, data),
 
+  resolveWithEmail: (
+    id: string,
+    data: {
+      afterImageUrl: string;
+      resolutionNotes: string;
+      officerName?: string;
+      officerDepartment?: string;
+      officerContact?: string;
+    }
+  ) =>
+    api.post<{ complaint: Complaint; emailDetails: any }>(`/complaints/${id}/resolve-email`, data),
+
   upvote: (id: string, userId?: string) => 
     api.post<{ upvote_count: number; upvotes: string[] }>(`/complaints/${id}/upvote`, { userId }),
 

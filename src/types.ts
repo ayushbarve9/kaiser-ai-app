@@ -45,6 +45,12 @@ export interface Complaint {
   isImageRejected?: boolean;
   rejectionReason?: string;
   reporterEmail?: string;
+  afterImageUrl?: string;
+  resolvedAt?: string;
+  resolutionNotes?: string;
+  resolutionOfficerName?: string;
+  resolutionOfficerDepartment?: string;
+  resolutionOfficerContact?: string;
   resolutionEmailSent?: boolean;
   resolutionEmailDetails?: {
     to: string;
@@ -52,8 +58,12 @@ export interface Complaint {
     sentAt: string;
     officerName: string;
     officerDepartment: string;
+    officerContact?: string;
     resolutionNotes: string;
     trackingId: string;
+    beforeImageUrl?: string;
+    afterImageUrl?: string;
+    emailBodyHtml?: string;
   };
   createdAt: string;
   updatedAt: string;
