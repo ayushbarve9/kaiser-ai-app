@@ -179,7 +179,20 @@ export const Dashboard: React.FC = () => {
                 <Tooltip
                   contentStyle={{ backgroundColor: "#0F172A", borderRadius: "8px", border: "none", color: "#fff", fontSize: "12px" }}
                 />
-                <Bar dataKey="count" fill="#2563EB" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="count" radius={[6, 6, 0, 0]}>
+                  {stats?.categoryData?.map((entry, index) => {
+                    const colors: Record<string, string> = {
+                      Pothole: "#2563EB",        // Blue
+                      Garbage: "#EA580C",        // Orange
+                      "Water Leakage": "#0284C7", // Sky
+                      Drainage: "#7C3AED",       // Violet
+                      Streetlight: "#059669",    // Emerald
+                      Roadwork: "#D97706",       // Amber
+                      Other: "#475569",          // Slate
+                    };
+                    return <Cell key={`bar-${index}`} fill={colors[entry.name] || "#2563EB"} />;
+                  })}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
