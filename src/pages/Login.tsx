@@ -1,128 +1,148 @@
 import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
-import { Mail, Lock, Building2, UserCheck, Shield, ArrowRight } from "lucide-react";
+import { 
+  Building2, User, ShieldAlert, ArrowRight, CheckCircle2, 
+  Sparkles, Award, Lock, FileText, MapPin, Phone
+} from "lucide-react";
 
 export const Login: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [selectedPortal, setSelectedPortal] = useState<"citizen" | "officer">("citizen");
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    try {
-      await login(email);
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleQuickDemo = async (demoEmail: string) => {
-    setLoading(true);
-    try {
-      await login(demoEmail);
-      navigate("/");
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
-      <div className="bg-white p-8 rounded-3xl border border-gray-200/80 shadow-md w-full max-w-md space-y-6">
-        <div className="text-center space-y-2">
-          <div className="w-12 h-12 bg-gradient-to-br from-[#0D7377] to-[#14919B] rounded-2xl flex items-center justify-center mx-auto text-white font-bold shadow-xs">
-            <Building2 className="w-6 h-6" />
+    <div className="min-h-[85vh] flex items-center justify-center px-4 py-12 bg-gradient-to-b from-slate-100 via-white to-slate-50">
+      <div className="max-w-4xl w-full space-y-8">
+        {/* Header */}
+        <div className="text-center space-y-3">
+          <div className="inline-flex items-center gap-2 bg-slate-900 text-amber-400 px-4 py-1.5 rounded-full text-xs font-bold tracking-wider uppercase shadow-xs">
+            <Building2 className="w-4 h-4 text-amber-400" />
+            <span>Brihanmumbai Municipal Corporation</span>
           </div>
-          <h2 className="text-2xl font-black text-gray-900">Sign In to KAISER AI</h2>
-          <p className="text-xs text-gray-600">Access Mumbai Municipal Issue Triage & Resolution Platform</p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
+            Choose Your Authentication Portal
+          </h1>
+          <p className="text-sm text-slate-600 max-w-xl mx-auto">
+            Select your portal to access AI-powered civic grievance triage or municipal dispatch controls.
+          </p>
         </div>
 
-        {/* Quick Demo Credentials Buttons */}
-        <div className="bg-teal-50/80 p-4 rounded-2xl border border-teal-200/80 space-y-2.5">
-          <div className="text-[11px] font-bold text-[#0D7377] uppercase tracking-wider text-center">
-            ⚡ Quick 1-Click Demo Login
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <button
-              type="button"
-              onClick={() => handleQuickDemo("aarav@example.com")}
-              className="px-3 py-2 bg-white hover:bg-teal-100/60 border border-teal-200 text-[#0D7377] font-bold text-xs rounded-xl transition-all shadow-2xs text-left"
-            >
-              <UserCheck className="w-3.5 h-3.5 mb-1 text-[#0D7377]" />
-              <div>Resident Citizen</div>
-            </button>
+        {/* Dual Portal Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Card 1: Citizen Portal */}
+          <div className="bg-white rounded-3xl border-2 border-orange-200 hover:border-orange-500 shadow-md hover:shadow-xl transition-all p-7 flex flex-col justify-between space-y-6 relative overflow-hidden group">
+            <div className="space-y-4">
+              <div className="w-14 h-14 bg-gradient-to-br from-orange-500 to-amber-600 text-white rounded-2xl flex items-center justify-center shadow-md">
+                <User className="w-7 h-7" />
+              </div>
 
-            <button
-              type="button"
-              onClick={() => handleQuickDemo("admin@civic.com")}
-              className="px-3 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs rounded-xl transition-all shadow-2xs text-left"
-            >
-              <Shield className="w-3.5 h-3.5 mb-1" />
-              <div>BMC Official</div>
-            </button>
-          </div>
-        </div>
+              <div>
+                <span className="text-[11px] font-extrabold text-orange-600 uppercase tracking-wider">
+                  Public Resident Access
+                </span>
+                <h2 className="text-2xl font-black text-slate-900 mt-1">Citizen Portal</h2>
+                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                  Report civic hazards (potholes, garbage dumps, water bursts, dark streetlights) with real-time AI image verification and live tracking.
+                </p>
+              </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
-              Email Address
-            </label>
-            <div className="relative">
-              <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0D7377]"
-              />
+              <div className="space-y-2 pt-2 border-t border-slate-100 text-xs text-slate-700">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>File geotagged grievances with photo evidence</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Upvote & track neighborhood issue resolution</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <span>Direct communication with your Ward Officer</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Link
+                to="/login/citizen"
+                className="w-full py-3.5 px-4 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+              >
+                <span>Citizen Sign In</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <div className="text-center text-xs text-slate-500">
+                <span>New resident? </span>
+                <Link to="/register?role=Citizen" className="text-orange-600 font-bold hover:underline">
+                  Sign up here
+                </Link>
+              </div>
             </div>
           </div>
 
-          <div>
-            <label className="block text-xs font-bold text-gray-700 uppercase tracking-wider mb-1">
-              Password
-            </label>
-            <div className="relative">
-              <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                required
-                className="w-full pl-10 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-xs font-medium text-gray-900 focus:outline-none focus:ring-2 focus:ring-[#0D7377]"
-              />
+          {/* Card 2: Ward Officer Portal */}
+          <div className="bg-slate-900 rounded-3xl border-2 border-slate-800 hover:border-amber-500 shadow-md hover:shadow-xl transition-all p-7 flex flex-col justify-between space-y-6 text-white relative overflow-hidden group">
+            <div className="space-y-4">
+              <div className="w-14 h-14 bg-gradient-to-br from-amber-500 to-amber-700 text-slate-950 rounded-2xl flex items-center justify-center shadow-md font-black">
+                <ShieldAlert className="w-7 h-7 text-slate-950" />
+              </div>
+
+              <div>
+                <span className="text-[11px] font-extrabold text-amber-400 uppercase tracking-wider">
+                  Municipal Officers & AMCs
+                </span>
+                <h2 className="text-2xl font-black text-white mt-1">Ward Officer Console</h2>
+                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                  Access the official BMC Dispatch Control Room, AI severity ranking triage, SLA tracking, and contractor crew management.
+                </p>
+              </div>
+
+              <div className="space-y-2 pt-2 border-t border-slate-800 text-xs text-slate-300">
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Exclusive access to Officer Dispatch Control Room</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Automated AI severity scoring & action triage</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckCircle2 className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>Assign work orders & enforce 24-48h SLA targets</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-3">
+              <Link
+                to="/login/officer"
+                className="w-full py-3.5 px-4 bg-amber-500 hover:bg-amber-600 text-slate-950 font-extrabold text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2"
+              >
+                <span>Officer Secure Sign In</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <div className="text-center text-xs text-slate-400">
+                <span>Municipal staff onboarding? </span>
+                <Link to="/register?role=Officer" className="text-amber-400 font-bold hover:underline">
+                  Officer Registration
+                </Link>
+              </div>
             </div>
           </div>
+        </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 bg-[#0D7377] hover:bg-[#14919B] text-white font-bold text-xs rounded-xl shadow-xs transition-all active:scale-95 flex items-center justify-center gap-1.5"
-          >
-            <span>Sign In</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
-
-        <p className="text-center text-xs text-gray-600">
-          Don't have an account?{" "}
-          <Link to="/register" className="text-[#0D7377] font-bold hover:underline">
-            Register here
-          </Link>
-        </p>
+        {/* Quick Demo Help Banner */}
+        <div className="bg-slate-100 border border-slate-300 p-4 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-700">
+          <div className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4 text-amber-600" />
+            <span>Need instant access for testing? Both portals feature <strong>1-click demo accounts</strong>.</span>
+          </div>
+          <div className="flex items-center gap-2 font-bold">
+            <Link to="/login/citizen" className="text-orange-700 hover:underline">Demo Citizen</Link>
+            <span>•</span>
+            <Link to="/login/officer" className="text-slate-900 hover:underline">Demo Officer</Link>
+          </div>
+        </div>
       </div>
     </div>
   );

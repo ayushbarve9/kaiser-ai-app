@@ -5,9 +5,27 @@ import { User, UserRole } from "../types";
 interface AuthContextType {
   user: User | null;
   loading: boolean;
-  login: (email: string, password?: string, role?: UserRole) => Promise<User>;
-  register: (data: { name: string; email: string; role: UserRole; ward: number; department?: string; phone?: string }) => Promise<User>;
+  isAuthenticated: boolean;
+  isOfficer: boolean;
+  isCitizen: boolean;
+  login: (
+    email: string, 
+    password?: string, 
+    role?: UserRole, 
+    extra?: { serviceId?: string; ward?: number; phone?: string }
+  ) => Promise<User>;
+  register: (data: {
+    name: string;
+    email: string;
+    role: UserRole;
+    ward: number;
+    department?: string;
+    phone?: string;
+    serviceId?: string;
+    password?: string;
+  }) => Promise<User>;
   logout: () => void;
+  exploreAsGuest: () => void;
   switchRole: (role: "Citizen" | "Officer") => void;
 }
 
@@ -22,15 +40,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (token) {
       verifyToken();
     } else {
-      // Default demo citizen session for instant app experience
-      const defaultUser: User = {
-        id: "usr-citizen-1",
-        name: "Aarav Sharma",
-        email: "aarav@example.com",
-        role: "Citizen",
-        ward: 9,
-      };
-      setUser(defaultUser);
+      // Check if user previously logged in
+      const savedUser = localStorage.getItem("civic_saved_user");
+      if (savedUser) {
+        try {
+          setUser(JSON.parse(savedUser));
+        } catch {
+          setUser(null);
+        }
+      } else {
+        setUser(null); // Unauthenticated by default so login/signup gate appears
+      }
       setLoading(false);
     }
   }, []);
@@ -39,57 +59,98 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     try {
       const res = await api.get<{ user: User }>("/auth/verify");
       setUser(res.data.user);
+      localStorage.setItem("civic_saved_user", JSON.stringify(res.data.user));
     } catch {
       localStorage.removeItem("civic_token");
-      setUser({
-        id: "usr-citizen-1",
-        name: "Aarav Sharma",
-        email: "aarav@example.com",
-        role: "Citizen",
-        ward: 9,
-      });
+      localStorage.removeItem("civic_saved_user");
+      setUser(null);
     } finally {
       setLoading(false);
     }
   };
 
-  const login = async (email: string, password?: string, role?: UserRole): Promise<User> => {
-    const res = await api.post<{ token: string; user: User }>("/auth/login", { email, password, role });
+  const login = async (
+    email: string, 
+    password?: string, 
+    role?: UserRole, 
+    extra?: { serviceId?: string; ward?: number; phone?: string }
+  ): Promise<User> => {
+    const res = await api.post<{ token: string; user: User }>("/auth/login", { 
+      email, 
+      password, 
+      role: role || (extra?.serviceId ? "Officer" : "Citizen"),
+      serviceId: extra?.serviceId,
+      ward: extra?.ward,
+      phone: extra?.phone,
+    });
     const { token, user: loggedUser } = res.data;
     localStorage.setItem("civic_token", token);
+    localStorage.setItem("civic_saved_user", JSON.stringify(loggedUser));
     setUser(loggedUser);
     return loggedUser;
   };
 
-  const register = async (data: { name: string; email: string; role: UserRole; ward: number; department?: string; phone?: string }): Promise<User> => {
+  const register = async (data: {
+    name: string;
+    email: string;
+    role: UserRole;
+    ward: number;
+    department?: string;
+    phone?: string;
+    serviceId?: string;
+    password?: string;
+  }): Promise<User> => {
     const res = await api.post<{ token: string; user: User }>("/auth/register", data);
     const { token, user: registeredUser } = res.data;
     localStorage.setItem("civic_token", token);
+    localStorage.setItem("civic_saved_user", JSON.stringify(registeredUser));
     setUser(registeredUser);
     return registeredUser;
   };
 
   const logout = () => {
     localStorage.removeItem("civic_token");
-    setUser({
+    localStorage.removeItem("civic_saved_user");
+    setUser(null);
+  };
+
+  const exploreAsGuest = () => {
+    const guestUser: User = {
       id: "usr-guest",
-      name: "Guest Citizen",
-      email: "guest@civic.com",
+      name: "Guest Resident",
+      email: "guest@civic.mumbai.gov.in",
       role: "Citizen",
       ward: 9,
-    });
+    };
+    setUser(guestUser);
+    localStorage.setItem("civic_saved_user", JSON.stringify(guestUser));
   };
 
   const switchRole = (role: "Citizen" | "Officer") => {
     if (role === "Officer") {
-      login("officer.hwest@civic.com", "password", "Officer");
+      login("officer.hwest@civic.com", "password", "Officer", { serviceId: "BMC-OFF-0901", ward: 9 });
     } else {
-      login("aarav@example.com", "password", "Citizen");
+      login("aarav@example.com", "password", "Citizen", { ward: 9 });
     }
   };
 
+  const isAuthenticated = !!user && user.id !== "usr-guest";
+  const isOfficer = user?.role === "Officer";
+  const isCitizen = user?.role === "Citizen";
+
   return (
-    <AuthContext.Provider value={{ user, loading, login, register, logout, switchRole }}>
+    <AuthContext.Provider value={{ 
+      user, 
+      loading, 
+      isAuthenticated,
+      isOfficer,
+      isCitizen,
+      login, 
+      register, 
+      logout, 
+      exploreAsGuest,
+      switchRole 
+    }}>
       {children}
     </AuthContext.Provider>
   );

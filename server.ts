@@ -669,56 +669,132 @@ let complaints: Complaint[] = [...initialComplaints];
 const users = [
   {
     id: "usr-admin-1",
-    name: "Officer Vinayak Vispute",
+    name: "AMC Vinayak Vispute",
     email: "officer.hwest@civic.com",
+    serviceId: "BMC-OFF-0901",
     role: "Officer",
     ward: 9,
-    department: "H-West Ward Executive Officer",
+    department: "H-West Ward Executive Office",
+    phone: "+91 98200 11009",
+  },
+  {
+    id: "usr-admin-2",
+    name: "AMC Kiran Dighavkar",
+    email: "officer.gnorth@civic.com",
+    serviceId: "BMC-OFF-1102",
+    role: "Officer",
+    ward: 11,
+    department: "G-North Ward Executive Office",
+    phone: "+91 98200 11011",
+  },
+  {
+    id: "usr-admin-3",
+    name: "AMC Shivdas Gurav",
+    email: "officer.award@civic.com",
+    serviceId: "BMC-OFF-0103",
+    role: "Officer",
+    ward: 1,
+    department: "A-Ward Executive Office",
+    phone: "+91 98200 11001",
+  },
+  {
+    id: "usr-admin-4",
+    name: "AMC Manish Valanju",
+    email: "officer.keast@civic.com",
+    serviceId: "BMC-OFF-0704",
+    role: "Officer",
+    ward: 7,
+    department: "K-East Ward Executive Office",
+    phone: "+91 98200 11007",
   },
   {
     id: "usr-citizen-1",
     name: "Aarav Sharma",
     email: "aarav@example.com",
+    serviceId: "",
     role: "Citizen",
     ward: 9,
     department: "",
+    phone: "+91 98765 43210",
+  },
+  {
+    id: "usr-citizen-2",
+    name: "Priya Mehta",
+    email: "priya@example.com",
+    serviceId: "",
+    role: "Citizen",
+    ward: 11,
+    department: "",
+    phone: "+91 98765 43211",
   },
 ];
 
 // AUTH ROUTES
 app.post("/api/auth/login", (req, res) => {
-  const { email, password, role } = req.body;
+  const { email, password, role, serviceId, ward } = req.body;
   
-  if (email === "officer.hwest@civic.com" || email?.includes("officer") || email?.includes("admin")) {
-    const user = users[0];
-    return res.json({ token: `token-${user.id}`, user });
+  // If requesting Officer login
+  if (role === "Officer") {
+    let officer = users.find(
+      (u) => 
+        u.role === "Officer" && 
+        (u.email.toLowerCase() === email?.toLowerCase() || (serviceId && (u as any).serviceId?.toLowerCase() === serviceId?.toLowerCase()))
+    );
+
+    // If specific email matches officer pattern
+    if (!officer && (email?.includes("officer") || email?.includes("admin") || email?.endsWith("@bmc.gov.in") || email?.endsWith("@civic.com"))) {
+      officer = {
+        id: `usr-admin-${Date.now()}`,
+        name: email ? `Officer ${email.split("@")[0].toUpperCase()}` : "Ward Executive Officer",
+        email: email || "officer@bmc.gov.in",
+        serviceId: serviceId || `BMC-OFF-${ward || "09"}01`,
+        role: "Officer",
+        ward: Number(ward) || 9,
+        department: "Municipal Ward Executive Office",
+        phone: "+91 98200 00000",
+      };
+      users.push(officer);
+    }
+
+    if (!officer) {
+      // Fallback default officer for seamless demo experience
+      officer = users[0];
+    }
+
+    return res.json({ token: `token-${officer.id}`, user: officer });
   }
 
-  let user = users.find((u) => u.email === email);
-  if (!user) {
-    user = {
+  // Citizen login
+  let citizen = users.find((u) => u.email.toLowerCase() === email?.toLowerCase() && u.role === "Citizen");
+  if (!citizen) {
+    citizen = {
       id: `usr-${Date.now()}`,
-      name: email ? email.split("@")[0].toUpperCase() : "Resident Citizen",
+      name: email ? email.split("@")[0].replace(/[._]/g, " ").replace(/\b\w/g, (c) => c.toUpperCase()) : "Resident Citizen",
       email: email || "citizen@civic.com",
-      role: role || "Citizen",
-      ward: 9,
+      serviceId: "",
+      role: "Citizen",
+      ward: Number(ward) || 9,
       department: "",
+      phone: req.body.phone || "+91 98765 00000",
     };
-    users.push(user);
+    users.push(citizen);
   }
 
-  res.json({ token: `token-${user.id}`, user });
+  res.json({ token: `token-${citizen.id}`, user: citizen });
 });
 
 app.post("/api/auth/register", (req, res) => {
-  const { name, email, password, role, ward, department, phone } = req.body;
+  const { name, email, password, role, ward, department, phone, serviceId } = req.body;
+  const isOfficer = role === "Officer";
   const newUser = {
-    id: `usr-${Date.now()}`,
-    name: name || "Mumbai Citizen",
-    email: email || `user${Date.now()}@civic.com`,
-    role: role === "Officer" ? "Officer" : "Citizen",
+    id: `usr-${isOfficer ? "admin" : "cit"}-${Date.now()}`,
+    name: name || (isOfficer ? "Municipal Officer" : "Mumbai Citizen"),
+    email: email || `user${Date.now()}@${isOfficer ? "bmc.gov.in" : "civic.com"}`,
+    serviceId: serviceId || (isOfficer ? `BMC-OFF-${ward || "09"}99` : ""),
+    role: isOfficer ? "Officer" : "Citizen",
     ward: Number(ward) || 9,
-    department: department || (role === "Officer" ? "Ward Operations" : ""),
+    department: department || (isOfficer ? `Ward ${ward || 9} Executive Operations` : ""),
+    phone: phone || "",
   };
   users.push(newUser);
   res.json({ token: `token-${newUser.id}`, user: newUser });
@@ -731,7 +807,10 @@ app.get("/api/auth/verify", (req, res) => {
   }
   const token = authHeader.replace("Bearer ", "");
   const userId = token.replace("token-", "");
-  const user = users.find((u) => u.id === userId) || users[1]; // fallback to default citizen
+  const user = users.find((u) => u.id === userId);
+  if (!user) {
+    return res.status(401).json({ message: "Invalid session token" });
+  }
   res.json({ user });
 });
 

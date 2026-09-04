@@ -44,6 +44,17 @@ export interface Complaint {
   aiSuggestedAction?: string;
   isImageRejected?: boolean;
   rejectionReason?: string;
+  reporterEmail?: string;
+  resolutionEmailSent?: boolean;
+  resolutionEmailDetails?: {
+    to: string;
+    subject: string;
+    sentAt: string;
+    officerName: string;
+    officerDepartment: string;
+    resolutionNotes: string;
+    trackingId: string;
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -58,6 +69,7 @@ export interface User {
   ward: number;
   department?: string;
   phone?: string;
+  serviceId?: string;
 }
 
 export interface WardOfficer {
