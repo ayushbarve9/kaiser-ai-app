@@ -77,18 +77,18 @@ export const Home: React.FC = () => {
   return (
     <div className="space-y-8 pb-16 bg-slate-50">
       {/* Official Government Public Notice Strip */}
-      <div className="bg-slate-900 text-slate-200 border-b border-slate-800 text-xs py-2 px-4">
+      <div className="bg-[#152238] text-slate-200 border-b border-slate-700/80 text-xs py-2.5 px-4 shadow-sm">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="bg-orange-600 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider">
-              PUBLIC NOTICE
+            <span className="bg-[#B45309] text-white text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-wider">
+              OFFICIAL NOTICE
             </span>
             <span className="font-medium text-slate-200">
               Monsoon Control Room Active: High Tide Warning 4.2m expected at 14:30. 24x7 Helpline: <strong>1916</strong>
             </span>
           </div>
-          <div className="text-[11px] text-slate-400 font-mono">
-            Right to Public Services Act Mandate SLA: 24h - 48h
+          <div className="text-[11px] text-amber-300 font-mono">
+            Right to Public Services Act Mandated SLA: 24h - 48h
           </div>
         </div>
       </div>
@@ -188,14 +188,14 @@ export const Home: React.FC = () => {
         {/* ========================================================================= */}
         {/* REACT BITS OPTION-WHEEL 24-WARD JURISDICTIONAL ROTARY DIAL                */}
         {/* ========================================================================= */}
-        <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-[#0A1922] text-white rounded-3xl p-6 sm:p-8 border border-slate-800 shadow-2xl space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+        <section className="bg-[#152238] text-white rounded-3xl p-6 sm:p-8 border border-slate-700/80 shadow-xl space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-700/80 pb-4">
             <div>
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full bg-orange-600 text-white text-[10px] font-black uppercase tracking-wider">
-                  Interactive 3D Rotary Selector
+                <span className="px-2.5 py-0.5 rounded-full bg-[#B45309] text-white text-[10px] font-black uppercase tracking-wider">
+                  Ward Rotary Selector
                 </span>
-                <span className="text-orange-400 text-xs font-bold flex items-center gap-1">
+                <span className="text-amber-300 text-xs font-bold flex items-center gap-1">
                   <Compass className="w-3.5 h-3.5" /> 24 Wards Direct Telemetry
                 </span>
               </div>
@@ -207,29 +207,29 @@ export const Home: React.FC = () => {
               </p>
             </div>
 
-            <div className="flex items-center gap-2 text-[11px] text-slate-400 font-mono bg-slate-900/90 px-3 py-1.5 rounded-xl border border-slate-800 shrink-0">
-              <RotateCw className="w-3.5 h-3.5 text-orange-400 animate-spin-slow" />
+            <div className="flex items-center gap-2 text-[11px] text-slate-300 font-mono bg-slate-900/80 px-3 py-1.5 rounded-xl border border-slate-700 shrink-0">
+              <RotateCw className="w-3.5 h-3.5 text-amber-400" />
               <span>Scroll, Click or Drag Wheel</span>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             {/* Left: 3D OptionWheel Rotary Dial */}
-            <div className="lg:col-span-6 bg-slate-900/60 rounded-2xl border border-slate-800/80 p-3 relative h-[360px] overflow-hidden shadow-inner flex items-center">
+            <div className="lg:col-span-6 bg-slate-900/70 rounded-2xl border border-slate-700/80 p-3 relative h-[360px] overflow-hidden shadow-inner flex items-center">
               <div className="absolute top-3 left-4 z-10 text-[10px] uppercase font-bold text-slate-400 tracking-wider flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
+                <span className="w-2 h-2 rounded-full bg-amber-500" />
                 <span>Select Administrative Zone:</span>
               </div>
 
               {/* Center Active Indicator Line */}
-              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-14 bg-gradient-to-r from-orange-500/15 via-orange-500/25 to-transparent border-y border-orange-500/30 pointer-events-none z-0" />
+              <div className="absolute top-1/2 left-0 right-0 -translate-y-1/2 h-14 bg-gradient-to-r from-amber-600/20 via-amber-600/30 to-transparent border-y border-amber-500/40 pointer-events-none z-0" />
 
               <OptionWheel
                 items={wardWheelItems}
                 defaultSelected={selectedWardWheelIndex}
                 onChange={(index) => setSelectedWardWheelIndex(index)}
                 side="left"
-                fontSize={1.4}
+                fontSize={1.3}
                 spacing={1.7}
                 curve={1.1}
                 tilt={7}
@@ -241,20 +241,20 @@ export const Home: React.FC = () => {
                 loop={true}
                 draggable={true}
                 textColor="#94a3b8"
-                activeColor="#ffffff"
+                activeColor="#f8fafc"
                 className="h-full z-10"
               />
             </div>
 
             {/* Right: Dynamic Ward Executive Dossier Card */}
-            <div className="lg:col-span-6 bg-gradient-to-br from-slate-900/90 via-slate-800/70 to-slate-900/90 rounded-2xl border border-slate-700/80 p-6 space-y-5 shadow-xl">
-              <div className="flex items-start justify-between gap-3 border-b border-slate-800 pb-4">
+            <div className="lg:col-span-6 bg-[#1A2C49] rounded-2xl border border-slate-700 p-6 space-y-5 shadow-xl">
+              <div className="flex items-start justify-between gap-3 border-b border-slate-700/80 pb-4">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="px-2.5 py-0.5 bg-orange-600 text-white font-black text-xs rounded-md uppercase">
+                    <span className="px-2.5 py-0.5 bg-[#B45309] text-white font-black text-xs rounded-md uppercase">
                       Ward {activeWheelWard.code}
                     </span>
-                    <span className="text-[11px] text-slate-400 font-medium">
+                    <span className="text-[11px] text-slate-300 font-medium">
                       {activeWheelWard.railwayCorridor} Zone
                     </span>
                   </div>
@@ -275,20 +275,20 @@ export const Home: React.FC = () => {
               </div>
 
               {/* Officer Bio Row */}
-              <div className="flex items-center gap-4 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800">
+              <div className="flex items-center gap-4 bg-[#111C30] p-3.5 rounded-xl border border-slate-700">
                 <img
                   src={activeWheelWard.officer.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"}
                   alt={activeWheelWard.officer.name}
-                  className="w-13 h-13 rounded-full object-cover border-2 border-orange-500 shadow-md shrink-0"
+                  className="w-13 h-13 rounded-full object-cover border-2 border-amber-500 shadow-md shrink-0"
                 />
                 <div className="space-y-0.5 text-xs flex-1">
-                  <span className="text-[10px] font-bold text-orange-400 uppercase tracking-wide block">
+                  <span className="text-[10px] font-bold text-amber-400 uppercase tracking-wide block">
                     Assigned Assistant Municipal Commissioner
                   </span>
                   <p className="font-extrabold text-white text-sm">
                     {activeWheelWard.officer.name}
                   </p>
-                  <p className="text-slate-400 text-[11px]">
+                  <p className="text-slate-300 text-[11px]">
                     {activeWheelWard.officer.designation}
                   </p>
                 </div>
@@ -296,19 +296,19 @@ export const Home: React.FC = () => {
 
               {/* Metrics Grid */}
               <div className="grid grid-cols-3 gap-2.5 text-center text-xs">
-                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800">
+                <div className="bg-[#111C30] p-2.5 rounded-xl border border-slate-700">
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">Resolution Rate</span>
                   <span className="text-sm font-black text-emerald-400 mt-0.5 block">
                     {activeWheelWard.officer.resolutionRate}%
                   </span>
                 </div>
-                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800">
+                <div className="bg-[#111C30] p-2.5 rounded-xl border border-slate-700">
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">Avg. SLA Time</span>
-                  <span className="text-sm font-black text-blue-400 mt-0.5 block">
+                  <span className="text-sm font-black text-sky-400 mt-0.5 block">
                     {activeWheelWard.officer.avgResolutionDays} Days
                   </span>
                 </div>
-                <div className="bg-slate-950/40 p-2.5 rounded-xl border border-slate-800">
+                <div className="bg-[#111C30] p-2.5 rounded-xl border border-slate-700">
                   <span className="text-[10px] text-slate-400 uppercase font-bold block">Air Quality</span>
                   <span className="text-sm font-black text-amber-400 mt-0.5 block">
                     {activeWheelWard.weatherAndAqi?.aqi || 120} AQI
@@ -320,11 +320,11 @@ export const Home: React.FC = () => {
               <div className="space-y-3 pt-1">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between text-xs text-slate-300 gap-2 font-mono text-[11px]">
                   <div className="flex items-center gap-1.5">
-                    <Phone className="w-3.5 h-3.5 text-orange-400" />
+                    <Phone className="w-3.5 h-3.5 text-amber-400" />
                     <span>Control Room: {activeWheelWard.officer.contact}</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <Building2 className="w-3.5 h-3.5 text-orange-400" />
+                    <Building2 className="w-3.5 h-3.5 text-amber-400" />
                     <span>Hubs: {activeWheelWard.primaryRailwayStations}</span>
                   </div>
                 </div>
@@ -332,16 +332,16 @@ export const Home: React.FC = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
                   <button
                     onClick={() => navigate(`/dashboard?ward=${activeWheelWard.id}`)}
-                    className="w-full py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-black text-xs rounded-xl shadow-lg transition-all flex items-center justify-center gap-2 active:scale-95"
+                    className="w-full py-2.5 bg-[#B45309] hover:bg-[#92400E] text-white font-black text-xs rounded-xl shadow-md transition-all flex items-center justify-center gap-2 active:scale-95"
                   >
                     <Search className="w-3.5 h-3.5" />
                     <span>View Ward {activeWheelWard.code} Tickets</span>
                   </button>
                   <button
                     onClick={() => navigate(`/report?ward=${activeWheelWard.code}`)}
-                    className="w-full py-2.5 bg-slate-800 hover:bg-slate-700 border border-slate-600 text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 active:scale-95"
+                    className="w-full py-2.5 bg-[#111C30] hover:bg-slate-800 border border-slate-600 text-white font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2 active:scale-95"
                   >
-                    <PlusCircle className="w-3.5 h-3.5 text-orange-400" />
+                    <PlusCircle className="w-3.5 h-3.5 text-amber-400" />
                     <span>File Complaint Here</span>
                   </button>
                 </div>
@@ -374,7 +374,7 @@ export const Home: React.FC = () => {
         {/* ========================================================================= */}
         {/* REACT BITS SCROLL-EXPAND CIVIC EXPERIENCE SHOWCASE                        */}
         {/* ========================================================================= */}
-        <section className="relative w-full rounded-3xl overflow-hidden border border-slate-300 shadow-xl bg-slate-900">
+        <section className="relative w-full rounded-3xl overflow-hidden border border-slate-300 shadow-xl bg-[#111C30]">
           <ScrollExpand
             src="https://images.unsplash.com/photo-1570168007204-dfb528c6958f?auto=format&fit=crop&w=1800&q=85"
             alt="Mumbai Coastal Road Infrastructure"
@@ -390,8 +390,8 @@ export const Home: React.FC = () => {
             holdDistance={0}
             overlayScrim={0.55}
           >
-            <div className="max-w-2xl text-white space-y-4 p-6 sm:p-8 bg-black/60 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-orange-600 rounded-full text-[11px] font-black uppercase tracking-wider text-white shadow-md">
+            <div className="max-w-2xl text-white space-y-4 p-6 sm:p-8 bg-[#111C30]/85 backdrop-blur-md rounded-3xl border border-white/20 shadow-2xl">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 bg-[#B45309] rounded-full text-[11px] font-black uppercase tracking-wider text-white shadow-md">
                 <Sparkles className="w-3.5 h-3.5" /> 24 Wards Synchronized
               </div>
               <h2 className="text-xl sm:text-3xl font-black tracking-tight leading-snug text-white">
@@ -403,16 +403,16 @@ export const Home: React.FC = () => {
               <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
                 <Link
                   to="/report"
-                  className="px-5 py-2.5 bg-orange-600 hover:bg-orange-700 text-white text-xs font-black rounded-xl shadow-lg transition-all active:scale-95 flex items-center gap-2"
+                  className="px-5 py-2.5 bg-[#B45309] hover:bg-[#92400E] text-white text-xs font-black rounded-xl shadow-md transition-all active:scale-95 flex items-center gap-2"
                 >
                   <PlusCircle className="w-4 h-4" />
                   <span>File a Grievance</span>
                 </Link>
                 <Link
                   to="/map"
-                  className="px-5 py-2.5 bg-white/20 hover:bg-white/30 text-white text-xs font-bold rounded-xl backdrop-blur-md transition-all border border-white/20 flex items-center gap-2"
+                  className="px-5 py-2.5 bg-white/15 hover:bg-white/25 text-white text-xs font-bold rounded-xl backdrop-blur-md transition-all border border-white/20 flex items-center gap-2"
                 >
-                  <MapPin className="w-4 h-4 text-amber-400" />
+                  <MapPin className="w-4 h-4 text-amber-300" />
                   <span>Explore Mumbai Map</span>
                 </Link>
               </div>
@@ -421,12 +421,12 @@ export const Home: React.FC = () => {
         </section>
 
         {/* Dual Authentication Gateway Section */}
-        <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-300 shadow-sm space-y-6">
+        <section className="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-sm space-y-6">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-[11px] font-black text-orange-600 uppercase tracking-wider">
-              MUMBAI CIVIC ACCESS DOORS
+            <span className="text-[11px] font-black text-[#B45309] uppercase tracking-wider">
+              MUMBAI CIVIC ACCESS PORTALS
             </span>
-            <h2 className="text-xl sm:text-2xl font-black text-slate-900">
+            <h2 className="text-xl sm:text-2xl font-black text-[#152238]">
               Access Citizen Redressal or Municipal Officer Dispatch
             </h2>
             <p className="text-xs text-slate-500">
@@ -435,12 +435,12 @@ export const Home: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-6 bg-gradient-to-br from-orange-50/80 to-amber-50/50 rounded-2xl border-2 border-orange-200/80 hover:border-orange-400 transition-all flex flex-col justify-between space-y-4">
+            <div className="p-6 bg-gradient-to-br from-amber-50/70 to-orange-50/40 rounded-2xl border-2 border-amber-200/80 hover:border-amber-400 transition-all flex flex-col justify-between space-y-4">
               <div className="space-y-2">
-                <div className="w-10 h-10 bg-orange-600 text-white rounded-xl flex items-center justify-center font-bold shadow-xs">
+                <div className="w-10 h-10 bg-[#B45309] text-white rounded-xl flex items-center justify-center font-bold shadow-xs">
                   <Megaphone className="w-5 h-5" />
                 </div>
-                <h3 className="text-base font-extrabold text-slate-900">Resident Citizen Portal</h3>
+                <h3 className="text-base font-extrabold text-[#152238]">Resident Citizen Portal</h3>
                 <p className="text-xs text-slate-600 leading-relaxed">
                   Log in to track your submitted grievances, monitor neighborhood civic resolutions, upvote priority road repairs, and receive instant status updates.
                 </p>
@@ -448,23 +448,23 @@ export const Home: React.FC = () => {
               <div className="flex items-center gap-3 pt-2">
                 <Link
                   to="/login/citizen"
-                  className="px-4 py-2.5 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-[#B45309] hover:bg-[#92400E] text-white font-bold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <span>Citizen Sign In</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/register?role=Citizen"
-                  className="text-xs text-orange-700 font-bold hover:underline"
+                  className="text-xs text-[#B45309] font-bold hover:underline"
                 >
                   Create Account
                 </Link>
               </div>
             </div>
 
-            <div className="p-6 bg-slate-900 text-white rounded-2xl border-2 border-slate-800 hover:border-amber-500 transition-all flex flex-col justify-between space-y-4">
+            <div className="p-6 bg-[#152238] text-white rounded-2xl border-2 border-slate-700 hover:border-amber-500 transition-all flex flex-col justify-between space-y-4">
               <div className="space-y-2">
-                <div className="w-10 h-10 bg-amber-500 text-slate-950 rounded-xl flex items-center justify-center font-black shadow-xs">
+                <div className="w-10 h-10 bg-[#D97706] text-slate-950 rounded-xl flex items-center justify-center font-black shadow-xs">
                   <ShieldCheck className="w-5 h-5" />
                 </div>
                 <h3 className="text-base font-extrabold text-white">Ward Officer Control Room</h3>
@@ -475,14 +475,14 @@ export const Home: React.FC = () => {
               <div className="flex items-center gap-3 pt-2">
                 <Link
                   to="/login/officer"
-                  className="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
+                  className="px-4 py-2.5 bg-[#D97706] hover:bg-amber-500 text-slate-950 font-black text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5"
                 >
                   <span>Officer Portal</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
                 <Link
                   to="/register?role=Officer"
-                  className="text-xs text-amber-400 font-bold hover:underline"
+                  className="text-xs text-amber-300 font-bold hover:underline"
                 >
                   Staff Onboarding
                 </Link>
@@ -492,29 +492,29 @@ export const Home: React.FC = () => {
         </section>
 
         {/* SLA & Service Standards */}
-        <section className="bg-slate-900 text-white rounded-lg p-6 border border-slate-800 shadow-2xs space-y-4">
-          <div className="border-b border-slate-800 pb-3">
+        <section className="bg-[#152238] text-white rounded-2xl p-6 border border-slate-700 shadow-sm space-y-4">
+          <div className="border-b border-slate-700/80 pb-3">
             <span className="text-[10px] font-bold uppercase tracking-wider text-amber-400">Public Service Guarantee</span>
             <h2 className="text-lg font-extrabold text-white">Redressal Process & SLA Mandates</h2>
             <p className="text-xs text-slate-300">Standard operating procedure under the Maharashtra Right to Public Services Act</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
-            <div className="bg-slate-800 p-4 rounded border border-slate-700 space-y-1">
+            <div className="bg-[#111C30] p-4 rounded-xl border border-slate-700 space-y-1">
               <div className="font-bold text-amber-400">1. Citizen Filing & Verification</div>
               <p className="text-slate-300 leading-relaxed">
                 Geotagged image submission with automated location ward tagging and AI tamper validation.
               </p>
             </div>
 
-            <div className="bg-slate-800 p-4 rounded border border-slate-700 space-y-1">
+            <div className="bg-[#111C30] p-4 rounded-xl border border-slate-700 space-y-1">
               <div className="font-bold text-amber-400">2. Ward Executive Assignment</div>
               <p className="text-slate-300 leading-relaxed">
                 Direct dispatch to designated Ward Assistant Commissioner & field repair teams within 2 hours.
               </p>
             </div>
 
-            <div className="bg-slate-800 p-4 rounded border border-slate-700 space-y-1">
+            <div className="bg-[#111C30] p-4 rounded-xl border border-slate-700 space-y-1">
               <div className="font-bold text-emerald-400">3. Resolution & Closure</div>
               <p className="text-slate-300 leading-relaxed">
                 Field team uploads verified after-completion photo evidence before ticket closure in portal.
