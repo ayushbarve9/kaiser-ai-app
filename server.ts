@@ -2158,70 +2158,8 @@ app.post("/api/complaints/:id/comments", (req, res) => {
 });
 
 // ==========================================
-// FEATHERLESS.AI LLM INTEGRATION & AI API
+// CIVIC AI ASSISTANT ENDPOINT (POWERED BY GEMINI AI)
 // ==========================================
-
-async function queryFeatherlessAI(prompt: string, systemPrompt?: string): Promise<{ reply: string; model: string } | null> {
-  const apiKey = process.env.FEATHERLESS_API_KEY;
-  if (!apiKey) return null;
-
-  const model = process.env.FEATHERLESS_MODEL || "meta-llama/Meta-Llama-3.1-8B-Instruct";
-  const sysPrompt = systemPrompt || `You are KAISER Civic Intelligence AI, official municipal assistant for Brihanmumbai Municipal Corporation (BMC). Provide helpful, concise, accurate civic responses for Mumbai's 24 wards, SLAs, pothole reporting, and disaster helplines (1916).`;
-
-  try {
-    const response = await axios.post(
-      "https://api.featherless.ai/v1/chat/completions",
-      {
-        model: model,
-        messages: [
-          { role: "system", content: sysPrompt },
-          { role: "user", content: prompt }
-        ],
-        max_tokens: 600,
-        temperature: 0.7
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json"
-        },
-        timeout: 12000
-      }
-    );
-
-    const reply = response.data?.choices?.[0]?.message?.content;
-    if (reply) {
-      return { reply: reply.trim(), model };
-    }
-  } catch (err: any) {
-    console.warn("[Featherless.ai] API error:", err?.response?.data || err.message);
-  }
-  return null;
-}
-
-// 0. FEATHERLESS.AI STATUS & ASSISTANT ENDPOINTS
-app.get("/api/ai/featherless/status", async (req, res) => {
-  const apiKey = process.env.FEATHERLESS_API_KEY;
-  const model = process.env.FEATHERLESS_MODEL || "meta-llama/Meta-Llama-3.1-8B-Instruct";
-
-  if (!apiKey) {
-    return res.json({
-      configured: false,
-      status: "Missing FEATHERLESS_API_KEY environment variable",
-      provider: "featherless.ai",
-      recommendedAction: "Add FEATHERLESS_API_KEY=your_key to your .env file."
-    });
-  }
-
-  const testResult = await queryFeatherlessAI("Say 'Featherless AI Connected'", "You are a test assistant.");
-  return res.json({
-    configured: true,
-    status: testResult ? "Active & Responding" : "Key present but test API call failed",
-    provider: "featherless.ai",
-    model,
-    testReply: testResult?.reply || null
-  });
-});
 
 app.post("/api/ai/assistant", async (req, res) => {
   const { message, prompt } = req.body;
@@ -2231,20 +2169,7 @@ app.post("/api/ai/assistant", async (req, res) => {
     return res.status(400).json({ success: false, message: "Prompt message is required." });
   }
 
-  // 1. Try Featherless AI API first
-  const featherlessResult = await queryFeatherlessAI(userPrompt);
-  if (featherlessResult) {
-    return res.json({
-      success: true,
-      reply: featherlessResult.reply,
-      source: `featherless.ai (${featherlessResult.model.split('/').pop()})`,
-      provider: "featherless.ai",
-      model: featherlessResult.model,
-      timestamp: new Date().toISOString()
-    });
-  }
-
-  // 2. Try Gemini API fallback
+  // 1. Try Gemini API
   const gemini = getGemini();
   if (gemini) {
     try {

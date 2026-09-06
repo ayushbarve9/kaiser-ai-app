@@ -37,44 +37,6 @@ Maintain a polite, helpful, authoritative, and concise tone. When applicable, gu
     def query(self, prompt: str, context: Optional[Dict[str, Any]] = None) -> Dict[str, Any]:
         p = prompt.lower().strip()
         
-        # 0. Attempt Featherless API query if key is available
-        featherless_key = os.getenv("FEATHERLESS_API_KEY")
-        if featherless_key:
-            try:
-                import urllib.request
-                import json
-                model = os.getenv("FEATHERLESS_MODEL", "meta-llama/Meta-Llama-3.1-8B-Instruct")
-                payload = json.dumps({
-                    "model": model,
-                    "messages": [
-                        {"role": "system", "content": self.SYSTEM_PROMPT},
-                        {"role": "user", "content": prompt}
-                    ],
-                    "max_tokens": 512,
-                    "temperature": 0.7
-                }).encode("utf-8")
-                
-                req = urllib.request.Request(
-                    "https://api.featherless.ai/v1/chat/completions",
-                    data=payload,
-                    headers={
-                        "Authorization": f"Bearer {featherless_key}",
-                        "Content-Type": "application/json"
-                    }
-                )
-                with urllib.request.urlopen(req, timeout=10) as resp:
-                    data = json.loads(resp.read().decode("utf-8"))
-                    reply_text = data["choices"][0]["message"]["content"]
-                    if reply_text:
-                        return {
-                            "success": True,
-                            "reply": reply_text.strip(),
-                            "source": f"featherless.ai ({model.split('/')[-1]})",
-                            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-                        }
-            except Exception as e:
-                print(f"[AssistantEngine] Featherless.ai query error: {e}. Falling back to Gemini/FAQ.")
-
         # 1. Attempt Gemini query if API key is available
         gemini_key = config.gemini_api_key or os.getenv("GEMINI_API_KEY")
         if gemini_key:
