@@ -1,0 +1,326 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  /* ========================================================================= */
+  /* MONAD — EDITORIAL TECH JOURNAL ON WARM PARCHMENT DESIGN TOKENS          */
+  /* ========================================================================= */
+  
+  --color-parchment: #f6f3f1;
+  --color-lake-blue: #2b59d1;
+  --color-lake-blue-hover: #2247ab;
+  --color-periwinkle-mist: #cfdaf5;
+  --color-off-black: #242424;
+  --color-graphite: #4e4d4d;
+  --color-smoke: #797776;
+  --color-ash: #cecac8;
+  --color-ink: #000000;
+  --color-paper-white: #ffffff;
+
+  /* Atmospheric Gradient Wash Tokens */
+  --color-wash-coral: #fce8e6;
+  --color-wash-sky: #e1f0ff;
+  --color-wash-mint: #e2f7ed;
+  --color-wash-gold: #fef4db;
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Radii */
+  --radius-card: 40px;
+  --radius-pill: 100px;
+  --radius-full: 9999px;
+
+  /* Backwards Compatibility / Color Mapping */
+  --color-red-50: #f6f3f1;
+  --color-red-100: #cfdaf5;
+  --color-red-200: #cecac8;
+  --color-red-300: #cfdaf5;
+  --color-red-400: #2b59d1;
+  --color-red-500: #2b59d1;
+  --color-red-600: #2b59d1;
+  --color-red-700: #2247ab;
+  --color-red-800: #242424;
+  --color-red-900: #1a1a1a;
+  --color-red-950: #000000;
+
+  --color-slate-50: #f6f3f1;
+  --color-slate-100: #f0ece9;
+  --color-slate-200: #cecac8;
+  --color-slate-300: #b5b0ad;
+  --color-slate-400: #797776;
+  --color-slate-500: #4e4d4d;
+  --color-slate-600: #3b3a39;
+  --color-slate-700: #242424;
+  --color-slate-800: #1c1c1c;
+  --color-slate-900: #121212;
+  --color-slate-950: #000000;
+}
+
+@layer base {
+  :root {
+    --color-parchment: #f6f3f1;
+    --color-lake-blue: #2b59d1;
+    --color-periwinkle-mist: #cfdaf5;
+    --color-off-black: #242424;
+    --color-graphite: #4e4d4d;
+    --color-smoke: #797776;
+    --color-ash: #cecac8;
+    --font-serif: 'Playfair Display', Georgia, serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  body {
+    background-color: #f6f3f1;
+    color: #242424;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 400;
+    color: #242424;
+    letter-spacing: -0.02em;
+  }
+}
+
+/* Monad Utility Components & Classes */
+.monad-heading-display {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 64px;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: #242424;
+}
+
+.monad-heading-lg {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 48px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  font-weight: 400;
+  color: #242424;
+}
+
+.monad-heading-sm {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 28px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 400;
+  color: #242424;
+}
+
+/* Monad Card Component (40px radius, 1px Ash border, Parchment canvas) */
+.monad-card {
+  background-color: #f6f3f1;
+  border: 1px solid #cecac8;
+  border-radius: 40px;
+  padding: 40px;
+}
+
+.monad-card-white {
+  background-color: #ffffff;
+  border: 1px solid #cecac8;
+  border-radius: 40px;
+  padding: 40px;
+}
+
+.monad-card-periwinkle {
+  background-color: #cfdaf5;
+  border: 1px solid #cecac8;
+  border-radius: 40px;
+  padding: 40px;
+}
+
+/* Monad Buttons */
+.btn-primary-wine,
+.btn-primary,
+.monad-btn-primary {
+  background-color: #2b59d1 !important;
+  color: #ffffff !important;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 28px;
+  transition: all 0.2s ease;
+  border: none;
+}
+.btn-primary-wine:hover,
+.btn-primary:hover,
+.monad-btn-primary:hover {
+  background-color: #2247ab !important;
+  transform: translateY(-1px);
+}
+
+.monad-btn-secondary {
+  background-color: #242424 !important;
+  color: #ffffff !important;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 12px 28px;
+  transition: all 0.2s ease;
+  border: none;
+}
+.monad-btn-secondary:hover {
+  background-color: #000000 !important;
+  transform: translateY(-1px);
+}
+
+.monad-btn-pill-outline {
+  background-color: transparent !important;
+  color: #242424 !important;
+  border: 1px solid #cecac8 !important;
+  border-radius: 100px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 20px;
+  transition: all 0.2s ease;
+}
+.monad-btn-pill-outline:hover {
+  background-color: rgba(206, 202, 200, 0.3) !important;
+  border-color: #242424 !important;
+}
+
+/* Atmospheric Gradient Wash Utility Cards */
+.monad-wash-coral {
+  background: linear-gradient(135deg, #fce8e6 0%, #f6f3f1 100%);
+}
+.monad-wash-sky {
+  background: linear-gradient(135deg, #e1f0ff 0%, #f6f3f1 100%);
+}
+.monad-wash-mint {
+  background: linear-gradient(135deg, #e2f7ed 0%, #f6f3f1 100%);
+}
+.monad-wash-gold {
+  background: linear-gradient(135deg, #fef4db 0%, #f6f3f1 100%);
+}
+
+/* Crisp Technical Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f6f3f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cecac8;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #2b59d1;
+}
+
+/* Lenis Smooth Scrolling */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* Monad Interactive Pill Action Buttons */
+.pop-btn {
+  transition: all 180ms ease;
+  border-radius: 100px;
+}
+
+.pop-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pop-btn:active {
+  transform: translateY(1px);
+}
+
+.pop-btn-red,
+.pop-btn-periwinkle,
+.pop-btn-evergreen {
+  background-color: #2b59d1;
+  color: #ffffff;
+  border: none;
+}
+.pop-btn-red:hover,
+.pop-btn-periwinkle:hover,
+.pop-btn-evergreen:hover {
+  background-color: #2247ab;
+}
+
+.pop-btn-white {
+  background-color: #ffffff;
+  color: #242424;
+  border: 1px solid #cecac8;
+}
+.pop-btn-white:hover {
+  background-color: #f6f3f1;
+  border-color: #242424;
+}
+
+.pop-btn-slate,
+.pop-btn-dark {
+  background-color: #242424;
+  color: #ffffff;
+  border: none;
+}
+.pop-btn-slate:hover,
+.pop-btn-dark:hover {
+  background-color: #000000;
+}
+
+/* Flip Text Animation */
+.flip-text-wrapper {
+  perspective: 1000px;
+  display: inline-block;
+}
+
+.flip-char {
+  display: inline-block;
+  transform-origin: 50% 50%;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation: flip-text-3d var(--flip-duration, 2.2s) cubic-bezier(0.16, 1, 0.3, 1) var(--flip-delay, 0s) var(--flip-iteration, infinite) both;
+}
+
+@keyframes flip-text-3d {
+  0%, 15% {
+    transform: rotateX(0deg);
+  }
+  45%, 65% {
+    transform: rotateX(360deg);
+  }
+  90%, 100% {
+    transform: rotateX(360deg);
+  }
+}

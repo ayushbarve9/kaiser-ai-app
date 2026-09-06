@@ -1,0 +1,15 @@
+# KAISER Civic Intelligence -- YOLO11 Dataset Configuration (data.yaml)
+# Place your real-world civic images in dataset/images/train and dataset/images/val
+
+path: ./dataset # root dataset directory
+train: images/train # train images (relative to 'path')
+val: images/val   # validation images (relative to 'path')
+
+# Classes
+nc: 5 # number of classes
+names:
+  0: Pothole
+  1: Garbage Dump
+  2: Water Leakage
+  3: Cable Hazard
+  4: Streetlight Defect

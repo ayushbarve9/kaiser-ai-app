@@ -1,0 +1,5 @@
+# Ignore large standalone 3D shader/HTML demo templates from GitHub language statistics
+public/japanese-tower.html linguist-vendored
+src/shaders/japanese-tower/Towers.html linguist-vendored
+public/landing-pages/inner-green-3d.html linguist-vendored
+presentation.html linguist-documentation
