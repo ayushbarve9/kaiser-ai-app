@@ -2546,9 +2546,19 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`KAISER AI Server running on http://0.0.0.0:${PORT}`);
-  });
+  if (process.env.NODE_ENV !== "production" && !process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`KAISER AI Server running on http://0.0.0.0:${PORT}`);
+    });
+  } else if (!process.env.VERCEL) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`KAISER AI Production Server running on http://0.0.0.0:${PORT}`);
+    });
+  }
 }
 
 startServer();
+
+export default app;
+export { app };
+
