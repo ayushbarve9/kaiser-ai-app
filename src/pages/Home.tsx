@@ -14,7 +14,6 @@ import { CivicPollWidget } from "../components/CivicPollWidget";
 import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { AIDetectorWidget } from "../components/AIDetectorWidget";
-import { MacbookScroll } from "../components/ui/macbook-scroll";
 import { CompareDemo } from "../components/CompareDemo";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
@@ -127,21 +126,9 @@ export const Home: React.FC = () => {
         />
       </div>
 
-      {/* Aceternity UI 3D Macbook Scroll Showcase */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden rounded-[40px] border border-[#cecac8] bg-[#ffffff] my-8 shadow-sm">
-        <MacbookScroll
-          title={
-            <span>
-              CivicConnect 24-Ward Command Suite <br />
-              <span className="text-[#2b59d1]">Engineered for Greater Mumbai</span>
-            </span>
-          }
-          badge={
-            <span className="px-4 py-1.5 rounded-full bg-[#cfdaf5] border border-[#2b59d1]/30 text-[#2b59d1] font-mono text-xs uppercase tracking-wider">
-              3D Interactive Scroll Hardware Inspection
-            </span>
-          }
-        />
+      {/* Aceternity UI Compare Visual Inspector */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
+        <CompareDemo />
       </div>
 
       {/* Main Portal Body */}
@@ -491,13 +478,6 @@ export const Home: React.FC = () => {
         <ScrollReveal direction="up" delay={0.1}>
           <section>
             <AIDetectorWidget />
-          </section>
-        </ScrollReveal>
-
-        {/* Aceternity UI Compare Visual Inspector */}
-        <ScrollReveal direction="up" delay={0.1}>
-          <section>
-            <CompareDemo />
           </section>
         </ScrollReveal>
 
