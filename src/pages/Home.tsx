@@ -14,7 +14,6 @@ import { CivicPollWidget } from "../components/CivicPollWidget";
 import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { AIDetectorWidget } from "../components/AIDetectorWidget";
-import { CompareDemo } from "../components/CompareDemo";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, ArrowRight, CloudRain,
@@ -124,11 +123,6 @@ export const Home: React.FC = () => {
           handleSearchSubmit={handleSearchSubmit}
           stats={stats}
         />
-      </div>
-
-      {/* Aceternity UI Compare Visual Inspector */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-8">
-        <CompareDemo />
       </div>
 
       {/* Main Portal Body */}
