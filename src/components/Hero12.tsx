@@ -1,14 +1,8 @@
-import React, { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { motion, useScroll, useTransform } from "motion/react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "motion/react";
 import { Stats } from "../types";
-import { 
-  Search, Building2, PlusCircle, MapPin, Sparkles, 
-  ArrowRight, ShieldCheck, CheckCircle2, Clock, 
-  PhoneCall, Construction, Droplets, Trash2, Waves, Lightbulb, Camera, ChevronRight, Activity
-} from "lucide-react";
-import { FlipText } from "./FlipText";
-import "./Hero12.css";
+import { Search, PlusCircle, MapPin, ShieldCheck, ArrowUpRight, Camera, Activity, Clock, CheckCircle2 } from "lucide-react";
 
 export interface Hero12Props {
   searchQuery: string;
@@ -22,246 +16,45 @@ export interface Hero12Props {
 }
 
 export const Hero12: React.FC<Hero12Props> = ({
-  searchQuery,
-  setSearchQuery,
-  handleSearchSubmit,
-  stats,
-  badgeText = "Live Across 24 Municipal Wards",
-  title = "Public Grievance Redressal. Simplified.",
-  description = "Geotagged photographic reporting for 21 million citizens. Direct ward engineer dispatch within 2 hours. Verified with photo proof."
+  searchQuery, setSearchQuery, handleSearchSubmit, stats,
+  badgeText = "Live across 24 municipal wards",
+  title = "Make Mumbai work better.",
+  description = "Report what needs fixing, follow the response, and see how your neighbourhood is moving forward — all in one transparent civic desk.",
 }) => {
   const navigate = useNavigate();
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-
-  const translateY = useTransform(scrollYProgress, [0, 1], [0, 40]);
-  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0.6]);
-
-  const quickCategories = [
-    { name: "Potholes", category: "Pothole", icon: Construction },
-    { name: "Water Leaks", category: "Water Leakage", icon: Droplets },
-    { name: "Garbage", category: "Garbage", icon: Trash2 },
-    { name: "Drainage", category: "Drainage", icon: Waves },
-    { name: "Streetlights", category: "Streetlight", icon: Lightbulb },
+  const metrics = [
+    { label: "Reports logged", value: stats?.total || 0, icon: Activity },
+    { label: "Resolved", value: stats?.resolved || 0, icon: CheckCircle2 },
+    { label: "In the field", value: stats?.inProgress || 0, icon: Clock },
   ];
 
   return (
-    <div 
-      ref={heroRef}
-      className="hero-12 relative my-4 text-[#242424] bg-[#f6f3f1] rounded-[40px] border border-[#cecac8] overflow-hidden"
-    >
-      {/* Top Hero Section */}
-      <div className="p-8 sm:p-14 lg:p-16 max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Left Column: Editorial Display & CTA Actions */}
-          <div className="lg:col-span-7 space-y-6">
-            
-            {/* Eyebrow Status Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#cfdaf5] border border-[#2b59d1]/30 text-[#242424] text-xs font-mono uppercase tracking-wider glow-pill">
-              <span className="w-2.5 h-2.5 rounded-full bg-[#2b59d1] animate-ping shrink-0" />
-              <span className="font-medium text-[#2b59d1]">{badgeText}</span>
-            </div>
-
-            {/* Display Headline */}
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-serif font-normal tracking-[-0.02em] text-[#242424] leading-[1.05]">
-              {title}
-            </h1>
-
-            {/* Subtitle */}
-            <p className="text-base sm:text-lg text-[#4e4d4d] font-mono leading-relaxed max-w-xl">
-              {description}
-            </p>
-
-            {/* Pill Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                type="button"
-                onClick={() => navigate("/report")}
-                className="px-8 py-3.5 bg-[#2b59d1] hover:bg-[#2247ab] text-white font-mono font-medium text-xs uppercase tracking-wider rounded-full transition-all flex items-center gap-2 cursor-pointer active:scale-[0.98] pop-btn shadow-lg shadow-[#2b59d1]/20"
-              >
-                <PlusCircle className="w-4 h-4 text-white" />
-                <span>File a Grievance</span>
-                <span className="text-white">▸</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={() => navigate("/dashboard")}
-                className="px-7 py-3.5 bg-[#242424] hover:bg-[#000000] text-white font-mono font-medium text-xs uppercase tracking-wider rounded-full inline-flex items-center gap-2 cursor-pointer transition-all active:scale-[0.98] pop-btn shadow-md"
-              >
-                <span>Explore Active Tickets</span>
-                <ChevronRight className="w-4 h-4 text-white" />
-              </button>
-            </div>
+    <section className="hero-command" aria-labelledby="hero-title">
+      <div className="hero-command-grid">
+        <div className="hero-copy">
+          <div className="eyebrow"><span className="eyebrow-pulse" /> {badgeText}</div>
+          <h1 id="hero-title">{title}<br /><em>One clear next step.</em></h1>
+          <p>{description}</p>
+          <div className="hero-actions">
+            <button className="hero-primary" onClick={() => navigate("/report")}><PlusCircle size={18} /> Report an issue <ArrowUpRight size={17} /></button>
+            <button className="hero-secondary" onClick={() => navigate("/map")}><MapPin size={17} /> Open ward map</button>
           </div>
-
-          {/* Right Column: Glassmorphic Telemetry Card Surface */}
-          <motion.div 
-            style={{ y: translateY, opacity }}
-            className="lg:col-span-5 flex justify-center"
-          >
-            <div className="w-full max-w-md glass-card-periwinkle rounded-[40px] p-8 space-y-6 shadow-xl hover-lift">
-              <div className="flex items-center justify-between border-b border-[#cecac8]/80 pb-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#2b59d1] text-white flex items-center justify-center font-medium shadow-md">
-                    <Activity className="w-5 h-5 text-white" />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-serif font-normal text-[#242424]">Ward Telemetry</h3>
-                    <p className="text-[11px] font-mono text-[#4e4d4d] uppercase">BMC Control Network</p>
-                  </div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-white text-[#2b59d1] text-[10px] font-mono font-bold uppercase tracking-wider border border-[#cecac8]">
-                  Live 24x7
-                </span>
-              </div>
-
-              {/* 3 Step Process Cards */}
-              <div className="grid grid-cols-3 gap-3 text-center">
-                <div 
-                  onClick={() => navigate("/report")}
-                  className="bg-white/90 hover:bg-white border border-[#cecac8] p-4 rounded-[24px] cursor-pointer transition-all hover:scale-105 shadow-sm"
-                >
-                  <div className="w-8 h-8 mx-auto rounded-full bg-[#2b59d1] text-white flex items-center justify-center mb-2">
-                    <Camera className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="text-[9px] font-mono text-[#797776] uppercase">1. Citizen</div>
-                  <div className="text-[11px] font-mono font-medium text-[#242424] uppercase">Photo GPS</div>
-                </div>
-
-                <div 
-                  onClick={() => navigate("/officers")}
-                  className="bg-[#242424] hover:bg-[#000000] text-white border border-[#242424] p-4 rounded-[24px] cursor-pointer transition-all hover:scale-105 shadow-sm"
-                >
-                  <div className="w-8 h-8 mx-auto rounded-full bg-white text-[#242424] flex items-center justify-center mb-2">
-                    <Building2 className="w-4 h-4 text-[#242424]" />
-                  </div>
-                  <div className="text-[9px] font-mono text-[#cecac8] uppercase">2. Squad</div>
-                  <div className="text-[11px] font-mono font-medium text-white uppercase">2h Dispatch</div>
-                </div>
-
-                <div 
-                  onClick={() => navigate("/dashboard")}
-                  className="bg-white/90 hover:bg-white border border-[#cecac8] p-4 rounded-[24px] cursor-pointer transition-all hover:scale-105 shadow-sm"
-                >
-                  <div className="w-8 h-8 mx-auto rounded-full bg-[#2b59d1] text-white flex items-center justify-center mb-2">
-                    <CheckCircle2 className="w-4 h-4 text-white" />
-                  </div>
-                  <div className="text-[9px] font-mono text-[#797776] uppercase">3. Resolution</div>
-                  <div className="text-[11px] font-mono font-medium text-[#242424] uppercase">48h SLA</div>
-                </div>
-              </div>
-
-              {/* Guarantee Strip */}
-              <div className="bg-white/90 rounded-full px-5 py-3 border border-[#cecac8] flex items-center justify-between text-xs font-mono shadow-sm">
-                <span className="text-[#4e4d4d] font-normal uppercase">Right to Service Act</span>
-                <span className="text-[#2b59d1] font-bold">100% Enforced</span>
-              </div>
-            </div>
-          </motion.div>
+          <div className="hero-trust"><ShieldCheck size={15} /> Photo + location verified <span>•</span> Target response within 24–48h</div>
         </div>
 
-        {/* Search & Live Telemetry Panel */}
-        <div className="mt-8 glass-card rounded-[40px] p-8 space-y-6">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <span className="text-[11px] font-mono font-bold uppercase text-[#2b59d1] tracking-wider">
-                Real-Time Search & Telemetry Index
-              </span>
-              <h2 className="text-2xl sm:text-3xl font-serif font-normal text-[#242424] mt-1">
-                Search any public complaint in Greater Mumbai
-              </h2>
-            </div>
-            <div className="flex items-center gap-2 text-xs font-mono uppercase text-[#242424] bg-[#cfdaf5] px-4 py-2 rounded-full border border-[#cecac8]">
-              <span className="w-2 h-2 rounded-full bg-[#2b59d1] animate-pulse" />
-              <span className="font-medium">24 Ward Headquarters Connected</span>
-            </div>
-          </div>
-
-          {/* Search Form */}
-          <form
-            onSubmit={handleSearchSubmit}
-            className="p-2 bg-white rounded-full border border-[#cecac8] focus-within:border-[#2b59d1] focus-within:ring-2 focus-within:ring-[#2b59d1]/20 flex flex-col sm:flex-row items-center gap-2 transition-all shadow-sm"
-          >
-            <div className="relative flex-1 w-full">
-              <Search className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#797776]" />
-              <input
-                type="text"
-                aria-label="Search grievance by registration number or keyword"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by Ref No. (#BMC-2026-...) or locality (e.g. Bandra, Ward G-North, Andheri)..."
-                className="w-full pl-12 pr-4 py-3 bg-transparent text-[#242424] placeholder-[#797776] font-mono text-xs sm:text-sm focus:outline-none"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="w-full sm:w-auto px-8 py-3 bg-[#4f46e5] hover:bg-[#4338ca] text-white font-sans text-xs font-semibold uppercase tracking-wider rounded-full transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer shadow-md"
-            >
-              <span>Search Grievances</span>
-              <span>▸</span>
-            </button>
-          </form>
-
-          {/* Quick Category Chips */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-sans uppercase text-[#64748b] mr-2">
-              Filter by Department:
-            </span>
-            {quickCategories.map((cat) => {
-              const Icon = cat.icon;
-              return (
-                <button
-                  key={cat.name}
-                  type="button"
-                  onClick={() => navigate(`/dashboard?category=${encodeURIComponent(cat.category)}`)}
-                  className="px-4 py-2 rounded-full bg-white hover:bg-[#eef2ff] text-[#0f172a] border border-[#cbd5e1] text-xs font-sans uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer font-medium hover:border-[#4f46e5]"
-                >
-                  <Icon className="w-3.5 h-3.5 text-[#4f46e5]" />
-                  <span>{cat.name}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* 4 Telemetry Metric Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-[#e2e8f0]">
-            <div className="p-6 bg-white rounded-[24px] border border-[#e2e8f0] space-y-1 shadow-sm">
-              <span className="text-[10px] font-mono font-semibold text-[#64748b] uppercase tracking-wider">Total Registered</span>
-              <div className="text-3xl font-serif font-medium text-[#0f172a]">
-                {stats?.total || "38"}
-              </div>
-            </div>
-
-            <div className="p-6 bg-[#cfdaf5] rounded-[28px] border border-[#2b59d1]/30 space-y-1 hover-lift">
-              <span className="text-[10px] font-mono font-medium text-[#2b59d1] uppercase tracking-wider">Resolved & Closed</span>
-              <div className="text-3xl font-serif font-normal text-[#2b59d1]">
-                {stats?.resolved || "24"}
-              </div>
-            </div>
-
-            <div className="p-6 bg-white/90 rounded-[28px] border border-[#cecac8] space-y-1 hover-lift">
-              <span className="text-[10px] font-mono font-medium text-[#797776] uppercase tracking-wider">Field Squad Active</span>
-              <div className="text-3xl font-serif font-normal text-[#242424]">
-                {stats?.inProgress || "11"}
-              </div>
-            </div>
-
-            <div className="p-6 bg-white/90 rounded-[28px] border border-[#cecac8] space-y-1 hover-lift">
-              <span className="text-[10px] font-mono font-medium text-[#797776] uppercase tracking-wider">Avg. Turnaround</span>
-              <div className="text-3xl font-serif font-normal text-[#242424]">
-                24.8h
-              </div>
-            </div>
-          </div>
-        </div>
+        <motion.div className="hero-status-card" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .45 }}>
+          <div className="status-card-top"><span className="status-label">Civic pulse</span><span className="status-live"><span /> live now</span></div>
+          <div className="status-card-main"><div className="status-number">{stats?.total || 0}</div><div><strong>public reports</strong><small>indexed across Greater Mumbai</small></div></div>
+          <div className="mini-metrics">{metrics.map(({ label, value, icon: Icon }) => <div key={label}><Icon size={14} /><span>{value}</span><small>{label}</small></div>)}</div>
+          <div className="status-card-footer"><span>System confidence</span><strong>98.4%</strong></div>
+        </motion.div>
       </div>
-    </div>
+
+      <div className="hero-search-panel">
+        <div className="search-panel-heading"><div><span className="section-kicker">Find a response</span><h2>Search a report, ward or street</h2></div><span className="connected"><span /> 24 ward desks connected</span></div>
+        <form onSubmit={handleSearchSubmit} className="hero-search-form"><Search size={18} /><input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Try “pothole in Bandra” or #BMC-2026-..." aria-label="Search civic reports" /><button type="submit">Search <ArrowUpRight size={15} /></button></form>
+        <div className="search-suggestions"><span>Popular paths</span><button onClick={() => navigate("/top10")}>Priority queue</button><button onClick={() => navigate("/officers")}>Find my ward officer</button><button onClick={() => navigate("/rewards")}>Citizen rewards</button></div>
+      </div>
+    </section>
   );
 };

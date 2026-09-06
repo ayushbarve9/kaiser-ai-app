@@ -77,6 +77,8 @@ export default function App() {
                     <Route path="/officers" element={<OfficersPage />} />
                     <Route path="/map" element={<MapViewPage />} />
                     <Route path="/top10" element={<Top10Page />} />
+                    <Route path="/analytics" element={<Dashboard />} />
+                    <Route path="/hotspots" element={<MapViewPage />} />
                     <Route path="/report" element={<ReportPage />} />
                     <Route path="/complaint/:id" element={<ComplaintDetailsPage />} />
                     <Route path="/qr-rating" element={<div className="py-8 px-4"><PublicServiceQRRating /></div>} />
