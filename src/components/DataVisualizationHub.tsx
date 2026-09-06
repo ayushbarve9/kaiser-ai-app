@@ -58,7 +58,7 @@ export const DataVisualizationHub: React.FC = () => {
     const wardMap: Record<number, { wardName: string; total: number; resolved: number; avgSlaDays: number }> = {};
     
     MUMBAI_WARDS_DATA.forEach((w) => {
-      wardMap[w.id] = { wardName: w.code, total: 0, resolved: 0, avgSlaDays: w.slaHours / 24 };
+      wardMap[w.id] = { wardName: w.code, total: 0, resolved: 0, avgSlaDays: w.officer?.avgResolutionDays || 2 };
     });
 
     complaints.forEach((c) => {
