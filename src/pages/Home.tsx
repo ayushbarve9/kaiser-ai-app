@@ -15,6 +15,7 @@ import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { AIDetectorWidget } from "../components/AIDetectorWidget";
 import { MacbookScroll } from "../components/ui/macbook-scroll";
+import { CompareDemo } from "../components/CompareDemo";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, ArrowRight, CloudRain,
@@ -490,6 +491,13 @@ export const Home: React.FC = () => {
         <ScrollReveal direction="up" delay={0.1}>
           <section>
             <AIDetectorWidget />
+          </section>
+        </ScrollReveal>
+
+        {/* Aceternity UI Compare Visual Inspector */}
+        <ScrollReveal direction="up" delay={0.1}>
+          <section>
+            <CompareDemo />
           </section>
         </ScrollReveal>
 
