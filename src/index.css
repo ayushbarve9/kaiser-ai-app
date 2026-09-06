@@ -2,78 +2,66 @@
 
 @theme {
   /* ========================================================================= */
-  /* MONAD — EDITORIAL TECH JOURNAL ON WARM PARCHMENT DESIGN TOKENS          */
+  /* KAISER ULTIMATE CYBER-EDITORIAL DESIGN SYSTEM TOKENS                      */
   /* ========================================================================= */
   
-  --color-parchment: #f6f3f1;
-  --color-lake-blue: #2b59d1;
-  --color-lake-blue-hover: #2247ab;
-  --color-periwinkle-mist: #cfdaf5;
-  --color-off-black: #242424;
-  --color-graphite: #4e4d4d;
-  --color-smoke: #797776;
-  --color-ash: #cecac8;
-  --color-ink: #000000;
-  --color-paper-white: #ffffff;
-
-  /* Atmospheric Gradient Wash Tokens */
-  --color-wash-coral: #fce8e6;
-  --color-wash-sky: #e1f0ff;
-  --color-wash-mint: #e2f7ed;
-  --color-wash-gold: #fef4db;
+  --color-indigo-brand: #4f46e5;
+  --color-indigo-hover: #4338ca;
+  --color-canvas-light: #f8fafc;
+  --color-canvas-dark: #090d16;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-emerald-live: #10b981;
+  --color-amber-alert: #f59e0b;
+  --color-rose: #f43f5e;
 
   /* Typography */
   --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Outfit', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
 
   /* Radii */
-  --radius-card: 40px;
-  --radius-pill: 100px;
+  --radius-card: 28px;
+  --radius-pill: 9999px;
   --radius-full: 9999px;
 
-  /* Backwards Compatibility / Color Mapping */
-  --color-red-50: #f6f3f1;
-  --color-red-100: #cfdaf5;
-  --color-red-200: #cecac8;
-  --color-red-300: #cfdaf5;
-  --color-red-400: #2b59d1;
-  --color-red-500: #2b59d1;
-  --color-red-600: #2b59d1;
-  --color-red-700: #2247ab;
-  --color-red-800: #242424;
-  --color-red-900: #1a1a1a;
-  --color-red-950: #000000;
+  /* Backwards Compatibility Mappings */
+  --color-red-50: #eef2ff;
+  --color-red-100: #e0e7ff;
+  --color-red-200: #c7d2fe;
+  --color-red-300: #a5b4fc;
+  --color-red-400: #818cf8;
+  --color-red-500: #4f46e5;
+  --color-red-600: #4f46e5;
+  --color-red-700: #4338ca;
+  --color-red-800: #3730a3;
+  --color-red-900: #312e81;
+  --color-red-950: #1e1b4b;
 
-  --color-slate-50: #f6f3f1;
-  --color-slate-100: #f0ece9;
-  --color-slate-200: #cecac8;
-  --color-slate-300: #b5b0ad;
-  --color-slate-400: #797776;
-  --color-slate-500: #4e4d4d;
-  --color-slate-600: #3b3a39;
-  --color-slate-700: #242424;
-  --color-slate-800: #1c1c1c;
-  --color-slate-900: #121212;
-  --color-slate-950: #000000;
+  --color-slate-50: #f8fafc;
+  --color-slate-100: #f1f5f9;
+  --color-slate-200: #e2e8f0;
+  --color-slate-300: #cbd5e1;
+  --color-slate-400: #94a3b8;
+  --color-slate-500: #64748b;
+  --color-slate-600: #475569;
+  --color-slate-700: #334155;
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+  --color-slate-950: #020617;
 }
 
 @layer base {
   :root {
-    --color-parchment: #f6f3f1;
-    --color-lake-blue: #2b59d1;
-    --color-periwinkle-mist: #cfdaf5;
-    --color-off-black: #242424;
-    --color-graphite: #4e4d4d;
-    --color-smoke: #797776;
-    --color-ash: #cecac8;
     --font-serif: 'Playfair Display', Georgia, serif;
+    --font-sans: 'Outfit', 'Plus Jakarta Sans', -apple-system, sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
 
   body {
-    background-color: #f6f3f1;
-    color: #242424;
-    font-family: 'JetBrains Mono', monospace;
+    background-color: #f8fafc;
+    color: #0f172a;
+    font-family: 'Outfit', 'Plus Jakarta Sans', sans-serif;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -81,8 +69,8 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', Georgia, serif;
-    font-weight: 400;
-    color: #242424;
+    font-weight: 500;
+    color: #0f172a;
     letter-spacing: -0.02em;
   }
 }

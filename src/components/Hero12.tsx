@@ -202,16 +202,16 @@ export const Hero12: React.FC<Hero12Props> = ({
 
             <button
               type="submit"
-              className="w-full sm:w-auto px-8 py-3 bg-[#2b59d1] hover:bg-[#2247ab] text-white font-mono text-xs font-medium uppercase tracking-wider rounded-full transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer shadow-md"
+              className="w-full sm:w-auto px-8 py-3 bg-[#4f46e5] hover:bg-[#4338ca] text-white font-sans text-xs font-semibold uppercase tracking-wider rounded-full transition-all shrink-0 flex items-center justify-center gap-2 cursor-pointer shadow-md"
             >
               <span>Search Grievances</span>
-              <span className="text-white">▸</span>
+              <span>▸</span>
             </button>
           </form>
 
           {/* Quick Category Chips */}
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-mono uppercase text-[#797776] mr-2">
+            <span className="text-xs font-sans uppercase text-[#64748b] mr-2">
               Filter by Department:
             </span>
             {quickCategories.map((cat) => {
@@ -221,9 +221,9 @@ export const Hero12: React.FC<Hero12Props> = ({
                   key={cat.name}
                   type="button"
                   onClick={() => navigate(`/dashboard?category=${encodeURIComponent(cat.category)}`)}
-                  className="px-4 py-1.5 rounded-full bg-white hover:bg-[#cfdaf5] text-[#242424] border border-[#cecac8] text-xs font-mono uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer group hover-lift"
+                  className="px-4 py-2 rounded-full bg-white hover:bg-[#eef2ff] text-[#0f172a] border border-[#cbd5e1] text-xs font-sans uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer font-medium hover:border-[#4f46e5]"
                 >
-                  <Icon className="w-3.5 h-3.5 text-[#2b59d1] transition-colors" />
+                  <Icon className="w-3.5 h-3.5 text-[#4f46e5]" />
                   <span>{cat.name}</span>
                 </button>
               );
@@ -231,10 +231,10 @@ export const Hero12: React.FC<Hero12Props> = ({
           </div>
 
           {/* 4 Telemetry Metric Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-[#cecac8]">
-            <div className="p-6 bg-white/90 rounded-[28px] border border-[#cecac8] space-y-1 hover-lift">
-              <span className="text-[10px] font-mono font-medium text-[#797776] uppercase tracking-wider">Total Registered</span>
-              <div className="text-3xl font-serif font-normal text-[#242424]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 pt-6 border-t border-[#e2e8f0]">
+            <div className="p-6 bg-white rounded-[24px] border border-[#e2e8f0] space-y-1 shadow-sm">
+              <span className="text-[10px] font-mono font-semibold text-[#64748b] uppercase tracking-wider">Total Registered</span>
+              <div className="text-3xl font-serif font-medium text-[#0f172a]">
                 {stats?.total || "38"}
               </div>
             </div>
