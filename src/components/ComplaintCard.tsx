@@ -66,7 +66,7 @@ export const ComplaintCard: React.FC<ComplaintCardProps> = ({ complaint, onUpdat
   return (
     <div
       onClick={() => navigate(`/complaint/${complaint.id}`)}
-      className="group bg-[#f6f3f1] rounded-[40px] border border-[#cecac8] hover:border-[#2b59d1] transition-all duration-200 cursor-pointer overflow-hidden flex flex-col justify-between p-6 sm:p-7"
+      className="group glass-card rounded-[32px] hover-lift cursor-pointer overflow-hidden flex flex-col justify-between p-6 sm:p-7 shadow-sm transition-all"
     >
       <div className="space-y-4">
         {/* Ticket Ref Header */}
