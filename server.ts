@@ -2143,6 +2143,143 @@ app.post("/api/complaints/:id/comments", (req, res) => {
 });
 
 // ==========================================
+// FEATHERLESS.AI LLM INTEGRATION & AI API
+// ==========================================
+
+async function queryFeatherlessAI(prompt: string, systemPrompt?: string): Promise<{ reply: string; model: string } | null> {
+  const apiKey = process.env.FEATHERLESS_API_KEY;
+  if (!apiKey) return null;
+
+  const model = process.env.FEATHERLESS_MODEL || "meta-llama/Meta-Llama-3.1-8B-Instruct";
+  const sysPrompt = systemPrompt || `You are KAISER Civic Intelligence AI, official municipal assistant for Brihanmumbai Municipal Corporation (BMC). Provide helpful, concise, accurate civic responses for Mumbai's 24 wards, SLAs, pothole reporting, and disaster helplines (1916).`;
+
+  try {
+    const response = await axios.post(
+      "https://api.featherless.ai/v1/chat/completions",
+      {
+        model: model,
+        messages: [
+          { role: "system", content: sysPrompt },
+          { role: "user", content: prompt }
+        ],
+        max_tokens: 600,
+        temperature: 0.7
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          "Content-Type": "application/json"
+        },
+        timeout: 12000
+      }
+    );
+
+    const reply = response.data?.choices?.[0]?.message?.content;
+    if (reply) {
+      return { reply: reply.trim(), model };
+    }
+  } catch (err: any) {
+    console.warn("[Featherless.ai] API error:", err?.response?.data || err.message);
+  }
+  return null;
+}
+
+// 0. FEATHERLESS.AI STATUS & ASSISTANT ENDPOINTS
+app.get("/api/ai/featherless/status", async (req, res) => {
+  const apiKey = process.env.FEATHERLESS_API_KEY;
+  const model = process.env.FEATHERLESS_MODEL || "meta-llama/Meta-Llama-3.1-8B-Instruct";
+
+  if (!apiKey) {
+    return res.json({
+      configured: false,
+      status: "Missing FEATHERLESS_API_KEY environment variable",
+      provider: "featherless.ai",
+      recommendedAction: "Add FEATHERLESS_API_KEY=your_key to your .env file."
+    });
+  }
+
+  const testResult = await queryFeatherlessAI("Say 'Featherless AI Connected'", "You are a test assistant.");
+  return res.json({
+    configured: true,
+    status: testResult ? "Active & Responding" : "Key present but test API call failed",
+    provider: "featherless.ai",
+    model,
+    testReply: testResult?.reply || null
+  });
+});
+
+app.post("/api/ai/assistant", async (req, res) => {
+  const { message, prompt } = req.body;
+  const userPrompt = message || prompt || "";
+
+  if (!userPrompt.trim()) {
+    return res.status(400).json({ success: false, message: "Prompt message is required." });
+  }
+
+  // 1. Try Featherless AI API first
+  const featherlessResult = await queryFeatherlessAI(userPrompt);
+  if (featherlessResult) {
+    return res.json({
+      success: true,
+      reply: featherlessResult.reply,
+      source: `featherless.ai (${featherlessResult.model.split('/').pop()})`,
+      provider: "featherless.ai",
+      model: featherlessResult.model,
+      timestamp: new Date().toISOString()
+    });
+  }
+
+  // 2. Try Gemini API fallback
+  const gemini = getGemini();
+  if (gemini) {
+    try {
+      const response = await gemini.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: `You are KAISER Civic AI for Brihanmumbai Municipal Corporation (BMC). Answer concisely:\n\n${userPrompt}`
+      });
+      if (response && response.text) {
+        return res.json({
+          success: true,
+          reply: response.text,
+          source: "gemini-2.5-flash",
+          provider: "Google Gemini",
+          model: "gemini-2.5-flash",
+          timestamp: new Date().toISOString()
+        });
+      }
+    } catch (e) {
+      console.warn("Gemini query error:", e);
+    }
+  }
+
+  // 3. Fallback Knowledge Base
+  const lower = userPrompt.toLowerCase();
+  let reply = "I am KAISER Civic AI Assistant for Greater Mumbai (24 Wards). How can I assist you with reporting potholes, water supply, SLAs, or contacting your Ward AMC?";
+  
+  if (lower.includes("pothole") || lower.includes("report") || lower.includes("file")) {
+    reply = "To report a pothole or road defect:\n1. Go to **[File Grievance](/report)**\n2. Attach camera photo & GPS location\n3. Submitted tickets trigger instant Ward AMC dispatch.\n\n*SLA:* 24-48 hours.";
+  } else if (lower.includes("water") || lower.includes("leak")) {
+    reply = "Water supply issues are categorized as High Priority. Emergency repair SLA is 24 Hours. Call BMC Helpline **1916** for instant tanker dispatch.";
+  } else if (lower.includes("garbage") || lower.includes("trash")) {
+    reply = "Solid Waste Management (SWM) clears litter and open dumps within 24 Hours. Report open dumps on **[File Grievance](/report)**.";
+  } else if (lower.includes("bandra")) {
+    reply = "Bandra West is Ward H-West (AMC: Vinayak Vispute). Track Ward H-West issues on **[Dashboard](/dashboard?ward=11)**.";
+  } else if (lower.includes("dadar")) {
+    reply = "Dadar falls under Ward G-North (AMC: Kiran Dighavkar). Office: Harishchandra Yelve Marg.";
+  } else if (lower.includes("helpline") || lower.includes("disaster") || lower.includes("1916")) {
+    reply = "🚨 **BMC Disaster Control Room:** Call **1916** (Toll-Free 24x7) or **022-22694725** for monsoon high-tide & flood emergencies.";
+  }
+
+  return res.json({
+    success: true,
+    reply,
+    source: "bmc-knowledge-base",
+    provider: "BMC Local AI",
+    timestamp: new Date().toISOString()
+  });
+});
+
+// ==========================================
 // NEW INTEGRATED ENDPOINTS FOR CIVICCONNECT
 // ==========================================
 
