@@ -1,7 +1,7 @@
 import React, { useEffect, useId, useRef, useState } from "react";
 import { motion, useScroll, useTransform } from "motion/react";
 import { cn } from "../../lib/utils";
-import { Globe, Command, Option, Shift, CornerDownLeft } from "lucide-react";
+import { Globe, Command, CornerDownLeft } from "lucide-react";
 
 export const MacbookScroll = ({
   src,
