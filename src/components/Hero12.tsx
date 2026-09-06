@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "motion/react";
 import { Stats } from "../types";
 import { Search, PlusCircle, MapPin, ShieldCheck, ArrowUpRight, Camera, Activity, Clock, CheckCircle2 } from "lucide-react";
-import { FloatingDockDemo } from "./FloatingDockDemo";
 
 export interface Hero12Props {
   searchQuery: string;
@@ -31,9 +30,6 @@ export const Hero12: React.FC<Hero12Props> = ({
 
   return (
     <section className="hero-command" aria-labelledby="hero-title">
-      {/* Top Banner Floating Dock Bar */}
-      <FloatingDockDemo />
-
       <div className="hero-command-grid">
         <div className="hero-copy">
           <div className="eyebrow"><span className="eyebrow-pulse" /> {badgeText}</div>
