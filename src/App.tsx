@@ -33,6 +33,7 @@ import { Register } from "./pages/Register";
 
 import { PublicServiceQRRating } from "./components/PublicServiceQRRating";
 import { CitizenGamificationLeaderboard } from "./components/CitizenGamificationLeaderboard";
+import { LanguageProvider } from "./context/LanguageContext";
 
 export default function App() {
   const [commandPaletteOpen, setCommandPaletteOpen] = React.useState(false);
@@ -45,9 +46,10 @@ export default function App() {
   }, []);
 
   return (
-    <AuthProvider>
-      <ToastProvider>
-        <ActivityProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <ToastProvider>
+          <ActivityProvider>
           <Router>
             <SmoothScroll>
               <ScrollProgressBar />
@@ -119,8 +121,9 @@ export default function App() {
               <ToastContainer />
             </SmoothScroll>
           </Router>
-        </ActivityProvider>
-      </ToastProvider>
-    </AuthProvider>
+          </ActivityProvider>
+        </ToastProvider>
+      </AuthProvider>
+    </LanguageProvider>
   );
 }

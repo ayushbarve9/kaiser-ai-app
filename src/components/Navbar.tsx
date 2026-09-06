@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useLanguage } from "../context/LanguageContext";
 import {
   PlusCircle, Map, LayoutDashboard, ShieldAlert, Building2, Award,
   ShieldCheck, PhoneCall, LogOut, FileText, Lock, Search, Menu, X,
@@ -23,6 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommandPalette, onOpenTrac
   const location = useLocation();
   const navigate = useNavigate();
   const { user, isOfficer, logout } = useAuth();
+  const { language, setLanguage, t } = useLanguage();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const isActive = (path: string) => location.pathname === path || (path !== "/" && location.pathname.startsWith(path));
@@ -36,7 +38,27 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommandPalette, onOpenTrac
       <div className="utility-bar">
         <div className="shell utility-inner">
           <div className="utility-brand"><span className="utility-dot" /> BMC Civic Intelligence Network <span className="utility-divider">/</span> 24 wards online</div>
-          <div className="utility-links">
+          <div className="utility-links flex items-center gap-3">
+            <div className="flex items-center gap-1 bg-white/10 p-0.5 rounded-full text-[10px] font-mono">
+              <button
+                onClick={() => setLanguage("en")}
+                className={`px-2 py-0.5 rounded-full transition ${language === "en" ? "bg-white text-slate-900 font-bold" : "text-white/80 hover:text-white"}`}
+              >
+                EN
+              </button>
+              <button
+                onClick={() => setLanguage("mr")}
+                className={`px-2 py-0.5 rounded-full transition ${language === "mr" ? "bg-white text-slate-900 font-bold" : "text-white/80 hover:text-white"}`}
+              >
+                मराठी
+              </button>
+              <button
+                onClick={() => setLanguage("hi")}
+                className={`px-2 py-0.5 rounded-full transition ${language === "hi" ? "bg-white text-slate-900 font-bold" : "text-white/80 hover:text-white"}`}
+              >
+                हिंदी
+              </button>
+            </div>
             {onOpenTracker && <button onClick={onOpenTracker} className="utility-action"><FileText size={13} /> Track a ticket</button>}
             <a href="tel:1916" className="utility-action"><PhoneCall size={13} /> Helpline <strong>1916</strong></a>
           </div>

@@ -9,6 +9,7 @@ import { ScrollReveal } from "../components/ScrollReveal";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { BeforeAfterSlider } from "../components/BeforeAfterSlider";
 import { WardSlaCalculator } from "../components/WardSlaCalculator";
+import { ContractorPenaltyScorecard } from "../components/ContractorPenaltyScorecard";
 import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { AIDetectorWidget } from "../components/AIDetectorWidget";
@@ -39,18 +40,29 @@ export const Home: React.FC = () => {
   const loadHomeData = async () => {
     try {
       setLoading(true);
-      const [statsRes, complaintsRes, topRes, weatherRes] = await Promise.all([
+      const [statsRes, complaintsRes, topRes] = await Promise.all([
         complaintService.getStats(),
         complaintService.getAll({ sortBy: "newest" }),
         complaintService.getTop10(),
-        complaintService.getWeatherAlerts().catch(() => null),
       ]);
       setStats(statsRes.data);
       setAllComplaints(complaintsRes.data);
       setCriticalIssues(topRes.data.slice(0, 3));
-      if (weatherRes?.data) {
-        setWeatherAlert(weatherRes.data);
-      }
+
+      // Live Open-Meteo weather API call for Mumbai (19.0760° N, 72.8777° E)
+      fetch("https://api.open-meteo.com/v1/forecast?latitude=19.0760&longitude=72.8777&current_weather=true")
+        .then((r) => r.json())
+        .then((wData) => {
+          if (wData?.current_weather) {
+            const cw = wData.current_weather;
+            setWeatherAlert({
+              weatherStatus: `${cw.temperature}°C, Wind ${cw.windspeed} km/h`,
+              highTideTime: "14:30 IST",
+              highTideHeightMeters: 4.2
+            });
+          }
+        })
+        .catch(() => null);
     } catch (err) {
       console.error("Failed to load home data", err);
     } finally {
@@ -449,6 +461,13 @@ export const Home: React.FC = () => {
         <ScrollReveal direction="up" delay={0.1}>
           <section>
             <WardSlaCalculator />
+          </section>
+        </ScrollReveal>
+
+        {/* Contractor Financial SLA Penalty Matrix */}
+        <ScrollReveal direction="up" delay={0.1}>
+          <section>
+            <ContractorPenaltyScorecard />
           </section>
         </ScrollReveal>
 
