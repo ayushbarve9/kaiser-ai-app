@@ -4,13 +4,11 @@ import { complaintService } from "../services/api";
 import { Complaint, Stats } from "../types";
 import { ComplaintCard } from "../components/ComplaintCard";
 import { MumbaiMap } from "../components/MumbaiMap";
-import { PhotoWardFetcher } from "../components/PhotoWardFetcher";
 import { Hero12 } from "../components/Hero12";
 import { ScrollReveal } from "../components/ScrollReveal";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { BeforeAfterSlider } from "../components/BeforeAfterSlider";
 import { WardSlaCalculator } from "../components/WardSlaCalculator";
-import { CivicPollWidget } from "../components/CivicPollWidget";
 import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { AIDetectorWidget } from "../components/AIDetectorWidget";
@@ -454,13 +452,6 @@ export const Home: React.FC = () => {
           </section>
         </ScrollReveal>
 
-        {/* Weekly Citizen Consensus Poll */}
-        <ScrollReveal direction="up" delay={0.1}>
-          <section>
-            <CivicPollWidget />
-          </section>
-        </ScrollReveal>
-
         {/* Data Visualization & Intelligence Analytics Hub */}
         <ScrollReveal direction="up" delay={0.1}>
           <section>
@@ -472,13 +463,6 @@ export const Home: React.FC = () => {
         <ScrollReveal direction="up" delay={0.1}>
           <section>
             <AIDetectorWidget />
-          </section>
-        </ScrollReveal>
-
-        {/* Photo Ward Locating Tool */}
-        <ScrollReveal direction="up" delay={0.1}>
-          <section className="bg-white rounded-[40px] p-8 border border-[#cecac8]">
-            <PhotoWardFetcher onSelectWard={(w) => navigate(`/dashboard?ward=${w.id}`)} />
           </section>
         </ScrollReveal>
 

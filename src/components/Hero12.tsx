@@ -53,7 +53,7 @@ export const Hero12: React.FC<Hero12Props> = ({
       <div className="hero-search-panel">
         <div className="search-panel-heading"><div><span className="section-kicker">Find a response</span><h2>Search a report, ward or street</h2></div><span className="connected"><span /> 24 ward desks connected</span></div>
         <form onSubmit={handleSearchSubmit} className="hero-search-form"><Search size={18} /><input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Try “pothole in Bandra” or #BMC-2026-..." aria-label="Search civic reports" /><button type="submit">Search <ArrowUpRight size={15} /></button></form>
-        <div className="search-suggestions"><span>Popular paths</span><button onClick={() => navigate("/top10")}>Priority queue</button><button onClick={() => navigate("/officers")}>Find my ward officer</button><button onClick={() => navigate("/rewards")}>Citizen rewards</button></div>
+        <div className="search-suggestions"><span>Popular paths</span><button onClick={() => navigate("/dashboard?sortBy=upvotes")}>Top Grievances</button><button onClick={() => navigate("/officers")}>Find Ward Officer</button></div>
       </div>
     </section>
   );

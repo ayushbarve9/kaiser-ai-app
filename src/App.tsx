@@ -76,7 +76,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Dashboard />} />
                     <Route path="/officers" element={<OfficersPage />} />
                     <Route path="/map" element={<MapViewPage />} />
-                    <Route path="/top10" element={<Top10Page />} />
+                    <Route path="/top10" element={<Navigate to="/dashboard?sortBy=upvotes" replace />} />
                     <Route path="/analytics" element={<Dashboard />} />
                     <Route path="/hotspots" element={<MapViewPage />} />
                     <Route path="/report" element={<ReportPage />} />

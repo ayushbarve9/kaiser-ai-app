@@ -13,9 +13,9 @@ interface NavbarProps {
 }
 
 const publicNav = [
-  { label: "Explore", short: "Issues", to: "/dashboard", icon: LayoutDashboard },
+  { label: "Home", short: "Home", to: "/", icon: Building2 },
+  { label: "Grievances", short: "Issues", to: "/dashboard", icon: LayoutDashboard },
   { label: "Ward map", short: "Map", to: "/map", icon: Map },
-  { label: "Priority queue", short: "Priority", to: "/top10", icon: TrendingUp },
   { label: "Ward officers", short: "Officers", to: "/officers", icon: Users },
 ];
 
@@ -67,7 +67,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommandPalette, onOpenTrac
               <div className="user-copy"><strong>{user.name}</strong><small>{isOfficer ? `Officer · Ward ${user.ward}` : "Citizen account"}</small></div>
               <button onClick={logout} className="icon-button" title="Sign out"><LogOut size={15} /></button>
             </div>
-          ) : <Link to="/login/citizen" className="signin-link">Sign in</Link>}
+          ) : <Link to="/login" className="signin-link">Sign in</Link>}
           <button className="mobile-menu-button" onClick={() => setMobileOpen((open) => !open)} aria-label="Toggle navigation">{mobileOpen ? <X size={20} /> : <Menu size={20} />}</button>
         </div>
       </div>
