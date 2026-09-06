@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import axios from "axios";
@@ -675,6 +676,20 @@ const initialComplaints: Complaint[] = [
 ];
 
 let complaints: Complaint[] = [...initialComplaints];
+
+try {
+  const complaints1000Path = path.join(process.cwd(), "data", "complaints1000.json");
+  if (fs.existsSync(complaints1000Path)) {
+    const raw1000 = fs.readFileSync(complaints1000Path, "utf-8");
+    const parsed1000 = JSON.parse(raw1000);
+    if (Array.isArray(parsed1000) && parsed1000.length > 0) {
+      complaints = parsed1000;
+      console.log(`✅ Loaded ${complaints.length} Mumbai civic complaint records into memory.`);
+    }
+  }
+} catch (err) {
+  console.warn("⚠️ Failed to load data/complaints1000.json fallback to initial complaints", err);
+}
 
 import { dbService, isSupabaseConnected } from "./src/services/dbStore";
 
