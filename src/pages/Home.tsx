@@ -14,6 +14,7 @@ import { CivicPollWidget } from "../components/CivicPollWidget";
 import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { AIDetectorWidget } from "../components/AIDetectorWidget";
+import { MacbookScroll } from "../components/ui/macbook-scroll";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, ArrowRight, CloudRain,
@@ -122,6 +123,23 @@ export const Home: React.FC = () => {
           setSearchQuery={setSearchQuery}
           handleSearchSubmit={handleSearchSubmit}
           stats={stats}
+        />
+      </div>
+
+      {/* Aceternity UI 3D Macbook Scroll Showcase */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-hidden rounded-[40px] border border-[#cecac8] bg-[#ffffff] my-8 shadow-sm">
+        <MacbookScroll
+          title={
+            <span>
+              CivicConnect 24-Ward Command Suite <br />
+              <span className="text-[#2b59d1]">Engineered for Greater Mumbai</span>
+            </span>
+          }
+          badge={
+            <span className="px-4 py-1.5 rounded-full bg-[#cfdaf5] border border-[#2b59d1]/30 text-[#2b59d1] font-mono text-xs uppercase tracking-wider">
+              3D Interactive Scroll Hardware Inspection
+            </span>
+          }
         />
       </div>
 
