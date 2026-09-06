@@ -235,6 +235,14 @@ export interface AIVerifyImageResult {
   rejectionReason?: string;
   suggestedCategory?: string;
   yoloDetection?: YoloDetectionMeta;
+  aiProbability?: number;
+  authenticityScore?: number;
+  severityScore?: number;
+  metadataStatus?: string;
+  resolutionSla?: string;
+  recommendedDepartment?: string;
+  analysisSummary?: string;
+  confidence?: number;
 }
 
 export interface UnifiedAIAnalysisResponse {

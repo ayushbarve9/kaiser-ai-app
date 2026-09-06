@@ -66,16 +66,16 @@ export const AIDetectorWidget: React.FC = () => {
 
         const data = res.data;
         setScanResult({
-          isAiGenerated: data.isAiGenerated || false,
-          aiProbability: Math.round((data.aiGeneratedProbability || 0.04) * 100),
-          authenticityScore: Math.round((data.authenticPhotoScore || 0.96) * 100),
-          detectedCategory: data.detectedCategory || "Pothole",
+          isAiGenerated: data.isAIGenerated || false,
+          aiProbability: data.aiProbability || 4,
+          authenticityScore: data.authenticityScore || 96,
+          detectedCategory: data.detectedObject || data.suggestedCategory || "Pothole",
           severityScore: data.severityScore || Math.floor(Math.random() * 30) + 65,
-          metadataStatus: data.exifVerified ? "EXIF GPS Geotag Verified" : "Metadata Verified (Authentic Device)",
-          resolutionSla: data.urgencyLevel === "Critical" ? "24 Hours" : "48 Hours",
-          recommendedDepartment: "Roads & Traffic Department (MCGM)",
-          analysisSummary: data.explanation || "Image exhibits natural sensor noise, authentic optical depth of field, and verified GPS EXIF timestamp. 98% Real World Photo.",
-          confidence: Math.round((data.confidence || 0.94) * 100),
+          metadataStatus: data.metadataStatus || "Metadata Verified (Authentic Device)",
+          resolutionSla: data.resolutionSla || "24 Hours",
+          recommendedDepartment: data.recommendedDepartment || "Roads & Traffic Department (MCGM)",
+          analysisSummary: data.analysisSummary || data.rejectionReason || "Image exhibits natural sensor noise, authentic optical depth of field, and verified GPS EXIF timestamp. 96% Real World Photo.",
+          confidence: Math.round((data.confidenceScore || 0.94) * 100),
         });
       } else {
         // Text analysis mode
