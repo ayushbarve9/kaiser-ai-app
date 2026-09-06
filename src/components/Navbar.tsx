@@ -67,11 +67,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommandPalette, onOpenTrac
               <PhoneCall className="w-3 h-3 text-[#cfdaf5]" />
               <span>Helpline: <strong className="text-white font-mono font-bold">1916</strong></span>
             </a>
-            <span className="text-[#cecac8]/40">|</span>
-            <Link to="/register" className="text-[#cfdaf5] hover:text-white transition-colors font-medium flex items-center gap-1">
-              <UserPlus className="w-3 h-3 text-[#cfdaf5]" />
-              <span>Register</span>
-            </Link>
           </div>
         </div>
       </div>
@@ -102,8 +97,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommandPalette, onOpenTrac
 
           {/* Monospace Editorial Nav Links + Pill CTAs */}
           <div className="flex items-center gap-3">
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1 text-[11px] font-mono uppercase tracking-wider text-[#242424]">
+            {/* Streamlined Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-wider text-[#242424]">
               <Link
                 to="/"
                 className={`px-3.5 py-1.5 rounded-full transition-all ${
@@ -133,27 +128,6 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCommandPalette, onOpenTrac
                 }`}
               >
                 Ward Map
-              </Link>
-              <Link
-                to="/top10"
-                className={`px-3.5 py-1.5 rounded-full transition-all ${
-                  isActive("/top10")
-                    ? "bg-[#242424] text-white font-medium"
-                    : "hover:bg-[#cecac8]/30 text-[#4e4d4d]"
-                }`}
-              >
-                Priority Queue
-              </Link>
-              <Link
-                to="/rewards"
-                className={`px-3.5 py-1.5 rounded-full transition-all flex items-center gap-1 ${
-                  isActive("/rewards")
-                    ? "bg-[#242424] text-white font-medium"
-                    : "hover:bg-[#cecac8]/30 text-[#4e4d4d]"
-                }`}
-              >
-                <Award className="w-3.5 h-3.5 text-[#2b59d1]" />
-                <span>Rewards</span>
               </Link>
               <Link
                 to="/officers"

@@ -158,9 +158,6 @@ export const Home: React.FC = () => {
                       <span className="text-xs font-mono font-medium text-[#242424] block line-clamp-1 group-hover:text-[#2b59d1] transition-colors uppercase">
                         {dept.name}
                       </span>
-                      <span className="text-[10px] text-[#797776] font-mono uppercase block pt-1">
-                        View Tickets &rarr;
-                      </span>
                     </div>
                   </button>
                 );
