@@ -4,26 +4,18 @@ import { complaintService } from "../services/api";
 import { Complaint, Stats } from "../types";
 import { ComplaintCard } from "../components/ComplaintCard";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
-import { WardOverviewCard } from "../components/WardOverviewCard";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { useAuth } from "../context/AuthContext";
-import { 
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell 
-} from "recharts";
-import { 
-  Activity, CheckCircle2, Clock, AlertTriangle, Search, RotateCcw, ShieldCheck, UserCheck 
-} from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
+import { Activity, CheckCircle2, Clock3, AlertTriangle, Search, RotateCcw, ShieldCheck, UserRound, ArrowUpRight, SlidersHorizontal } from "lucide-react";
 
 export const Dashboard: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { user } = useAuth();
   const navigate = useNavigate();
-
   const [complaints, setComplaints] = useState<Complaint[]>([]);
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
-
-  // Filters state
   const defaultWard = user?.role === "Officer" ? String(user.ward || 9) : searchParams.get("ward") || "all";
   const [statusFilter, setStatusFilter] = useState(searchParams.get("status") || "all");
   const [wardFilter, setWardFilter] = useState(defaultWard);
@@ -31,338 +23,46 @@ export const Dashboard: React.FC = () => {
   const [sortBy, setSortBy] = useState(searchParams.get("sortBy") || "newest");
   const [searchQuery, setSearchQuery] = useState(searchParams.get("q") || "");
 
-  useEffect(() => {
-    loadDashboardData();
-  }, [statusFilter, wardFilter, categoryFilter, sortBy]);
-
+  useEffect(() => { loadDashboardData(); }, [statusFilter, wardFilter, categoryFilter, sortBy]);
   const loadDashboardData = async () => {
     try {
       setLoading(true);
       const [complaintsRes, statsRes] = await Promise.all([
-        complaintService.getAll({
-          status: statusFilter,
-          ward: wardFilter,
-          category: categoryFilter,
-          sortBy,
-          q: searchQuery,
-        }),
+        complaintService.getAll({ status: statusFilter, ward: wardFilter, category: categoryFilter, sortBy, q: searchQuery }),
         complaintService.getStats(),
       ]);
-      setComplaints(complaintsRes.data);
-      setStats(statsRes.data);
-    } catch (err) {
-      console.error("Error loading dashboard data", err);
-    } finally {
-      setLoading(false);
-    }
+      setComplaints(complaintsRes.data); setStats(statsRes.data);
+    } catch (err) { console.error("Error loading dashboard data", err); } finally { setLoading(false); }
   };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    loadDashboardData();
-  };
-
-  const resetFilters = () => {
-    setStatusFilter("all");
-    setWardFilter("all");
-    setCategoryFilter("all");
-    setSortBy("newest");
-    setSearchQuery("");
-    setSearchParams({});
-  };
-
+  const resetFilters = () => { setStatusFilter("all"); setWardFilter("all"); setCategoryFilter("all"); setSortBy("newest"); setSearchQuery(""); setSearchParams({}); };
   const statusPieData = [
-    { name: "Resolved", value: stats?.resolved || 0, color: "#2b59d1" },
-    { name: "In Progress", value: stats?.inProgress || 0, color: "#cfdaf5" },
-    { name: "Assigned", value: stats?.assigned || 0, color: "#cecac8" },
-    { name: "Reported", value: stats?.reported || 0, color: "#242424" },
+    { name: "Resolved", value: stats?.resolved || 0, color: "#3857e8" },
+    { name: "In progress", value: stats?.inProgress || 0, color: "#62d39a" },
+    { name: "Assigned", value: stats?.assigned || 0, color: "#ffb86b" },
+    { name: "Reported", value: stats?.reported || 0, color: "#ff725e" },
+  ];
+  const summary = [
+    { label: "Total reports", value: stats?.total || 0, detail: "Citywide intake", icon: Activity, tone: "blue" },
+    { label: "Resolved", value: stats?.resolved || 0, detail: "Verified closures", icon: CheckCircle2, tone: "green" },
+    { label: "In the field", value: stats?.inProgress || 0, detail: "Crews deployed", icon: Clock3, tone: "orange" },
+    { label: "Hazard index", value: `${stats?.avgSeverity || 67}/100`, detail: "AI risk density", icon: AlertTriangle, tone: "coral" },
   ];
 
-  const activeWardData = wardFilter !== "all"
-    ? MUMBAI_WARDS_DATA.find((w) => w.id === Number(wardFilter))
-    : undefined;
-
-  return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 bg-[#f6f3f1] font-mono text-[#242424]">
-      {/* Role Banner Indicator — Monad Off-Black Surface */}
-      <div className="bg-[#242424] text-white p-8 rounded-[40px] border border-[#242424] border-l-4 border-l-[#2b59d1] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-12 h-12 rounded-full bg-[#2b59d1] flex items-center justify-center text-white font-bold shrink-0">
-            {user?.role === "Officer" ? <ShieldCheck className="w-6 h-6 text-white" /> : <UserCheck className="w-6 h-6 text-white" />}
-          </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="text-[11px] font-mono uppercase text-[#cfdaf5] tracking-wider">
-                {user?.role === "Officer" ? "Ward Officer Command View" : "Citizen Redressal Dashboard"}
-              </span>
-              <span className="px-3 py-0.5 rounded-full bg-white/10 text-white text-[10px] font-mono uppercase border border-white/10">
-                {user?.role === "Officer" ? `Assigned Ward ${user.ward}` : "Citywide View"}
-              </span>
-            </div>
-            <h1 className="text-2xl font-serif font-normal text-white mt-1">
-              Mumbai Civic Triage & Resolution Index
-            </h1>
-          </div>
-        </div>
-
-        {user?.role === "Officer" && (
-          <div className="px-4 py-2.5 bg-white/10 border border-white/10 rounded-full text-white/90 text-xs font-mono max-w-sm">
-            <strong className="text-[#cfdaf5]">Officer Access:</strong> Filtered to your ward jurisdiction. Direct dispatch controls enabled for Ward {user.ward}.
-          </div>
-        )}
-      </div>
-
-      {/* Selected Ward Overview Card */}
-      {activeWardData && (
-        <WardOverviewCard
-          ward={activeWardData}
-          onReportIssueInWard={() => navigate(`/report?ward=${activeWardData.id}`)}
-        />
-      )}
-
-      {/* Analytics Metrics Cards — Monad 40px Cards */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div className="bg-white p-6 rounded-[40px] border border-[#cecac8] flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono font-medium text-[#797776] uppercase tracking-wider">Total Reports</div>
-            <div className="text-3xl font-serif font-normal text-[#242424] mt-1">{stats?.total || 0}</div>
-            <div className="text-[10px] font-mono text-[#797776] uppercase mt-0.5">Across selected area</div>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-[#f6f3f1] text-[#2b59d1] flex items-center justify-center shrink-0 border border-[#cecac8]">
-            <Activity className="w-5 h-5 text-[#2b59d1]" />
-          </div>
-        </div>
-
-        <div className="bg-[#cfdaf5] p-6 rounded-[40px] border border-[#cecac8] flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono font-medium text-[#2b59d1] uppercase tracking-wider">Resolved</div>
-            <div className="text-3xl font-serif font-normal text-[#2b59d1] mt-1">{stats?.resolved || 0}</div>
-            <div className="text-[10px] font-mono text-[#242424] uppercase mt-0.5">Closed work orders</div>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-[#2b59d1] text-white flex items-center justify-center shrink-0">
-            <CheckCircle2 className="w-5 h-5 text-white" />
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-[40px] border border-[#cecac8] flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono font-medium text-[#797776] uppercase tracking-wider">In Progress</div>
-            <div className="text-3xl font-serif font-normal text-[#242424] mt-1">{stats?.inProgress || 0}</div>
-            <div className="text-[10px] font-mono text-[#797776] uppercase mt-0.5">Field crew deployed</div>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-[#f6f3f1] text-[#242424] flex items-center justify-center shrink-0 border border-[#cecac8]">
-            <Clock className="w-5 h-5 text-[#2b59d1]" />
-          </div>
-        </div>
-
-        <div className="bg-white p-6 rounded-[40px] border border-[#cecac8] flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono font-medium text-[#797776] uppercase tracking-wider">Avg Hazard Score</div>
-            <div className="text-3xl font-serif font-normal text-[#242424] mt-1">{stats?.avgSeverity || 75}/100</div>
-            <div className="text-[10px] font-mono text-[#797776] uppercase mt-0.5">AI risk density</div>
-          </div>
-          <div className="w-10 h-10 rounded-full bg-[#f6f3f1] text-[#2b59d1] flex items-center justify-center shrink-0 border border-[#cecac8]">
-            <AlertTriangle className="w-5 h-5 text-[#2b59d1]" />
-          </div>
-        </div>
-      </div>
-
-      {/* Recharts Analytics Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Category Breakdown Bar Chart */}
-        <div className="lg:col-span-2 bg-white p-8 rounded-[40px] border border-[#cecac8] space-y-4">
-          <h3 className="font-serif font-normal text-[#242424] text-xl">Issue Density by Municipal Category</h3>
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={stats?.categoryData || []}>
-                <XAxis dataKey="name" stroke="#797776" fontSize={11} tickLine={false} fontFamily="JetBrains Mono" />
-                <YAxis stroke="#797776" fontSize={11} tickLine={false} fontFamily="JetBrains Mono" />
-                <Tooltip
-                  contentStyle={{ backgroundColor: "#242424", borderRadius: "12px", border: "none", color: "#fff", fontSize: "12px", fontFamily: "JetBrains Mono" }}
-                />
-                <Bar dataKey="count" radius={[8, 8, 0, 0]}>
-                  {stats?.categoryData?.map((entry, index) => {
-                    const colors: Record<string, string> = {
-                      Pothole: "#2b59d1",
-                      Garbage: "#242424",
-                      "Water Leakage": "#cfdaf5",
-                      Drainage: "#2b59d1",
-                      Streetlight: "#797776",
-                      Roadwork: "#cecac8",
-                      Other: "#4e4d4d",
-                    };
-                    return <Cell key={`bar-${index}`} fill={colors[entry.name] || "#2b59d1"} />;
-                  })}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-
-        {/* Status Distribution Pie Chart */}
-        <div className="bg-white p-8 rounded-[40px] border border-[#cecac8] space-y-4 flex flex-col justify-between">
-          <h3 className="font-serif font-normal text-[#242424] text-xl">Resolution Ratio</h3>
-          <div className="h-48">
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={statusPieData}
-                  innerRadius={45}
-                  outerRadius={70}
-                  paddingAngle={4}
-                  dataKey="value"
-                >
-                  {statusPieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip contentStyle={{ backgroundColor: "#242424", borderRadius: "12px", border: "none", color: "#fff", fontFamily: "JetBrains Mono" }} />
-              </PieChart>
-            </ResponsiveContainer>
-          </div>
-          <div className="grid grid-cols-2 gap-2 text-xs font-mono pt-3 border-t border-[#cecac8]">
-            {statusPieData.map((st) => (
-              <div key={st.name} className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: st.color }} />
-                <span className="text-[#4e4d4d] font-mono text-[11px] uppercase">{st.name}: {st.value}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Interactive Data Visualization & Intelligence Hub */}
-      <DataVisualizationHub />
-
-      {/* Filters & Control Bar */}
-      <div className="bg-white p-6 sm:p-8 rounded-[40px] border border-[#cecac8] space-y-5">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-          {/* Search Box */}
-          <form onSubmit={handleSearchSubmit} className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-[#797776]" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Filter by keyword, street, landmark, or description..."
-              className="w-full pl-11 pr-4 py-2.5 bg-[#f6f3f1] border border-[#cecac8] rounded-full text-xs font-mono text-[#242424] focus:outline-none focus:border-[#2b59d1]"
-            />
-          </form>
-
-          {/* Reset button */}
-          <button
-            onClick={resetFilters}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 text-xs font-mono uppercase tracking-wider text-[#242424] bg-[#f6f3f1] hover:bg-[#cfdaf5] border border-[#cecac8] rounded-full transition-colors shrink-0 cursor-pointer"
-          >
-            <RotateCcw className="w-3.5 h-3.5 text-[#2b59d1]" />
-            Reset Filters
-          </button>
-        </div>
-
-        {/* Dropdown Filters Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono">
-          <div>
-            <label className="block text-[#797776] font-medium mb-1 uppercase tracking-wider text-[10px]">
-              Status
-            </label>
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full bg-[#f6f3f1] border border-[#cecac8] rounded-full px-4 py-2 text-[#242424] font-medium focus:outline-none focus:border-[#2b59d1]"
-            >
-              <option value="all">All Statuses</option>
-              <option value="Reported">Reported</option>
-              <option value="Assigned">Assigned</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Resolved">Resolved</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[#797776] font-medium mb-1 uppercase tracking-wider text-[10px]">
-              Mumbai Ward Jurisdiction
-            </label>
-            <select
-              value={wardFilter}
-              onChange={(e) => setWardFilter(e.target.value)}
-              className="w-full bg-[#f6f3f1] border border-[#cecac8] rounded-full px-4 py-2 text-[#242424] font-medium focus:outline-none focus:border-[#2b59d1]"
-            >
-              <option value="all">All Mumbai Wards (24 Wards)</option>
-              {MUMBAI_WARDS_DATA.map((w) => (
-                <option key={w.id} value={w.id}>
-                  Ward {w.code} - {w.name}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[#797776] font-medium mb-1 uppercase tracking-wider text-[10px]">
-              Category
-            </label>
-            <select
-              value={categoryFilter}
-              onChange={(e) => setCategoryFilter(e.target.value)}
-              className="w-full bg-[#f6f3f1] border border-[#cecac8] rounded-full px-4 py-2 text-[#242424] font-medium focus:outline-none focus:border-[#2b59d1]"
-            >
-              <option value="all">All Categories</option>
-              <option value="Pothole">Potholes</option>
-              <option value="Garbage">Garbage</option>
-              <option value="Water Leakage">Water Leakage</option>
-              <option value="Drainage">Drainage</option>
-              <option value="Streetlight">Streetlight</option>
-              <option value="Roadwork">Roadwork</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[#797776] font-medium mb-1 uppercase tracking-wider text-[10px]">
-              Sort Order
-            </label>
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full bg-[#f6f3f1] border border-[#cecac8] rounded-full px-4 py-2 text-[#242424] font-medium focus:outline-none focus:border-[#2b59d1]"
-            >
-              <option value="newest">Newest First</option>
-              <option value="severity">Highest AI Hazard Score</option>
-              <option value="upvotes">Most Citizen Endorsements</option>
-            </select>
-          </div>
-        </div>
-      </div>
-
-      {/* Incident Cards Grid */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between text-xs font-mono text-[#797776] uppercase">
-          <span>Showing {complaints.length} matched incidents</span>
-          <span>Synced with BMC Database</span>
-        </div>
-
-        {complaints.length === 0 ? (
-          <div className="bg-white rounded-[40px] p-14 text-center border border-[#cecac8] space-y-4">
-            <div className="w-12 h-12 rounded-full bg-[#f6f3f1] flex items-center justify-center mx-auto text-[#2b59d1]">
-              <Search className="w-6 h-6 text-[#2b59d1]" />
-            </div>
-            <h3 className="font-serif font-normal text-[#242424] text-xl">No matching civic issues found</h3>
-            <p className="text-xs font-mono text-[#797776] max-w-sm mx-auto">
-              Try adjusting your search filters or clear your selection to view all ward reports.
-            </p>
-            <button
-              onClick={resetFilters}
-              className="mt-2 px-6 py-2.5 bg-[#2b59d1] hover:bg-[#2247ab] text-white font-mono text-xs uppercase tracking-wider rounded-full transition-colors cursor-pointer"
-            >
-              Reset Filters
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {complaints.map((item) => (
-              <ComplaintCard key={item.id} complaint={item} onUpdate={loadDashboardData} />
-            ))}
-          </div>
-        )}
-      </div>
+  return <div className="cockpit-page">
+    <div className="cockpit-head shell">
+      <div><div className="section-kicker">Operations / {user?.role === "Officer" ? `Ward ${user.ward}` : "Citywide"}</div><h1>Civic response, at a glance.</h1><p>Track what residents are reporting, what crews are fixing, and where attention is needed next.</p></div>
+      <div className="cockpit-head-actions"><button onClick={() => navigate("/map")} className="ghost-action"><ArrowUpRight size={15} /> Open live map</button><button onClick={() => navigate("/report")} className="solid-action">+ File new issue</button></div>
     </div>
-  );
+
+    <div className="shell cockpit-grid">
+      <aside className="cockpit-rail"><div className="rail-label">View</div><button className="rail-item is-selected"><Activity size={16} />Overview<span>⌘ 1</span></button><button className="rail-item" onClick={() => navigate("/top10")}><AlertTriangle size={16} />Priority queue<span>⌘ 2</span></button><button className="rail-item" onClick={() => navigate("/hotspots")}><Search size={16} />Hotspots<span>⌘ 3</span></button><div className="rail-rule" /><div className="rail-label">Scope</div><div className="rail-scope"><span className="scope-dot" />24 wards online<small>Last sync just now</small></div></aside>
+      <main className="cockpit-main">
+        <div className="summary-grid">{summary.map(({ label, value, detail, icon: Icon, tone }) => <div className={`summary-tile tone-${tone}`} key={label}><div className="tile-top"><span>{label}</span><Icon size={16} /></div><strong>{value}</strong><small>{detail}</small></div>)}</div>
+        <div className="cockpit-chart-grid"><section className="cockpit-panel chart-panel"><div className="panel-heading"><div><span className="section-kicker">Workload</span><h2>Issues by department</h2></div><span className="panel-meta">Live feed</span></div><div className="chart-wrap"><ResponsiveContainer width="100%" height="100%"><BarChart data={stats?.categoryData || []}><XAxis dataKey="name" stroke="#8b919e" fontSize={10} tickLine={false} axisLine={false} /><YAxis stroke="#8b919e" fontSize={10} tickLine={false} axisLine={false} /><Tooltip contentStyle={{ backgroundColor: "#15171d", border: "0", borderRadius: "10px", color: "#fff", fontSize: "12px" }} /><Bar dataKey="count" fill="#3857e8" radius={[6, 6, 0, 0]} /></BarChart></ResponsiveContainer></div></section><section className="cockpit-panel ratio-panel"><div className="panel-heading"><div><span className="section-kicker">Lifecycle</span><h2>Resolution mix</h2></div></div><div className="ratio-chart"><ResponsiveContainer width="100%" height="100%"><PieChart><Pie data={statusPieData} innerRadius={48} outerRadius={70} paddingAngle={3} dataKey="value">{statusPieData.map((entry) => <Cell key={entry.name} fill={entry.color} />)}</Pie><Tooltip contentStyle={{ backgroundColor: "#15171d", border: "0", borderRadius: "10px", color: "#fff", fontSize: "12px" }} /></PieChart></ResponsiveContainer><div className="ratio-total"><strong>{stats?.total || 0}</strong><small>total</small></div></div><div className="ratio-legend">{statusPieData.map((entry) => <span key={entry.name}><i style={{ background: entry.color }} />{entry.name}<b>{entry.value}</b></span>)}</div></section></div>
+        <DataVisualizationHub />
+        <section className="filter-console"><div className="filter-title"><div><span className="section-kicker">Incident explorer</span><h2>Find the signal in the noise.</h2></div><button onClick={resetFilters} className="reset-action"><RotateCcw size={14} /> Reset</button></div><form className="cockpit-search" onSubmit={(e) => { e.preventDefault(); loadDashboardData(); }}><Search size={17} /><input value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search street, landmark, reference number..." /><button type="submit">Search</button></form><div className="filter-row"><label>Status<select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)}><option value="all">All statuses</option><option value="Reported">Reported</option><option value="Assigned">Assigned</option><option value="In Progress">In progress</option><option value="Resolved">Resolved</option></select></label><label>Ward<select value={wardFilter} onChange={(e) => setWardFilter(e.target.value)}><option value="all">All Mumbai wards</option>{MUMBAI_WARDS_DATA.map((w) => <option key={w.id} value={w.id}>Ward {w.code} — {w.name}</option>)}</select></label><label>Department<select value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}><option value="all">All departments</option><option value="Pothole">Potholes</option><option value="Garbage">Garbage</option><option value="Water Leakage">Water leakage</option><option value="Drainage">Drainage</option><option value="Streetlight">Streetlights</option><option value="Roadwork">Roadwork</option></select></label><label>Sort<select value={sortBy} onChange={(e) => setSortBy(e.target.value)}><option value="newest">Newest</option><option value="severity">Highest hazard</option><option value="upvotes">Most endorsed</option></select></label></div></section>
+        <div className="incident-header"><span>{loading ? "Refreshing incident stream..." : `${complaints.length} matched incidents`}</span><span><span className="scope-dot" /> Synced with BMC database</span></div>{complaints.length === 0 ? <div className="empty-state"><SlidersHorizontal size={25} /><h3>No matching reports</h3><p>Try clearing a filter or searching a broader area.</p></div> : <div className="incident-grid">{complaints.map((item) => <ComplaintCard key={item.id} complaint={item} onUpdate={loadDashboardData} />)}</div>}
+      </main>
+    </div>
+  </div>;
 };
