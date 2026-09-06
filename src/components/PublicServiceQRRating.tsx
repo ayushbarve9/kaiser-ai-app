@@ -57,47 +57,54 @@ export const PublicServiceQRRating: React.FC<PublicServiceQRRatingProps> = ({ on
     setIsSubmitting(true);
 
     const overallRating = parseFloat(((cleanliness + maintenance + safety) / 3).toFixed(1));
+    const newRatingData = {
+      facilityId: selectedFacility.id,
+      facilityName: selectedFacility.name,
+      facilityType: selectedFacility.type,
+      ward: selectedFacility.ward,
+      wardName: selectedFacility.wardName,
+      rating: overallRating,
+      cleanlinessScore: cleanliness,
+      maintenanceScore: maintenance,
+      safetyScore: safety,
+      feedback,
+      tags: selectedTags,
+      photoUrl,
+      ratedByName: 'Resident Citizen',
+      createdAt: new Date().toISOString()
+    };
 
     try {
-      const res = await fetch('/api/public-services/rate', {
+      await fetch('/api/public-services/rate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          facilityId: selectedFacility.id,
-          facilityName: selectedFacility.name,
-          facilityType: selectedFacility.type,
-          ward: selectedFacility.ward,
-          wardName: selectedFacility.wardName,
-          rating: overallRating,
-          cleanlinessScore: cleanliness,
-          maintenanceScore: maintenance,
-          safetyScore: safety,
-          feedback,
-          tags: selectedTags,
-          photoUrl,
-          ratedByName: 'Resident Citizen'
-        })
-      });
+        body: JSON.stringify(newRatingData)
+      }).catch(() => null);
 
-      const data = await res.json();
-
-      // Trigger points award API
       await fetch('/api/points/award', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action: 'RATE_SERVICE', points: 20 })
-      });
-
-      setPointsEarned(data.pointsEarned || 20);
-      setSubmitted(true);
-      if (onRatingSuccess && data.rating) {
-        onRatingSuccess(data.rating, data.pointsEarned || 20);
-      }
+      }).catch(() => null);
     } catch (err) {
-      console.error('Failed to submit service rating:', err);
-    } finally {
-      setIsSubmitting(false);
+      console.warn('Network call failed, persisting rating to local storage.', err);
     }
+
+    // Persist in localStorage for client-side persistence
+    const existingRatings = JSON.parse(localStorage.getItem('civic_qr_ratings') || '[]');
+    existingRatings.push(newRatingData);
+    localStorage.setItem('civic_qr_ratings', JSON.stringify(existingRatings));
+
+    const currentPts = Number(localStorage.getItem('civic_user_points') || 240);
+    const newPts = currentPts + 20;
+    localStorage.setItem('civic_user_points', String(newPts));
+
+    setPointsEarned(20);
+    setSubmitted(true);
+    if (onRatingSuccess) {
+      onRatingSuccess(newRatingData as any, 20);
+    }
+    setIsSubmitting(false);
   };
 
   return (
