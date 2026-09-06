@@ -5,6 +5,7 @@ import { Complaint, Stats } from "../types";
 import { ComplaintCard } from "../components/ComplaintCard";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { WardOverviewCard } from "../components/WardOverviewCard";
+import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { useAuth } from "../context/AuthContext";
 import { 
   BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, PieChart, Pie, Cell 
@@ -229,6 +230,9 @@ export const Dashboard: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Interactive Data Visualization & Intelligence Hub */}
+      <DataVisualizationHub />
 
       {/* Filters & Control Bar */}
       <div className="bg-white p-6 sm:p-8 rounded-[40px] border border-[#cecac8] space-y-5">

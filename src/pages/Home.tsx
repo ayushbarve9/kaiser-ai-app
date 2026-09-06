@@ -12,6 +12,7 @@ import { BeforeAfterSlider } from "../components/BeforeAfterSlider";
 import { WardSlaCalculator } from "../components/WardSlaCalculator";
 import { CivicPollWidget } from "../components/CivicPollWidget";
 import { IssueStatsChart } from "../components/IssueStatsChart";
+import { DataVisualizationHub } from "../components/DataVisualizationHub";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, ArrowRight, CloudRain,
@@ -456,6 +457,13 @@ export const Home: React.FC = () => {
         <ScrollReveal direction="up" delay={0.1}>
           <section>
             <CivicPollWidget />
+          </section>
+        </ScrollReveal>
+
+        {/* Data Visualization & Intelligence Analytics Hub */}
+        <ScrollReveal direction="up" delay={0.1}>
+          <section>
+            <DataVisualizationHub />
           </section>
         </ScrollReveal>
 
