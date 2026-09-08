@@ -4,9 +4,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { ToastProvider } from "./context/ToastContext";
 import { ActivityProvider } from "./context/ActivityContext";
 import { ToastContainer } from "./components/ToastContainer";
-import { OnboardingOverlay } from "./components/OnboardingOverlay";
 import { AIAssistant } from "./components/AIAssistant";
-import { ChatWidget } from "./components/ChatWidget";
 import { Navbar } from "./components/Navbar";
 import { Footer } from "./components/Footer";
 import { ProtectedRoute } from "./components/ProtectedRoute";
@@ -64,9 +62,7 @@ export default function App() {
                 onClose={() => setTicketTrackerOpen(false)}
               />
               <AuthGateModal />
-              <OnboardingOverlay />
               <AIAssistant />
-              <ChatWidget />
               <div className="relative flex flex-col min-h-screen bg-slate-50 text-slate-900 selection:bg-red-500 selection:text-white">
                 <Navbar 
                   onOpenCommandPalette={() => setCommandPaletteOpen(true)}

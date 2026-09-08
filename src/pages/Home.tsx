@@ -12,7 +12,6 @@ import { WardSlaCalculator } from "../components/WardSlaCalculator";
 import { ContractorPenaltyScorecard } from "../components/ContractorPenaltyScorecard";
 import { IssueStatsChart } from "../components/IssueStatsChart";
 import { DataVisualizationHub } from "../components/DataVisualizationHub";
-import { AIDetectorWidget } from "../components/AIDetectorWidget";
 import { 
   PlusCircle, Search, MapPin, CheckCircle2, 
   ShieldCheck, ArrowRight, CloudRain,
@@ -475,13 +474,6 @@ export const Home: React.FC = () => {
         <ScrollReveal direction="up" delay={0.1}>
           <section>
             <DataVisualizationHub />
-          </section>
-        </ScrollReveal>
-
-        {/* AI Detector & Vision Scanner Widget */}
-        <ScrollReveal direction="up" delay={0.1}>
-          <section>
-            <AIDetectorWidget />
           </section>
         </ScrollReveal>
 
