@@ -2,6 +2,23 @@
 
 This document provides a technical overview of the architecture, data flow, computer vision pipeline, and API endpoints of KAISER AI.
 
+For the full detailed technical specification, refer to [`MODULES.md`](file:///c:/Users/krish/Downloads/KAIZER/kaiser-ai-app-main%20%281%29/kaiser-ai-app-main/MODULES.md).
+
+---
+
+## 🏛️ The 10 Master Core System Modules
+
+1. **🔐 Module 1: Citizen Auth & Identity** — Phone OTP & Google OAuth, JWT sessions, PostgreSQL user profiles.
+2. **🎙️ Module 2: High-Speed Reporting & Voice Dictation** — $< 5$s photo capture, zero-tap GPS, Web Speech API mic.
+3. **📂 Module 3: "My Grievances" Activity Portal** — Citizen ticket history, live stage badges, Before/After photo slider.
+4. **🌐 Module 4: Trilingual Localization** — Instant toggle between English, मराठी (Marathi), and हिंदी (Hindi).
+5. **👮 Module 5: Municipal Command Center & 24-Ward GIS** — Dark-mode GIS heatmap, P1-P4 queue, SLA countdowns.
+6. **⚖️ Module 6: Contractor Penalty Scorecard** — Tracks overdue work orders & calculates delay fines in Indian Rupees (₹).
+7. **📄 Module 7: Action Taken Report (ATR) Engine** — Official printable BMC completion certificate with SHA-256 hash.
+8. **🧠 Module 8: Real Multimodal AI Vision & Anti-Spam** — Gemini 3.6 Flash validation, pHash duplicate blocker, repair proof.
+9. **🗄️ Module 9: PostgreSQL Relational Database** — Relational schema (`users`, `complaints`, `contractors`, `atrs`), PostGIS.
+10. **☁️ Module 10: Cloud Infrastructure & AWS DevOps** — Docker container (Port 8080), AWS SNS SMS alerts, AWS API Gateway.
+
 ---
 
 ## 1. High-Level Architecture Diagram
