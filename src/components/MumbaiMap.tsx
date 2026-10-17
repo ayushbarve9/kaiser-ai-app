@@ -41,7 +41,8 @@ const LeafletLocationPicker: React.FC<{ onSelect: (lat: number, lng: number) => 
 };
 
 // Subcomponent for Google Maps Marker + InfoWindow
-const GoogleMapComplaintMarker: React.FC<{ complaint: Complaint }> = ({ complaint }) => {
+// ⚡ Bolt: Wrapped GoogleMapComplaintMarker with React.memo() to prevent expensive DOM manipulation of Google Map markers on state changes
+const GoogleMapComplaintMarker: React.FC<{ complaint: Complaint }> = React.memo(({ complaint }) => {
   const [markerRef, marker] = useAdvancedMarkerRef();
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -104,7 +105,7 @@ const GoogleMapComplaintMarker: React.FC<{ complaint: Complaint }> = ({ complain
       )}
     </>
   );
-};
+});
 
 export const MumbaiMap: React.FC<MumbaiMapProps> = ({
   complaints = [],
