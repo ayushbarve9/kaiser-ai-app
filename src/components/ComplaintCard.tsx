@@ -10,7 +10,8 @@ interface ComplaintCardProps {
   onUpdate?: () => void;
 }
 
-export const ComplaintCard: React.FC<ComplaintCardProps> = ({ complaint, onUpdate }) => {
+// ⚡ Bolt: Wrapped ComplaintCard with React.memo() to prevent unnecessary re-renders in Dashboard and MapViewPage lists
+export const ComplaintCard: React.FC<ComplaintCardProps> = React.memo(({ complaint, onUpdate }) => {
   const navigate = useNavigate();
   const [upvotes, setUpvotes] = useState(complaint.upvote_count);
   const [isUpvoted, setIsUpvoted] = useState(complaint.upvotes.includes("usr-citizen-current"));
@@ -159,4 +160,4 @@ export const ComplaintCard: React.FC<ComplaintCardProps> = ({ complaint, onUpdat
       </div>
     </div>
   );
-};
+});
