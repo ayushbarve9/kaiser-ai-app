@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
@@ -66,21 +66,24 @@ export const OfficerLogin: React.FC = () => {
     setPassword("officer123");
   };
 
-  const filteredWards = MUMBAI_WARDS_DATA.filter((w) => {
-    if (activeZone === "ISLAND" && w.id > 9) return false;
-    if (activeZone === "WESTERN" && (w.id < 10 || w.id > 18)) return false;
-    if (activeZone === "EASTERN" && w.id < 19) return false;
-    if (wardSearch.trim()) {
-      const q = wardSearch.toLowerCase();
-      return (
-        w.name.toLowerCase().includes(q) ||
-        w.code.toLowerCase().includes(q) ||
-        w.officer.name.toLowerCase().includes(q) ||
-        w.areaDescription.toLowerCase().includes(q)
-      );
-    }
-    return true;
-  });
+  // ⚡ Bolt Optimization: Memoize filtered list based on active zone and search term
+  const filteredWards = useMemo(() => {
+    return MUMBAI_WARDS_DATA.filter((w) => {
+      if (activeZone === "ISLAND" && w.id > 9) return false;
+      if (activeZone === "WESTERN" && (w.id < 10 || w.id > 18)) return false;
+      if (activeZone === "EASTERN" && w.id < 19) return false;
+      if (wardSearch.trim()) {
+        const q = wardSearch.toLowerCase();
+        return (
+          w.name.toLowerCase().includes(q) ||
+          w.code.toLowerCase().includes(q) ||
+          w.officer.name.toLowerCase().includes(q) ||
+          w.areaDescription.toLowerCase().includes(q)
+        );
+      }
+      return true;
+    });
+  }, [activeZone, wardSearch]);
 
   const zones: { id: typeof activeZone; label: string }[] = [
     { id: "ALL", label: "All 24" },

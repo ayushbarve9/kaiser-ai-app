@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { complaintService } from "../services/api";
 import { Complaint } from "../types";
@@ -35,17 +35,20 @@ export const AdminHub: React.FC = () => {
   const currentWardId = user?.ward || 9;
   const currentWardData = MUMBAI_WARDS_DATA.find((w) => w.id === currentWardId) || MUMBAI_WARDS_DATA[8];
 
-  const filteredList = complaints.filter((c) => {
-    if (filterTab === "myward") return c.ward === currentWardId;
-    if (filterTab === "critical") return c.severity >= 75 && c.status !== "Resolved";
-    if (filterTab === "reported") return c.status === "Reported" || c.status === "Assigned";
-    if (filterTab === "resolved") return c.status === "Resolved";
-    return true;
-  });
+  // ⚡ Bolt Optimization: Memoize filtered and derived lists to prevent recalculation on re-renders
+  const filteredList = useMemo(() => {
+    return complaints.filter((c) => {
+      if (filterTab === "myward") return c.ward === currentWardId;
+      if (filterTab === "critical") return c.severity >= 75 && c.status !== "Resolved";
+      if (filterTab === "reported") return c.status === "Reported" || c.status === "Assigned";
+      if (filterTab === "resolved") return c.status === "Resolved";
+      return true;
+    });
+  }, [complaints, filterTab, currentWardId]);
 
-  const criticalCount = complaints.filter((c) => c.severity >= 80 && c.status !== "Resolved").length;
-  const reportedCount = complaints.filter((c) => c.status === "Reported").length;
-  const myWardCount = complaints.filter((c) => c.ward === currentWardId).length;
+  const criticalCount = useMemo(() => complaints.filter((c) => c.severity >= 80 && c.status !== "Resolved").length, [complaints]);
+  const reportedCount = useMemo(() => complaints.filter((c) => c.status === "Reported").length, [complaints]);
+  const myWardCount = useMemo(() => complaints.filter((c) => c.ward === currentWardId).length, [complaints, currentWardId]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">

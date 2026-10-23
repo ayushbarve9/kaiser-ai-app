@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
@@ -60,19 +60,22 @@ export const AdminUserManagement: React.FC = () => {
     }
   };
 
-  const filteredMembers = members.filter((m) => {
-    const q = searchQuery.toLowerCase();
-    const matchesSearch = 
-      m.name.toLowerCase().includes(q) ||
-      m.email.toLowerCase().includes(q) ||
-      m.phone.toLowerCase().includes(q) ||
-      (m.serviceId && m.serviceId.toLowerCase().includes(q));
+  // ⚡ Bolt Optimization: Memoize filtered list to prevent expensive string matching on every re-render
+  const filteredMembers = useMemo(() => {
+    return members.filter((m) => {
+      const q = searchQuery.toLowerCase();
+      const matchesSearch =
+        m.name.toLowerCase().includes(q) ||
+        m.email.toLowerCase().includes(q) ||
+        m.phone.toLowerCase().includes(q) ||
+        (m.serviceId && m.serviceId.toLowerCase().includes(q));
 
-    const matchesRole = roleFilter === "all" || m.role === roleFilter;
-    const matchesWard = wardFilter === "all" || m.ward === Number(wardFilter);
+      const matchesRole = roleFilter === "all" || m.role === roleFilter;
+      const matchesWard = wardFilter === "all" || m.ward === Number(wardFilter);
 
-    return matchesSearch && matchesRole && matchesWard;
-  });
+      return matchesSearch && matchesRole && matchesWard;
+    });
+  }, [members, searchQuery, roleFilter, wardFilter]);
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">

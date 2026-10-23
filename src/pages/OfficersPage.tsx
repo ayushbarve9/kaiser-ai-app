@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { MUMBAI_WARDS_DATA } from "../data/mumbaiWardsData";
 import { WardOverviewCard } from "../components/WardOverviewCard";
 import { useNavigate } from "react-router-dom";
@@ -11,18 +11,21 @@ export const OfficersPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
+  // ⚡ Bolt Optimization: Memoize sorted and filtered wards
   // Sort officers by rank
-  const sortedWards = [...MUMBAI_WARDS_DATA].sort((a, b) => a.officer.rank - b.officer.rank);
+  const sortedWards = useMemo(() => [...MUMBAI_WARDS_DATA].sort((a, b) => a.officer.rank - b.officer.rank), []);
 
-  const filteredWards = sortedWards.filter((w) => {
-    const q = searchQuery.toLowerCase();
-    return (
-      w.name.toLowerCase().includes(q) ||
-      w.code.toLowerCase().includes(q) ||
-      w.officer.name.toLowerCase().includes(q) ||
-      w.areaDescription.toLowerCase().includes(q)
-    );
-  });
+  const filteredWards = useMemo(() => {
+    return sortedWards.filter((w) => {
+      const q = searchQuery.toLowerCase();
+      return (
+        w.name.toLowerCase().includes(q) ||
+        w.code.toLowerCase().includes(q) ||
+        w.officer.name.toLowerCase().includes(q) ||
+        w.areaDescription.toLowerCase().includes(q)
+      );
+    });
+  }, [sortedWards, searchQuery]);
 
   const activeWard = MUMBAI_WARDS_DATA.find((w) => w.id === selectedWardId) || MUMBAI_WARDS_DATA[0];
 
